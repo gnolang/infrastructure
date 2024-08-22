@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gnofaucet
+  namespace: gno
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      gno.service: gnofaucet
+  template:
+    metadata:
+      labels:
+        gno.service: gnofaucet
+    spec:
+      containers:
+      - name: gnofaucet
+        image: ghcr.io/gnolang/gno/gnofaucet:master
+        imagePullPolicy: IfNotPresent
+        args:
+            - serve
+            - --listen-address=0.0.0.0:5050
+            - --remote=http://gnoland:26657
+            - --max-send-amount=15000000ugnot
+            - --is-behind-proxy=true
+            - --num-accounts=10
+            # FIXME: env vars!
+            - --chain-id=dev
+            - --mnemonic=
+            - --captcha-secret=

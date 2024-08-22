@@ -1,0 +1,31 @@
+# Indexer Volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: indexer-pv-volume
+  namespace: gno
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/indexer/data" 
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: indexer-pv-claim
+  namespace: gno
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

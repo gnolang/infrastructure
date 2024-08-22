@@ -1,0 +1,7 @@
+configMapGenerator:
+- name: gno-config
+  namespace: gno
+  options:
+    disableNameSuffixHash: true
+  files:
+  - config.toml=config/config.toml

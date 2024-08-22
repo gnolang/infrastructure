@@ -1,0 +1,104 @@
+services:
+  traefik:
+    image: "traefik:v2.11"
+    command:
+      - "--accesslog=true"
+      - "--api.insecure=true"
+      - "--entrypoints.traefik.address=:8080"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      - "--certificatesresolvers.le.acme.tlschallenge=true"
+      - "--certificatesresolvers.le.acme.email=security@allinbits.com"
+      - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./traefik:/etc/traefik"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  gnoland:
+    image: "ghcr.io/gnolang/gno/gnoland:0.1.1"
+    command: ["start", "--genesis=/gnoroot/gnoland-data/genesis.json"]
+    ports:
+      - 26656:26656
+      - 127.0.0.1:26657:26657
+    volumes:
+      - ./gnoland-data:/gnoroot/gnoland-data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.gnoland-test4-rpc.rule: "Host(`rpc.test4.gno.land`) || Host(`rpc.test4.gnoteam.com`)"
+      traefik.http.routers.gnoland-test4-rpc.entrypoints: "web,websecure"
+      traefik.http.routers.gnoland-test4-rpc.tls.certresolver: le
+      traefik.http.services.gnoland-test4-rpc-service.loadbalancer.server.port: 26657
+    # logging:
+    #   driver: "json-file"
+    #   options:
+    #     max-size: "10G"
+    #     max-file: "10"
+
+  gnoweb:
+    image: ghcr.io/gnolang/gno/gnoweb:master
+    restart: unless-stopped
+    # env_file: ".env"
+    entrypoint:
+      - gnoweb
+      - --bind=0.0.0.0:8888
+      - --remote=http://gnoland:26657
+      - --faucet-url=http://gnofaucet:5050
+      - --captcha-site=$CAPTCHA_SITE_KEY
+      - --with-analytics
+      - --help-chainid=test4
+      - --help-remote=https://rpc.test4.gno.land
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.gnoweb.entrypoints: "web,websecure"
+      traefik.http.routers.gnoweb.rule: "Host(`test4.gno.land`) || Host(`test4.gnoteam.com`)"
+      traefik.http.routers.gnoweb.tls: "true"
+      traefik.http.routers.gnoweb.service: "gnoweb"
+      traefik.http.routers.gnoweb.tls.certresolver: "le"
+      traefik.http.services.gnoweb.loadbalancer.server.port: 8888
+
+  gnofaucet:
+    image: ghcr.io/gnolang/gno/gnofaucet-slim
+    command:
+      - "serve"
+      - "--listen-address=0.0.0.0:5050"
+      - "--chain-id=test4"
+      - "--is-behind-proxy=true"
+      - "--max-send-amount=15000000ugnot"
+      - "--mnemonic=${FAUCET_MNEMONIC}"
+      - "--num-accounts=10"
+      - "--remote=http://gnoland:26657"
+      - "--captcha-secret=${CAPTCHA_SECRET_KEY}"
+    # env_file: ".env"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.gnofaucet-api.entrypoints: "web,websecure"
+      traefik.http.routers.gnofaucet-api.rule: "Host(`faucet-api.test4.gno.land`) || Host(`faucet-api.test4.gnoteam.com`)"
+      traefik.http.routers.gnofaucet-api.tls: "true"
+      traefik.http.routers.gnofaucet-api.tls.certresolver: "le"
+      traefik.http.services.gnofaucet-api.loadbalancer.server.port: 5050
+      traefik.http.middlewares.gnofaucet-ratelimit.ratelimit.average: "6"
+      traefik.http.middlewares.gnofaucet-ratelimit.ratelimit.period: "1m"
+
+  tx-indexer:
+    image: ghcr.io/gnolang/tx-indexer:0.4.1
+    entrypoint:
+      - /tx-indexer
+      - start
+      - "-http-rate-limit=500"
+      - "-listen-address=0.0.0.0:7879"
+      - "-max-slots=2000"
+      - "-remote=http://gnoland:26657"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.tx-indexer.entrypoints: "web,websecure"
+      traefik.http.routers.tx-indexer.rule: "Host(`indexer.test4.gno.land`) || Host(`indexer.test4.gnoteam.com`)"
+      traefik.http.routers.tx-indexer.tls: "true"
+      traefik.http.routers.tx-indexer.tls.certresolver: "le"
+      traefik.http.services.tx-indexer.loadbalancer.server.port: 7879

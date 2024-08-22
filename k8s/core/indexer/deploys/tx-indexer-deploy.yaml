@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # annotations:
+  #   traefik.enable: "true"
+  #   traefik.http.routers.tx-indexer.entrypoints: web,websecure
+  #   traefik.http.routers.tx-indexer.rule: Host(`indexer.test4.gno.land`) || Host(`indexer.test4.gnoteam.com`)
+  #   traefik.http.routers.tx-indexer.tls: "true"
+  #   traefik.http.routers.tx-indexer.tls.certresolver: le
+  #   traefik.http.services.tx-indexer.loadbalancer.server.port: "7879"
+  name: tx-indexer
+  namespace: gno
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      gno.service: tx-indexer
+  template:
+    metadata:
+      labels:
+        gno.service: tx-indexer
+    spec:
+      containers:
+      - name: tx-indexer
+        image: ghcr.io/gnolang/tx-indexer:0.4.1
+        imagePullPolicy: IfNotPresent
+        args:
+          - start
+          - -http-rate-limit=500
+          - -max-slots=2000
+          - -listen-address=0.0.0.0:8546 # 7879
+          - -remote=http://gnoland:26657
+          - -db-path=/opt/indexer-db
+        volumeMounts:
+        - name: indexer-vol
+          mountPath: /opt/indexer-db
+        ports:
+          - containerPort: 8546
+      volumes:
+      - name: indexer-vol
+        persistentVolumeClaim:
+          claimName: indexer-pv-claim

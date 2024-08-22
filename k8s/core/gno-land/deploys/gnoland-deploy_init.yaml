@@ -1,0 +1,49 @@
+## Version using init-containers
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: gnoland-init
+#   namespace: gno
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       gno.service: gnoland-init
+#   template:
+#     metadata:
+#       labels:
+#         gno.service: gnoland-init
+#     spec:
+#       initContainers:
+#       - name: init-config
+#         image: ghcr.io/gnolang/gno/gnoland:0.1.1
+#         args:
+#         - config
+#         - init
+#         - -force=true
+#         volumeMounts:
+#         - name: gnoland-vol
+#           mountPath: /gnoroot/gnoland-data
+#       - name: init-secrets
+#         image: ghcr.io/gnolang/gno/gnoland:0.1.1
+#         args:
+#         - secrets
+#         - init
+#         volumeMounts:
+#         - name: gnoland-vol
+#           mountPath: /gnoroot/gnoland-data
+#       containers:
+#       - name: gnoland
+#         image: ghcr.io/gnolang/gno/gnoland:0.1.1
+#         args:
+#         - start
+#         - --lazy
+#         volumeMounts:
+#         - name: gnoland-vol
+#           mountPath: /gnoroot/gnoland-data
+#       volumes:
+#       - name: gnoland-vol
+#         persistentVolumeClaim:
+#           claimName: gnoland-pv-claim
+    
