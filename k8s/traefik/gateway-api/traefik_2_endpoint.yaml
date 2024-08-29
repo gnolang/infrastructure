@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: traefik
+  namespace: traefik
+subsets:
+- addresses:
+  - ip: 10.244.0.6
+    # nodeName: gnolive-control-plane
+    # targetRef:
+    #   kind: Pod
+    #   name: traefik-84f6d55bc9-5nh8q
+    #   namespace: traefik
+    #   uid: f8b59f51-95e7-4c26-b3f6-a6e47890066a
+  ports:
+  - name: web
+    port: 8000
+    protocol: TCP
+  - name: websecure
+    port: 8443
+    protocol: TCP

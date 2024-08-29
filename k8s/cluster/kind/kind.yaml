@@ -10,6 +10,15 @@ nodes:
           node-labels: "ingress-ready=true"
           authorization-mode: "AlwaysAllow"
   extraPortMappings:
-    - containerPort: 30001
-      hostPort: 3000
+    - containerPort: 30080
+      hostPort: 80
+      protocol: TCP
+    - containerPort: 30443
+      hostPort: 443
+    - containerPort: 30081
+      hostPort: 81
+    - containerPort: 31808
+      hostPort: 8080
+    - containerPort: 30003
+      hostPort: 9000
 # - role: worker

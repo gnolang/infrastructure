@@ -7,8 +7,8 @@
 ## Core
 
 * Traefik support
-  * traefik configuration
-  * traefik labels in deploment
+  * traefik Gateway API
+  * traefik TLS
 
 * Gno
   * Config of validator vs RPC node
@@ -22,7 +22,7 @@
 
 * Gnoweb
   * Providing env var into command argument
-    * [cloud sql proxy - How to use environment variable in kubernetes container command? - Stack Overflow](https://stackoverflow.com/questions/56687542/how-to-use-environment-variable-in-kubernetes-container-command "cloud sql proxy - How to use environment variable in kubernetes container command? - Stack Overflow")
+    * [Supporting multiple secrets stored in one yaml file for secretGenerator · Issue #1135 · kubernetes-sigs/kustomize](https://github.com/kubernetes-sigs/kustomize/issues/1135#issuecomment-497132880)
 
 ## Monitoring
 
