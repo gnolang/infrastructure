@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  namespace: default
+  # namespace: gno
   name: traefik-ingress-controller
 ---
 kind: Deployment
@@ -30,7 +30,12 @@ spec:
             # - --log.level=DEBUG
             - --entrypoints.web.address=:80
             - --entrypoints.websecure.address=:4443
+            # k8s
             - --providers.kubernetescrd
+            # IngressRoute can reference resources in namespaces other than theirs
+            - --providers.kubernetescrd.allowCrossNamespace=true
+            # ingressRoutes can reference ExternalName services
+            - --providers.kubernetescrd.allowexternalnameservices=true
             - --certificatesresolvers.myresolver.acme.tlschallenge
             - --certificatesresolvers.myresolver.acme.email=foo@you.com
             - --certificatesresolvers.myresolver.acme.storage=acme.json

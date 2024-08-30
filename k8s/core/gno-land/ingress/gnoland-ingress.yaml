@@ -2,6 +2,7 @@ kind: Middleware
 apiVersion: traefik.io/v1alpha1
 metadata:
   name: gno-stripprefix
+  namespace: gno
 spec:
   stripPrefix:
     prefixes:
@@ -11,8 +12,7 @@ kind: IngressRoute
 apiVersion: traefik.io/v1alpha1
 metadata:
   name: gnoland-ingress
-  namespace: default
-  # namespace: gno
+  namespace: gno
 spec:
   entryPoints:
     - web
@@ -22,8 +22,8 @@ spec:
     kind: Rule
     services:
     - name: gnoland
-      # namespace: gno
+      namespace: gno
       port: 26657
     middlewares:
     - name: gno-stripprefix
-      # namespace: gno
+      namespace: gno
