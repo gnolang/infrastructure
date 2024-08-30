@@ -52,7 +52,10 @@ spec:
             cpu: "500m"
             memory: "2Gi"
         ports:
-        - containerPort: 26657
+          # - name: rpc-internal
+          #   containerPort: 26656
+          - name: rpc-public
+            containerPort: 26657
       volumes:
       - name: gnoland-vol
         persistentVolumeClaim:
@@ -65,7 +68,7 @@ spec:
             path: config.toml
       # - name: gnoland-
       #   configMap:
-      #     name: gno-config
+      #     name: gno-genesis
       #     items:
       #     - key: config.toml
       #       path: config.toml

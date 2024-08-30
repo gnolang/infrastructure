@@ -7,8 +7,8 @@
 ## Core
 
 * Traefik support
-  * traefik Gateway API
   * traefik TLS
+  * traefik Gateway API
 
 * Gno
   * Config of validator vs RPC node
