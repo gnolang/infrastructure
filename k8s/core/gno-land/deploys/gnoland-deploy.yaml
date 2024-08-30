@@ -52,10 +52,10 @@ spec:
             cpu: "500m"
             memory: "2Gi"
         ports:
-          # - name: rpc-internal
-          #   containerPort: 26656
           - name: rpc-public
             containerPort: 26657
+          - name: rpc-internal
+            containerPort: 26656
       volumes:
       - name: gnoland-vol
         persistentVolumeClaim:

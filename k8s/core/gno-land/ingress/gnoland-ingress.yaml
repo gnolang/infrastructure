@@ -23,7 +23,7 @@ spec:
     services:
     - name: gnoland
       namespace: gno
-      port: 26657
+      port: rpc-public
     middlewares:
     - name: gno-stripprefix
       namespace: gno

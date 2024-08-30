@@ -13,9 +13,9 @@ spec:
   selector:
     gno.service: gnoland
   ports:
-    # - name: rpc-internal
-    #   port: 26656
-    #   targetPort: rpc-internal
     - name: rpc-public
       port: 26657
       targetPort: rpc-public
+    - name: rpc-internal
+      port: 26656
+      targetPort: 26656
