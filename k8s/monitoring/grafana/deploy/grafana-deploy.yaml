@@ -37,16 +37,18 @@ spec:
         image: grafana/grafana:10.4.2
         imagePullPolicy: IfNotPresent
         env:
-        - name: GF_INSTALL_PLUGINS
-          value: "yesoreyeram-infinity-datasource"
-        - name: GF_SECURITY_ADMIN_PASSWORD__FILE
-          value: "/run/secrets/grafana-sec"
+        # - name: GF_SECURITY_ADMIN_PASSWORD__FILE
+        #   value: "/run/secrets/grafana-sec"
+        - name: GF_AUTH_ANONYMOUS_ENABLED
+          value: "true"
+        - name: GF_AUTH_ANONYMOUS_ORG_ROLE
+          value: "Admin"
         volumeMounts:
         - name: grafana-vol
           mountPath: /var/lib/grafana
-        - name: grafana-secret
-          mountPath: /run/secrets/grafana-sec
-          subPath: grafana.ini
+        # - name: grafana-secret
+        #   mountPath: /run/secrets/grafana-sec
+        #   subPath: grafana.ini
         - name: grafana-dashboard
           mountPath: /etc/grafana/provisioning
         resources:
@@ -62,16 +64,18 @@ spec:
       - name: grafana-vol
         persistentVolumeClaim:
           claimName: grafana-pv-claim
-      - name: grafana-secret
-        secret:
-          secretName: grafana-sec
+      # - name: grafana-secret
+      #   secret:
+      #     secretName: grafana-sec
       - name: grafana-dashboard
         configMap:
           name: dashboard-config
           items:
-          - key: dashboard.json
-            path: dashboards/gno-dashboard.json
+          - key: datasource.yaml
+            path: datasources/datasource.yaml
           - key: dashboard.yaml
-            path: dashboards/gno-dashboard.yaml
-          - key:  datasource.yaml
-            path: datasources/json-datasource.yaml
+            path: dashboards/dashboard.yaml
+          - key: node-monitoring.json
+            path: dashboards/node-monitoring.json
+          - key: container-monitoring.json
+            path: dashboards/container-monitoring.json

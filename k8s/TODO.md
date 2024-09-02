@@ -26,4 +26,5 @@
 
 ## Monitoring
 
-* ALL
+* Loki
+* Alert Manager

@@ -18,4 +18,4 @@ spec:
       targetPort: rpc-public
     - name: rpc-internal
       port: 26656
-      targetPort: 26656
+      targetPort: rpc-internal

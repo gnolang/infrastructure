@@ -2,8 +2,9 @@ configMapGenerator:
 - name: dashboard-config
   namespace: monitoring
   options:
-    disableNameSuffixHash: true
+    disableNameSuffixHash: true  
   files:
-  - dashboard.json=grafana/dashboards/gno-dashboard.json
-  - dashboard.yaml=grafana/dashboards/gno-dashboard.yaml
-  - datasource.yaml=grafana/datasources/json-datasource.yaml
+  - datasource.yaml=datasources/datasource.yaml
+  - dashboard.yaml=dashboards/dashboard.yaml
+  - node-monitoring.json=dashboards/node-monitoring.json
+  - container-monitoring.json=dashboards/container-monitoring.json
