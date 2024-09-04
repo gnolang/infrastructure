@@ -1,0 +1,15 @@
+kind: IngressRoute
+apiVersion: traefik.io/v1alpha1
+metadata:
+  name: gnoland-ingress
+  namespace: gno
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`indexer.gnoland.tech`)
+    kind: Rule
+    services:
+    - name: tx-indexer
+      namespace: gno
+      port: tx-indexer-port

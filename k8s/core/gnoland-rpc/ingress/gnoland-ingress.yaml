@@ -17,8 +17,8 @@ spec:
   entryPoints:
     - web
   routes:
-  # - match: Host(`your.example.com`) && PathPrefix(`/notls`)
-  - match: PathPrefix(`/gno`)
+  - match: Host(`rpc.gnoland.tech`) && PathPrefix(`/gno`)
+  # - match: PathPrefix(`/gno`)
     kind: Rule
     services:
     - name: gnoland

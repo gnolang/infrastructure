@@ -1,13 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  # annotations:
-  #   traefik.enable: "true"
-  #   traefik.http.routers.tx-indexer.entrypoints: web,websecure
-  #   traefik.http.routers.tx-indexer.rule: Host(`indexer.test4.gno.land`) || Host(`indexer.test4.gnoteam.com`)
-  #   traefik.http.routers.tx-indexer.tls: "true"
-  #   traefik.http.routers.tx-indexer.tls.certresolver: le
-  #   traefik.http.services.tx-indexer.loadbalancer.server.port: "7879"
   name: tx-indexer
   namespace: gno
 spec:

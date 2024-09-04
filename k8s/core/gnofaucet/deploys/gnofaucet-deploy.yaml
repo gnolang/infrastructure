@@ -17,6 +17,9 @@ spec:
       - name: gnofaucet
         image: ghcr.io/gnolang/gno/gnofaucet:master
         imagePullPolicy: IfNotPresent
+        envFrom:
+        - secretRef:
+            name: gnofaucet-env
         args:
             - serve
             - --listen-address=0.0.0.0:5050
@@ -24,7 +27,8 @@ spec:
             - --max-send-amount=15000000ugnot
             - --is-behind-proxy=true
             - --num-accounts=10
-            # FIXME: env vars!
-            - --chain-id=dev
-            - --mnemonic=
-            - --captcha-secret=
+            - --chain-id=$(CHAIN_ID)
+            - --mnemonic=$(MNEMONIC)
+            - --captcha-secret=${CAPTCHA}
+        ports:
+          - containerPort: 5050

@@ -1,14 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  # annotations:
-  #   traefik.enable: "true"
-  #   traefik.http.routers.gnoweb.entrypoints: web,websecure
-  #   traefik.http.routers.gnoweb.rule: Host(`test4.gno.land`) || Host(`test4.gnoteam.com`)
-  #   traefik.http.routers.gnoweb.service: gnoweb
-  #   traefik.http.routers.gnoweb.tls: "true"
-  #   traefik.http.routers.gnoweb.tls.certresolver: le
-  #   traefik.http.services.gnoweb.loadbalancer.server.port: "8888"
   name: gnoweb
   namespace: gno
 spec:

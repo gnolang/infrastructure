@@ -3,21 +3,18 @@ kind: Deployment
 metadata:
   labels:
     gno.type: validator
-    gno.service: gnoland
-  name: gnoland
+    gno.service: validator
+  name: gnoland-validator
   namespace: gno
 spec:
   replicas: 1
   selector:
     matchLabels:
-      gno.service: gnoland
-  # TODO: check if useful
-  # strategy:
-    # type: Recreate
+      gno.service: validator
   template:
     metadata:
       labels:
-        gno.service: gnoland
+        gno.service: validator
     spec:
       initContainers:
       - name: init-secrets

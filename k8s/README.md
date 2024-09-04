@@ -78,6 +78,14 @@ This method should work _out of the box_ on any host, but it may be influenced b
 
 ### All core services in a shot
 
+* Using [skaffold](https://skaffold.dev/). FULL STOP!
+
+  ```bash
+  skaffold run
+  ```
+
+### OR
+
 * Generate Persistent Volumes (Gnoland and Tx-Indexer)
 
   ```bash
@@ -94,7 +102,17 @@ This method should work _out of the box_ on any host, but it may be influenced b
 
 ### Traefik
 
-TODO:
+* Generate CRD and RBAC
+
+  ```bash
+  kubectl apply -f traefik/ingress-route/crd.yaml -f traefik/ingress-route/rbac.yaml
+  ```
+
+* Spin up service ([IngressRoute](https://doc.traefik.io/traefik/routing/providers/kubernetes-crd/) version)
+
+  ```bash
+  kubectl apply -f traefik/ingress-route/traefik.yaml
+  ```
 
 ---
 
@@ -129,7 +147,7 @@ TODO:
   kubectl apply -f monitoring/grafana/storage/
   ```
 
-* Spin up Grafan service
+* Spin up Grafana service
 
   ```bash
   kubectl apply -f monitoring/grafana/deploys/
@@ -157,4 +175,14 @@ kubectl apply -R -f dir
 
 ```bash
 kubectl logs --previous <pod_name> -c <init_container_name>
+```
+
+* DNS name resolution for Traefik -> Edit `/etc/hosts` on host machine by appending:
+
+```bash
+127.0.0.1 gnoland.tech
+127.0.0.1 rpc.gnoland.tech
+127.0.0.1 web.gnoland.tech
+127.0.0.1 indexer.gnoland.tech
+127.0.0.1 faucet.gnoland.tech
 ```

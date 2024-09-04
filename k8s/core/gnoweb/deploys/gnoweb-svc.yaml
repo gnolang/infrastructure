@@ -1,16 +1,15 @@
-# TODO: Remove
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    gno.service: gnoland
+    gno.service: gnoweb
   name: gnoweb
   namespace: gno
 spec:
   selector:
     gno.service: gnoweb
   ports:
-  - port: 8888
+  - name: gnoweb-port
+    port: 8888
     targetPort: 8888
     protocol: TCP
-
