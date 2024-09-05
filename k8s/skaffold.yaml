@@ -1,0 +1,9 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: gnocluster
+requires:
+  - path: cluster/skaffold/traefik-skaffold.yaml
+  - path: cluster/skaffold/gnocore-skaffold.yaml
+deploy:
+  kubectl: {}

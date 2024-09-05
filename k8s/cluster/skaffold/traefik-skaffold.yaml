@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: traefik-setup
+manifests:
+  rawYaml:
+    ## Traefik
+    - ../../traefik/ingress-route/crd.yaml
+    - ../../traefik/ingress-route/rbac.yaml
+    - ../../traefik/ingress-route/traefik.yaml
+deploy:
+  kubectl: {}

@@ -1,0 +1,31 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: gnocore
+# requires:
+#   - path: traefik-skaffold.yaml 
+manifests:
+  rawYaml:
+    - ../../cluster/namespaces/core.yaml
+    ## Gnoland
+    - ../../core/gnoland-rpc/storage/*.yaml
+    - ../../core/gnoland-rpc/deploys/*.yaml
+    ### Ingress Traefik
+    - ../../core/gnoland-rpc/ingress/*.yaml
+    ## Indexer
+    - ../../core/indexer/storage/*.yaml
+    - ../../core/indexer/deploys/*.yaml
+    - ../../core/indexer/ingress/*.yaml
+    ## GnoFaucet
+    - ../../core/gnofaucet/deploys/*.yaml
+    - ../../core/gnofaucet/ingress/*.yaml
+    ## Gnoweb
+    - ../../core/gnoweb/deploys/*.yaml
+    - ../../core/gnoweb/ingress/*.yaml
+  kustomize:
+    paths:
+      - ../../core/gnoland-rpc/configmaps
+      - ../../core/gnofaucet/secrets
+      - ../../core/gnoweb/secrets
+deploy:
+  kubectl: {}
