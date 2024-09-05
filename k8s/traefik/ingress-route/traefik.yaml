@@ -58,16 +58,16 @@ spec:
   selector:
     app: traefik
   ports:
-  - name: web
-    protocol: TCP
-    port: 80
-    targetPort: 80
-    nodePort: 30081
   - name: admin
     protocol: TCP
     port: 8080
     targetPort: 8080
     nodePort: 31808
+  - name: web
+    protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30080
   - name: webtls
     protocol: TCP
     port: 443
