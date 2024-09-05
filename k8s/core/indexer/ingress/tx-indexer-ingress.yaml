@@ -1,7 +1,7 @@
 kind: IngressRoute
 apiVersion: traefik.io/v1alpha1
 metadata:
-  name: gnoland-ingress
+  name: tx-indexer-ingress
   namespace: gno
 spec:
   entryPoints:
