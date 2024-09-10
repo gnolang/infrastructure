@@ -18,6 +18,8 @@ spec:
     metadata:
       labels:
         gno.service: gnoland
+        gno.type: rpc
+        gno.role: validator 
     spec:
       initContainers:
       - name: init-secrets

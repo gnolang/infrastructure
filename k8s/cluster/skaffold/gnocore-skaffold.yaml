@@ -2,8 +2,6 @@ apiVersion: skaffold/v4beta11
 kind: Config
 metadata:
   name: gnocore
-# requires:
-#   - path: traefik-skaffold.yaml 
 manifests:
   rawYaml:
     - ../../cluster/namespaces/core.yaml

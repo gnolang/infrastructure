@@ -8,3 +8,4 @@ configMapGenerator:
   - dashboard.yaml=dashboards/dashboard.yaml
   - node-monitoring.json=dashboards/node-monitoring.json
   - container-monitoring.json=dashboards/container-monitoring.json
+  - validators-logs.json=dashboards/validators-logs.json

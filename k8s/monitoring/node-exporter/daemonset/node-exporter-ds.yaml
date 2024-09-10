@@ -20,6 +20,7 @@ spec:
       containers:
       - name: node-exporter
         image: prom/node-exporter
+        imagePullPolicy: IfNotPresent
         args:
         - --path.sysfs=/host/sys
         - --path.rootfs=/host/root

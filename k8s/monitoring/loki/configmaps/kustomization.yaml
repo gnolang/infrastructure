@@ -1,0 +1,7 @@
+configMapGenerator:
+- name: loki-conf
+  namespace: monitoring
+  options:
+    disableNameSuffixHash: true  
+  files:
+  - loki.yaml=loki-src.yaml
