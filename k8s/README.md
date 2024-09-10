@@ -100,7 +100,7 @@ This method should work _out of the box_ on any host, but it may be influenced b
 
 ---
 
-### Traefik
+## Traefik
 
 * Generate CRD and RBAC
 
@@ -123,6 +123,14 @@ This method should work _out of the box_ on any host, but it may be influenced b
 ```bash
   kubectl apply -f cluster/namespaces/monitoring.yaml
 ```
+
+### All monitoring services in a shot
+
+* Using [skaffold](https://skaffold.dev/). FULL STOP!
+
+  ```bash
+  skaffold run
+  ```
 
 ### Grafana
 
@@ -157,6 +165,16 @@ This method should work _out of the box_ on any host, but it may be influenced b
 
 ---
 
+## Cleaning up Cluster
+
+* Using [skaffold](https://skaffold.dev/).
+
+  ```bash
+  skaffold delete
+  ```
+
+---
+
 ## K8s Tips
 
 * Change current Namespace
@@ -185,4 +203,5 @@ kubectl logs --previous <pod_name> -c <init_container_name>
 127.0.0.1 web.gnoland.tech
 127.0.0.1 indexer.gnoland.tech
 127.0.0.1 faucet.gnoland.tech
+127.0.0.1 grafana.gnoland.tech
 ```

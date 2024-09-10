@@ -3,8 +3,9 @@ deleteDatasources:
   - name: loki
 
 datasources:
-  - id: 2
+  - id: 1
     orgId: 1
+    uid: PBFA97CFB590B2093
     name: Prometheus
     type: prometheus
     url: http://prometheus-svc.monitoring.svc:9090
@@ -12,8 +13,9 @@ datasources:
     editable: true
     readOnly: false
     isDefault: true
-  - id: 3
+  - id: 2
     orgId: 1
+    uid: P8E80F9AEF21F6940
     name: Loki
     type: loki
     url: http://loki-svc.monitoring.svc:3100
