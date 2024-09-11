@@ -4,11 +4,11 @@ server:
 
 common:
   instance_addr: 127.0.0.1
-  path_prefix: /tmp
+  path_prefix: /data
   storage:
     filesystem:
-      chunks_directory: /tmp/chunks
-      rules_directory: /tmp/rules
+      chunks_directory: /data/chunks
+      rules_directory: /data/rules
   replication_factor: 1
   ring:
     kvstore:

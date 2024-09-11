@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    gno.service: gnoland
+    gno.type: rpc
+    gno.role: validator 
+  name: gnoland-rpc
+  namespace: gno
+spec:
+  selector:
+    gno.service: gnoland
+    gno.type: rpc
+    gno.role: validator 
+  ports:
+    - name: rpc-public
+      port: 26657
+      targetPort: rpc-public
+    - name: rpc-internal
+      port: 26656
+      targetPort: rpc-internal

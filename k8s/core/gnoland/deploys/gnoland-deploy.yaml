@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    gno.type: rpc
     gno.service: gnoland
+    gno.type: rpc
   name: gnoland
   namespace: gno
 spec:
@@ -11,9 +11,7 @@ spec:
   selector:
     matchLabels:
       gno.service: gnoland
-  # TODO: check if useful
-  # strategy:
-    # type: Recreate
+      gno.type: rpc
   template:
     metadata:
       labels:
@@ -23,26 +21,26 @@ spec:
     spec:
       initContainers:
       - name: init-secrets
-        image: ghcr.io/gnolang/gno/gnoland:0.1.1
+        image: ghcr.io/gnolang/gno/gnoland:0.2.0
         args:
         - secrets
         - init
         - -force=true
         volumeMounts:
-        - name: gnoland-vol
+        - name: gno-rpc-vol
           mountPath: /gnoroot/gnoland-data
       containers:
       - name: gnoland
-        image: ghcr.io/gnolang/gno/gnoland:0.1.1
+        image: ghcr.io/gnolang/gno/gnoland:0.2.0
         imagePullPolicy: IfNotPresent
         args:
           - start
           - --lazy
           # - --genesis=/gnoroot/gnoland-genesis/genesis.json
         volumeMounts:
-        - name: gnoland-vol
+        - name: gno-rpc-vol
           mountPath: /gnoroot/gnoland-data
-        - name: gnoland-config
+        - name: gno-rpc-config
           mountPath: /gnoroot/gnoland-data/config
         # - name: gnoland-genesis
         #   mountPath: /gnoroot/gnoland-genesis
@@ -59,10 +57,10 @@ spec:
           - name: rpc-internal
             containerPort: 26656
       volumes:
-      - name: gnoland-vol
+      - name: gno-rpc-vol
         persistentVolumeClaim:
-          claimName: gnoland-pv-claim
-      - name: gnoland-config
+          claimName: gno-rpc-pv-claim
+      - name: gno-rpc-config
         configMap:
           name: gno-config
           items:
@@ -71,6 +69,3 @@ spec:
       # - name: gnoland-
       #   configMap:
       #     name: gno-genesis
-      #     items:
-      #     - key: config.toml
-      #       path: config.toml

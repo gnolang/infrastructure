@@ -21,7 +21,7 @@ spec:
   # - match: PathPrefix(`/gno`)
     kind: Rule
     services:
-    - name: gnoland
+    - name: gnoland-rpc
       namespace: gno
       port: rpc-public
     middlewares:
