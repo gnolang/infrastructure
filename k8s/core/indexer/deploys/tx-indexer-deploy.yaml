@@ -22,7 +22,7 @@ spec:
           - -http-rate-limit=500
           - -max-slots=2000
           - -listen-address=0.0.0.0:8546
-          - -remote=http://gnoland:26657
+          - -remote=http://gnoland-rpc:26657
           - -db-path=/opt/indexer-db
         volumeMounts:
         - name: indexer-vol

@@ -28,6 +28,12 @@ OR
 { logsource="kube" } | json  | line_format "{{ .message }}" | kubernetes_pod_namespace=`gno`, kubernetes_pod_labels_gno_service!=`gnoland`
 ```
 
+* filter logs in GNO of a non-RPC node
+
+```bash
+{ logsource="kube" } | json  | line_format "{{ .message }}" | kubernetes_pod_namespace=`gno`, kubernetes_pod_labels_gno_type!=`rpc`
+```
+
 ### See Also
 
 * [Kubernetes logs | Vector documentation](https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/#namespace_annotation_fields)

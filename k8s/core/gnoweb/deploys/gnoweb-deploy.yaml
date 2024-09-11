@@ -22,7 +22,7 @@ spec:
             name: gnoweb-env
         args:
             - --bind=0.0.0.0:8888
-            - --remote=http://gnoland:26657
+            - --remote=http://gnoland-rpc:26657
             - --faucet-url=http://gnofaucet:5050
             - --captcha-site=
             - --with-analytics

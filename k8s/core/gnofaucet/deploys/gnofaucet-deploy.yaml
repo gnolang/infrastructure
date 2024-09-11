@@ -23,7 +23,7 @@ spec:
         args:
             - serve
             - --listen-address=0.0.0.0:5050
-            - --remote=http://gnoland:26657
+            - --remote=http://gnoland-rpc:26657
             - --max-send-amount=15000000ugnot
             - --is-behind-proxy=true
             - --num-accounts=10
