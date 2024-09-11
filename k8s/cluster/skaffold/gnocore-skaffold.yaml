@@ -6,10 +6,10 @@ manifests:
   rawYaml:
     - ../../cluster/namespaces/core.yaml
     ## Gnoland
-    - ../../core/gnoland-rpc/storage/*.yaml
-    - ../../core/gnoland-rpc/deploys/*.yaml
-    ### Ingress Traefik
-    - ../../core/gnoland-rpc/ingress/*.yaml
+    ### RPC
+    - ../../core/gnoland/rpc/storage/*.yaml
+    - ../../core/gnoland/rpc/deploys/*.yaml
+    - ../../core/gnoland/rpc/ingress/*.yaml
     ## Indexer
     - ../../core/indexer/storage/*.yaml
     - ../../core/indexer/deploys/*.yaml
@@ -20,9 +20,13 @@ manifests:
     ## Gnoweb
     - ../../core/gnoweb/deploys/*.yaml
     - ../../core/gnoweb/ingress/*.yaml
+    ### Experimental
+    ## Gno Validator
+    # - ../../core/gnoland/validator/storage/*.yaml
+    # - ../../core/gnoland/validator/deploys/*.yaml
   kustomize:
     paths:
-      - ../../core/gnoland-rpc/configmaps
+      - ../../core/gnoland/rpc/configmaps
       - ../../core/gnofaucet/secrets
       - ../../core/gnoweb/secrets
 deploy:

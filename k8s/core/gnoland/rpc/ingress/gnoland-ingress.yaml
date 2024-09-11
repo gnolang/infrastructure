@@ -11,7 +11,7 @@ spec:
 kind: IngressRoute
 apiVersion: traefik.io/v1alpha1
 metadata:
-  name: gnoland-ingress
+  name: gnoland-rpc-ingress
   namespace: gno
 spec:
   entryPoints:

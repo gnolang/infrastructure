@@ -2,42 +2,45 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    gno.type: validator
-    gno.service: validator
-  name: gnoland-validator
+    gno.service: gnoland
+    gno.type: rpc
+  name: gnoland-rpc
   namespace: gno
 spec:
   replicas: 1
   selector:
     matchLabels:
-      gno.service: validator
+      gno.service: gnoland
+      gno.type: rpc
   template:
     metadata:
       labels:
-        gno.service: validator
+        gno.service: gnoland
+        gno.type: rpc
+        gno.role: validator 
     spec:
       initContainers:
       - name: init-secrets
-        image: ghcr.io/gnolang/gno/gnoland:0.1.1
+        image: ghcr.io/gnolang/gno/gnoland:0.2.0
         args:
         - secrets
         - init
         - -force=true
         volumeMounts:
-        - name: gnoland-vol
+        - name: gno-rpc-vol
           mountPath: /gnoroot/gnoland-data
       containers:
       - name: gnoland
-        image: ghcr.io/gnolang/gno/gnoland:0.1.1
+        image: ghcr.io/gnolang/gno/gnoland:0.2.0
         imagePullPolicy: IfNotPresent
         args:
           - start
           - --lazy
           # - --genesis=/gnoroot/gnoland-genesis/genesis.json
         volumeMounts:
-        - name: gnoland-vol
+        - name: gno-rpc-vol
           mountPath: /gnoroot/gnoland-data
-        - name: gnoland-config
+        - name: gno-rpc-conf
           mountPath: /gnoroot/gnoland-data/config
         # - name: gnoland-genesis
         #   mountPath: /gnoroot/gnoland-genesis
@@ -54,18 +57,15 @@ spec:
           - name: rpc-internal
             containerPort: 26656
       volumes:
-      - name: gnoland-vol
+      - name: gno-rpc-vol
         persistentVolumeClaim:
-          claimName: gnoland-pv-claim
-      - name: gnoland-config
+          claimName: gno-rpc-pv-claim
+      - name: gno-rpc-conf
         configMap:
-          name: gno-config
+          name: gno-rpc-config
           items:
           - key: config.toml
             path: config.toml
       # - name: gnoland-
       #   configMap:
       #     name: gno-genesis
-      #     items:
-      #     - key: config.toml
-      #       path: config.toml
