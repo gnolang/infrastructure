@@ -1,8 +1,9 @@
+# Gnoland Volume
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: grafana-pv-volume
-  namespace: monitoring
+  name: gno-val-pv-volume
+  namespace: gno
   labels:
     type: local
 spec:
@@ -12,15 +13,15 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/opt/grafana/data" 
+    path: "/opt/gnoland/validator/1/data" 
 
 ---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: grafana-pv-claim
-  namespace: monitoring
+  name: gno-val-pv-claim
+  namespace: gno
 spec:
   storageClassName: manual
   accessModes:

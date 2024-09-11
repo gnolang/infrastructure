@@ -4,3 +4,8 @@
 
 * Operator listening to replica events...
 * Mount RPC volume copying Genesis file...
+
+## Issues
+
+* Host path location for persistent volume
+* Config of validator

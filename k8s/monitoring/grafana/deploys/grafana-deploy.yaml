@@ -82,3 +82,5 @@ spec:
             path: dashboards/container-monitoring.json
           - key: container-monitoring.json
             path: dashboards/container-monitoring.json
+          - key: validators-logs.json
+            path: dashboards/validators-logs.json

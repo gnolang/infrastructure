@@ -22,8 +22,8 @@ manifests:
     - ../../core/gnoweb/ingress/*.yaml
     ### Experimental
     ## Gno Validator
-    # - ../../core/gnoland/validator/storage/*.yaml
-    # - ../../core/gnoland/validator/deploys/*.yaml
+    - ../../core/gnoland/validator/storage/*.yaml
+    - ../../core/gnoland/validator/deploys/*.yaml
   kustomize:
     paths:
       - ../../core/gnoland/rpc/configmaps

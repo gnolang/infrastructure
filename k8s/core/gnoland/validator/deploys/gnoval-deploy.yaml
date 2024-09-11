@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    gno.service: gnoland
+    gno.type: validator
+  name: gnoland-validator
+  namespace: gno
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      gno.service: gnoland
+      gno.type: validator
+  template:
+    metadata:
+      labels:
+        gno.service: gnoland
+        gno.type: validator
+        gno.role: validator
+    spec:
+      initContainers:
+      - name: init-secrets
+        image: ghcr.io/gnolang/gno/gnoland:0.2.0
+        args:
+        - secrets
+        - init
+        - -force=true
+        volumeMounts:
+        - name: gno-val-vol
+          mountPath: /gnoroot/gnoland-data
+      - name: init-config
+        image: ghcr.io/gnolang/gno/gnoland:0.2.0
+        command: ["/bin/sh", "-c"]
+        args:
+        - gnoland config init;
+          gnoland config set moniker gno-validator-1;
+        volumeMounts:
+        - name: gno-val-vol
+          mountPath: /gnoroot/gnoland-data
+      containers:
+      - name: gnoland
+        image: ghcr.io/gnolang/gno/gnoland:0.2.0
+        imagePullPolicy: IfNotPresent
+        args:
+          - start
+          - --lazy
+        ports:
+          - name: rpc-internal
+            containerPort: 26656
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "4Gi"
+          requests:
+            cpu: "500m"
+            memory: "2Gi"
+        volumeMounts:
+        - name: gno-val-vol
+          mountPath: /gnoroot/gnoland-data
+      volumes:
+      - name: gno-val-vol
+        persistentVolumeClaim:
+          claimName: gno-val-pv-claim
