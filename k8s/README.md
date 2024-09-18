@@ -205,3 +205,38 @@ kubectl logs --previous <pod_name> -c <init_container_name>
 127.0.0.1 faucet.gnoland.tech
 127.0.0.1 grafana.gnoland.tech
 ```
+
+---
+
+## Resources
+
+### Security Context
+
+* [Kubernetes SecurityContext with practical examples | by Eugene Butan | Marionete | Medium](https://medium.com/marionete/kubernetes-securitycontext-with-practical-examples-67d890558d11)
+* [Configure a Security Context for a Pod or Container | Kubernetes](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+
+### Service Account
+
+* [9.5 Using projected volumes to combine volumes into one](https://wangwei1237.github.io/Kubernetes-in-Action-Second-Edition/docs/Using_projected_volumes_to_combine_volumes_into_one.html)
+* [Configure Service Accounts for Pods | Kubernetes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/?source=post_page-----434ff2cd1483--------------------------------#service-account-token-volume-projection)
+* [Managing Service Accounts | Kubernetes](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/?source=post_page-----434ff2cd1483--------------------------------#bound-service-account-token-volume)
+
+### Downward API
+
+* [9.4 Passing pod metadata to the application via the Downward API](https://wangwei1237.github.io/Kubernetes-in-Action-Second-Edition/docs/Passing_pod_metadata_to_the_application_via_the_Downward_API.html)
+
+### AWS EKS
+
+* [EKS Pod Identity or IAM Roles for Service Accounts (IRSA)](https://awsmorocco.com/eks-pod-identity-or-iam-roles-for-service-accounts-irsa-e32ea9331f27)
+
+### Kustomize
+
+* [Kubernetes Kustomize Tutorial (Comprehensive Guide)](https://devopscube.com/kustomize-tutorial/)
+* [Kubernetes: using a delete patch with kustomize | Fabian Lee : Software Engineer](https://fabianlee.org/2023/04/20/)
+
+### Skaffold
+
+* [Simplify your DevOps using Skaffold | Google Cloud Blog](https://cloud.google.com/blog/topics/developers-practitioners/simplify-your-devops-using-skaffold/)
+* [Profiles | Skaffold](https://skaffold.dev/docs/environment/profiles/)
+* [skaffold.yaml | Skaffold](https://skaffold.dev/docs/references/yaml/?version=v4beta11)
+* [skaffold/examples at main · GoogleContainerTools/skaffold](https://github.com/GoogleContainerTools/skaffold/tree/main/examples)

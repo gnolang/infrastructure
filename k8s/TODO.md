@@ -26,7 +26,6 @@
 
 ## Monitoring
 
-* Loki
 * Alert Manager
 
 ## Secret Management
