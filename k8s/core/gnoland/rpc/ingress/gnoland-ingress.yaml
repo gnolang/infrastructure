@@ -18,7 +18,6 @@ spec:
     - web
   routes:
   - match: Host(`rpc.gnoland.tech`) && PathPrefix(`/gno`)
-  # - match: PathPrefix(`/gno`)
     kind: Rule
     services:
     - name: gnoland-rpc

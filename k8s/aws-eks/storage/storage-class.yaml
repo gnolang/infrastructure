@@ -4,6 +4,6 @@ metadata:
   name: eks-ebs-storage
 provisioner: ebs.csi.aws.com
 volumeBindingMode: WaitForFirstConsumer
-# parameters:
-#   type: gp3
-#   fsType: ext4
+parameters:
+  type: gp3
+  fsType: ext4
