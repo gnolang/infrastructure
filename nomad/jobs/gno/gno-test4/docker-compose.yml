@@ -1,0 +1,10 @@
+services:
+  gnoland:
+    image: "ghcr.io/gnolang/gno/gnoland:0.1.0"
+    # entrypoint: "/entrypoint.sh"
+    command: ["start", "--genesis=/gnoroot/gnoland-data/genesis.json"]
+    ports:
+      - 26656:26656
+      - 127.0.0.1:26657:26657
+    volumes:
+      - ./gnoland-data:/gnoroot/gnoland-data

@@ -1,0 +1,65 @@
+---
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+rule_files:
+  - "alerts/rules_*.yml"
+
+scrape_configs:
+  - job_name: nomad_services
+    metrics_path: /metrics
+    nomad_sd_configs:
+      - server: 'http://{{ env "NOMAD_IP_prometheus_ui" }}:4646'
+        region: "eu-london"
+        namespace: "default"
+      - server: 'http://{{ env "NOMAD_IP_prometheus_ui" }}:4646'
+        region: "eu-london"
+        namespace: "infrastructure"
+      - server: 'http://{{ env "NOMAD_IP_prometheus_ui" }}:4646'
+        region: "eu-london"
+        namespace: "monitoring"
+    relabel_configs:
+      # Monitor only services with tags, `metrics`
+      - source_labels: ["__meta_nomad_tags"]
+        regex: "(.*),metrics,(.*)"
+        action: keep
+      - source_labels: [__meta_nomad_service]
+        target_label: job
+      - source_labels: [__meta_nomad_address]
+        target_label: nomad_address
+      - source_labels: [__meta_nomad_dc]
+        target_label: nomad_dc
+      - source_labels: [__meta_nomad_namespace]
+        target_label: nomad_namespace
+      - source_labels: [__meta_nomad_node_id]
+        target_label: nomad_node_id
+      - source_labels: [__meta_nomad_service_address]
+        target_label: nomad_service_address
+      - source_labels: [__meta_nomad_service_id]
+        target_label: nomad_service_id
+      - source_labels: [__meta_nomad_service_port]
+        target_label: nomad_service_port
+      - source_labels: [__meta_nomad_tags]
+        target_label: nomad_tags
+    authorization:
+      credentials: '{{ env "NOMAD_TOKEN" }}'
+
+  # - job_name: nomad_services
+  #   params:
+  #     format: ["prometheus"]
+  #   nomad_sd_configs:
+  #     - server: 'http://{{ env "NOMAD_IP_prometheus_ui" }}:4646'
+  #       region: "eu-london"
+
+  - job_name: traefik
+    metrics_path: /metrics
+    scheme: https
+    static_configs:
+      - targets:
+          - "traefik-00.infra.allinbits.vip:8082"
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["alertmanager.infra.allinbits.vip"]
+      scheme: https
