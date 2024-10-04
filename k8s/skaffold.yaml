@@ -22,11 +22,6 @@ profiles:
     activation:
       - kubeContext: arn:aws:eks:eu-west-1:600627336512:cluster/test4b-cluster
     manifests:
-      rawYaml:
-        ## AWS Storage Class
-        - aws-eks/storage/storage-class.yaml
       kustomize:
         paths:
           - traefik/overlays/eks
-          ## EKS Storage
-          - ../../aws-eks/storage/csi

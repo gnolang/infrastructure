@@ -12,13 +12,13 @@ patches:
     kind: PersistentVolume
     metadata:
       name: loki-pv-volume
-      namespace: gno
+      namespace: monitoring
 # add storage class
 - patch: |-
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
       name: loki-pv-claim
-      namespace: gno
+      namespace: monitoring
     spec:
       storageClassName: eks-ebs-storage
