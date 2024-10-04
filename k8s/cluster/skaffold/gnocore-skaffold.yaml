@@ -8,8 +8,6 @@ manifests:
 profiles:
   - name: dev
     manifests:
-      rawYaml:
-        - ../../cluster/namespaces/core.yaml
       kustomize:
         paths:
           ## Gnoland
@@ -23,14 +21,10 @@ profiles:
           - ../../core/gnoweb
   - name: eks-dev
     manifests:
-      rawYaml:
-        - ../../cluster/namespaces/core.yaml
-        ## AWS Storage Class
-        - ../../aws-eks/storage/storage-class.yaml
       kustomize:
         paths:
-          ## EKS Storage
-          - ../../aws-eks/storage/csi
+          ## AWS Storage Class + EKS Storage
+          - ../../aws-eks/storage
           ## Gnoland overlays
           - ../../core/overlays/eks/gnoland/rpc
           - ../../core/overlays/eks/indexer

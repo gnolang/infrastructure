@@ -22,14 +22,15 @@ profiles:
           - ../../monitoring/grafana
   - name: eks-dev
     manifests:
-      rawYaml:
-      #   - ../../cluster/namespaces/monitoring.yaml
-        ## AWS Storage Class
-        - ../../aws-eks/storage/storage-class.yaml
       kustomize:
         paths:
-          ## EKS Storage
-          - ../../aws-eks/storage/csi
+          ## AWS Storage Class + EKS Storage
+          - ../../aws-eks/storage
+          # Not overridden
+          # Prometheus
+          - ../../monitoring/prometheus
+          # Vector
+          - ../../monitoring/vector
           ### Monitoring Overlays
           - ../../monitoring/overlays/eks/loki
           - ../../monitoring/overlays/eks/grafana

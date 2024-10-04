@@ -12,14 +12,14 @@ patches:
     kind: PersistentVolume
     metadata:
       name: grafana-pv-volume
-      namespace: gno
+      namespace: monitoring
 # add storage class
 - patch: |-
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
       name: grafana-pv-claim
-      namespace: gno
+      namespace: monitoring
     spec:
       storageClassName: eks-ebs-storage
 # fix endpoint ingress
@@ -28,12 +28,12 @@ patches:
     kind: IngressRoute
     metadata:
       name: grafana-ingress
-      namespace: gno
+      namespace: monitoring
     spec:
       routes:
       - match: Host(`grafana.k8s.gnoteam.com`)
         kind: Rule
         services:
         - name: grafana
-          namespace: gno
+          namespace: monitoring
           port: grafana-port
