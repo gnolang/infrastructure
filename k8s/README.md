@@ -1,6 +1,6 @@
 # K8S Cluster
 
-A setup for the Kubernetes cluster.
+Setup for the Kubernetes cluster.
 
 ## KinD: Local dev env
 
@@ -172,6 +172,26 @@ This method should work _out of the box_ on any host, but it may be influenced b
   ```bash
   skaffold delete
   ```
+
+### Issues with PVC in AWS EKS
+
+Generally speaking in AWS EKS storage is represented via EBS volumes which are related to PVC resources in Kubernetes.
+When creating the cluster from scratch, the given configuration will also create:
+
+* the CSI (Container Storage Interface) resource for AWS EKS
+* the AWS Storage Class for EBS volumes
+
+When resources are deleted via `skaffold`, it may blindly remove this specific AWS resources without waiting the removal of other resources.
+In this scenario PVC and in turn corresponding PODs will remain in a pending removal status, since there is not anymore a storage class
+(which was already removed) able to satisfy the removal request.
+When this happens the best thing to do in order to clean up is to manually re-add and re-remove the storage elements.
+
+```bash
+k apply -k aws-eks/storage
+# ... wait pvc/pod full removal
+# k get pvc -A -w
+k delete -k aws-eks/storage
+```
 
 ---
 

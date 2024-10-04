@@ -23,6 +23,8 @@
 ## Monitoring
 
 * Alert Manager
+* Loki: logs filtered by single validator
+* Grafana: labels for container dashboard
 
 ## Secret Management
 
