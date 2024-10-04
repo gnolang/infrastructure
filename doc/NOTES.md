@@ -13,9 +13,9 @@
 * Latitude
   * Bare metal
   * Testnet 1, 2, 3
+  * Portal Loop
 
 * Digital Ocean
-  * Portal Loop
   * Staging
 
 ## Core Service
@@ -97,7 +97,7 @@ The Sentry Node Architecture (referred to as SNA in this document) is an infrast
 * `Log collection`
   * internal use
 
-## Onboard
+## Onboard new team member
 
 * Tailscale
 * Nomad Dashboard
@@ -113,28 +113,15 @@ The Sentry Node Architecture (referred to as SNA in this document) is an infrast
 
 * Monitoring
   * Better Stack
-  * Loki ?
   * Grafana Dashboard
-
-* DNS
-  * Google Domains
-  * Squarespace
+  * Loki
 
 * Metrics / Traces
   * Open Telemetry
   * Prometheus
   * Jaeger ?
 
-### Future use
-
-* PaaS
-  * Fly.io
-  * Dokku
-  * Render
-
-* Pipeline As a Code
-  * Dagger CI
-
-* Publish clusters
-  * ArgoCD
-  
+* DNS
+  * CLoudflare
+  * Google Domains
+  * Squarespace
