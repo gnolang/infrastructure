@@ -195,7 +195,13 @@ kubectl apply -R -f dir
 kubectl logs --previous <pod_name> -c <init_container_name>
 ```
 
-* DNS name resolution for Traefik -> Edit `/etc/hosts` on host machine by appending:
+* Disruptive and forced deletion of a Pod
+
+```bash
+kubectl delete pod <pod_name> -n <namespace> --grace-period=0 --force
+```
+
+* Local DNS name resolution for Traefik -> Edit `/etc/hosts` on localhost machine by appending:
 
 ```bash
 127.0.0.1 gnoland.tech

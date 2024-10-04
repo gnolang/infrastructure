@@ -5,14 +5,13 @@ metadata:
 requires:
   - path: cluster/skaffold/traefik-skaffold.yaml
   - path: cluster/skaffold/gnocore-skaffold.yaml
-    # configs: ["gnocore"]
     activeProfiles: &kubeProfiles
     - name: dev
       activatedBy: [dev]
     - name: eks-dev
       activatedBy: [eks-dev]
-  # - path: cluster/skaffold/monitoring-skaffold.yaml
-  # activeProfiles: *kubeProfiles
+  - path: cluster/skaffold/monitoring-skaffold.yaml
+    activeProfiles: *kubeProfiles
 deploy:
   kubectl: {}
 profiles:
@@ -23,6 +22,11 @@ profiles:
     activation:
       - kubeContext: arn:aws:eks:eu-west-1:600627336512:cluster/test4b-cluster
     manifests:
+      rawYaml:
+        ## AWS Storage Class
+        - aws-eks/storage/storage-class.yaml
       kustomize:
         paths:
           - traefik/overlays/eks
+          ## EKS Storage
+          - ../../aws-eks/storage/csi

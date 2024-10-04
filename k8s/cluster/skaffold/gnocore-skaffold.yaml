@@ -5,29 +5,37 @@ metadata:
 manifests:
   rawYaml:
     - ../../cluster/namespaces/core.yaml
-    ## Gnoland
-    ### RPC
-    - ../../core/gnoland/rpc/storage/*.yaml
-    - ../../core/gnoland/rpc/deploys/*.yaml
-    - ../../core/gnoland/rpc/ingress/*.yaml
-    ## Indexer
-    - ../../core/indexer/storage/*.yaml
-    - ../../core/indexer/deploys/*.yaml
-    - ../../core/indexer/ingress/*.yaml
-    ## GnoFaucet
-    - ../../core/gnofaucet/deploys/*.yaml
-    - ../../core/gnofaucet/ingress/*.yaml
-    ## Gnoweb
-    - ../../core/gnoweb/deploys/*.yaml
-    - ../../core/gnoweb/ingress/*.yaml
-    ### Experimental
-    ## Gno Validator
-    - ../../core/gnoland/validator/storage/*.yaml
-    - ../../core/gnoland/validator/deploys/*.yaml
-  kustomize:
-    paths:
-      - ../../core/gnoland/rpc/configmaps
-      - ../../core/gnofaucet/secrets
-      - ../../core/gnoweb/secrets
+profiles:
+  - name: dev
+    manifests:
+      rawYaml:
+        - ../../cluster/namespaces/core.yaml
+      kustomize:
+        paths:
+          ## Gnoland
+          ### RPC
+          - ../../core/gnoland/rpc
+          # ### Indexer
+          - ../../core/indexer
+          ### Gnofaucet
+          - ../../core/gnofaucet
+          ### Gnoweb
+          - ../../core/gnoweb
+  - name: eks-dev
+    manifests:
+      rawYaml:
+        - ../../cluster/namespaces/core.yaml
+        ## AWS Storage Class
+        - ../../aws-eks/storage/storage-class.yaml
+      kustomize:
+        paths:
+          ## EKS Storage
+          - ../../aws-eks/storage/csi
+          ## Gnoland overlays
+          - ../../core/overlays/eks/gnoland/rpc
+          - ../../core/overlays/eks/indexer
+          - ../../core/overlays/eks/gnofaucet
+          - ../../core/overlays/eks/gnoweb
+
 deploy:
   kubectl: {}

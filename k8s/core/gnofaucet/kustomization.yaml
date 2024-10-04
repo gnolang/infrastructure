@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- secrets/
+- deploys/gnofaucet-deploy.yaml
+- deploys/gnofaucet-svc.yaml
+- ingress/gnofaucet-ingress.yaml

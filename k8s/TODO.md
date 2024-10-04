@@ -1,9 +1,5 @@
 # TODO
 
-## Cluster
-
-* Volumes setup in Amazon EKS
-
 ## Core
 
 * Traefik support
@@ -33,5 +29,3 @@
 * SOPS + Age (Integrated ksops with ArgoCD)
 * External Secrets Operator to fetch secrets + AWS Secrets Manager
 * HashiCorp Vault (Not easy to configure)
-
-## Resource Placement

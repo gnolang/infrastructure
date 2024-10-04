@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../../../indexer/
+- ../../../grafana/
 
 patches:
 # delete PV definition
@@ -11,14 +11,14 @@ patches:
     apiVersion: v1
     kind: PersistentVolume
     metadata:
-      name: indexer-pv-volume
+      name: grafana-pv-volume
       namespace: gno
 # add storage class
 - patch: |-
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
-      name: indexer-pv-claim
+      name: grafana-pv-claim
       namespace: gno
     spec:
       storageClassName: eks-ebs-storage
@@ -27,13 +27,13 @@ patches:
     apiVersion: traefik.io/v1alpha1
     kind: IngressRoute
     metadata:
-      name: tx-indexer-ingress
+      name: grafana-ingress
       namespace: gno
     spec:
       routes:
-      - match: Host(`indexer.k8s.gnoteam.com`)
+      - match: Host(`grafana.k8s.gnoteam.com`)
         kind: Rule
         services:
-        - name: tx-indexer
+        - name: grafana
           namespace: gno
-          port: tx-indexer-port
+          port: grafana-port

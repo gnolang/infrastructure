@@ -13,17 +13,16 @@ spec:
     protocol: TCP
     port: 8080
     targetPort: 8080
-    nodePort: null
+    # nodePort: null
   - name: web
     protocol: TCP
     port: 80
     targetPort: 80
-    nodePort: null
+    # nodePort: null
   - name: webtls
     protocol: TCP
     port: 443
     targetPort: 4443
     # explicitly remove the nodePorts entry to de-allocate those node ports
-    nodePort: null
+    # nodePort: null
   type: LoadBalancer
-  allocateLoadBalancerNodePorts: false # Prevents node port allocation

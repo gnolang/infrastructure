@@ -5,30 +5,34 @@ metadata:
 manifests:
   rawYaml:
     - ../../cluster/namespaces/monitoring.yaml
-    # Prometheus
-    - ../../monitoring/prometheus/prometheus-rbac.yaml
-    - ../../monitoring/prometheus/deploys/*.yaml
-    # - ../../monitoring/prometheus/ingress/*.yaml
     # Node exporter
     - ../../monitoring/node-exporter/daemonset/*.yaml
-    # Loki
-    - ../../monitoring/loki/storage/*.yaml
-    - ../../monitoring/loki/deploys/*.yaml
-    # Vector
-    - ../../monitoring/vector/vector-rbac.yaml
-    - ../../monitoring/vector/daemonset/*.yaml
-    - ../../monitoring/vector/deploys/*.yaml
-    # Grafana
-    - ../../monitoring/grafana/storage/*.yaml
-    - ../../monitoring/grafana/deploys/*.yaml
-    - ../../monitoring/grafana/ingress/*.yaml
-  kustomize:
-    paths:
-      - ../../monitoring/prometheus/configmaps
-      - ../../monitoring/loki/configmaps
-      - ../../monitoring/vector/configmaps
-      - ../../monitoring/grafana/configmaps
-      # - ../../monitoring/grafana/secrets
+profiles:
+  - name: dev
+    manifests:
+      kustomize:
+        paths:
+          # Prometheus
+          - ../../monitoring/prometheus
+          # Loki
+          - ../../monitoring/loki
+          # Vector
+          - ../../monitoring/vector
+          # Grafana
+          - ../../monitoring/grafana
+  - name: eks-dev
+    manifests:
+      rawYaml:
+      #   - ../../cluster/namespaces/monitoring.yaml
+        ## AWS Storage Class
+        - ../../aws-eks/storage/storage-class.yaml
+      kustomize:
+        paths:
+          ## EKS Storage
+          - ../../aws-eks/storage/csi
+          ### Monitoring Overlays
+          - ../../monitoring/overlays/eks/loki
+          - ../../monitoring/overlays/eks/grafana
 
 deploy:
   kubectl: {}
