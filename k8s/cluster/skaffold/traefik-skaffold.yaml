@@ -3,10 +3,8 @@ kind: Config
 metadata:
   name: traefik-setup
 manifests:
-  rawYaml:
-    ## Traefik
-    - ../../traefik/ingress-route/crd.yaml
-    - ../../traefik/ingress-route/rbac.yaml
-    - ../../traefik/ingress-route/traefik.yaml
+  kustomize:
+    paths:
+      - ../../traefik/ingress-route/
 deploy:
   kubectl: {}

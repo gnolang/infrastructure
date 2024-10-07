@@ -26,3 +26,24 @@ spec:
     middlewares:
     - name: gno-stripprefix
       namespace: gno
+---
+kind: IngressRoute
+apiVersion: traefik.io/v1alpha1
+metadata:
+  name: gnoland-rpc-ingress-tls
+  namespace: gno
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`rpc.gnoland.tech`) && PathPrefix(`/gno`)
+    kind: Rule
+    services:
+    - name: gnoland-rpc
+      namespace: gno
+      port: rpc-public
+    middlewares:
+    - name: gno-stripprefix
+      namespace: gno
+  tls:
+    certResolver: gnoresolver
