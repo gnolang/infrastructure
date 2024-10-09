@@ -1,0 +1,30 @@
+{
+  "genesis_time": "2024-10-07T13:37:18Z",
+  "chain_id": "sergio",
+  "consensus_params": {
+    "Block": {
+      "MaxTxBytes": "1000000",
+      "MaxDataBytes": "2000000",
+      "MaxBlockBytes": "0",
+      "MaxGas": "100000000",
+      "TimeIotaMS": "100"
+    },
+    "Validator": {
+      "PubKeyTypeURLs": [
+        "/tm.PubKeyEd25519"
+      ]
+    }
+  },
+  "validators": [
+    {
+      "address": "g1gpk4kevmhgcah55k00suf44z4u6h09aspasnsn",
+      "pub_key": {
+        "@type": "/tm.PubKeyEd25519",
+        "value": "ShW4HF5UhY7jB42xebdKRdjnqRKoxhZIvSvybe4aaQM="
+      },
+      "power": "1",
+      "name": "val.k8s.gno0"
+    }
+  ],
+  "app_hash": null
+}
