@@ -28,4 +28,4 @@ spec:
       namespace: gno
       port: rpc-public
   tls:
-    certResolver: dsn-gnoresolver
+    certResolver: dns-gnoresolver
