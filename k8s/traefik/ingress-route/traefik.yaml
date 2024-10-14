@@ -3,7 +3,7 @@ kind: ServiceAccount
 metadata:
   name: traefik-ingress-controller
 ---
-### -> https://github.com/traefik/traefik/issues/7126
+# # Requires Traefik CRD full setup to run
 # apiVersion: traefik.io/v1alpha1
 # kind: TLSOption
 # metadata:
