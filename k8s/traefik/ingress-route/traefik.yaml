@@ -54,8 +54,10 @@ spec:
             # ingressRoutes can reference ExternalName services
             - --providers.kubernetescrd.allowexternalnameservices=true
             # TLS challenge for Lets encrypt
-            # - --certificatesresolvers.gnoresolver.acme.tlschallenge
-            - --certificatesresolvers.gnoresolver.acme.httpchallenge.entrypoint=web
+            - --certificatesresolvers.gnoresolver.acme.tlschallenge
+            # # HTTP plain challenge alternative
+            # - --certificatesresolvers.gnoresolver.acme.httpchallenge
+            # - --certificatesresolvers.gnoresolver.acme.httpchallenge.entrypoint=web
             - --certificatesresolvers.gnoresolver.acme.email=gno@tendermint.com
             - --certificatesresolvers.gnoresolver.acme.storage=acme.json
             # Please note that this is the staging Let's Encrypt server.
@@ -65,10 +67,8 @@ spec:
             - --certificatesresolvers.dns-gnoresolver.acme.dnschallenge
             - --certificatesresolvers.dns-gnoresolver.acme.dnschallenge.provider=cloudflare
             - --certificatesresolvers.dns-gnoresolver.acme.dnschallenge.delaybeforecheck=10
-            # - --certificatesresolvers.dns-gnoresolver.acme.dnschallenge.resolvers=1.1.1.1:53,1.0.0.1:53
             - --certificatesresolvers.dns-gnoresolver.acme.email=gno@tendermint.com
             - --certificatesresolvers.dns-gnoresolver.acme.storage=acme.json
-            - --certificatesresolvers.dns-gnoresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
           envFrom:
           - secretRef:
               name: letsencrypt-dns-secret
