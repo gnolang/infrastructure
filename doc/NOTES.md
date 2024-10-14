@@ -36,7 +36,7 @@
 
 #### Sentry Vs Classic validator node
 
-The Sentry Node Architecture (referred to as SNA in this document) is an infrastructure example for DDoS mitigation on Gaia / Cosmos Hub network validator nodes.
+The Sentry Node Architecture (referred to as SNA) is an infrastructure example for DDoS mitigation on Gaia / Cosmos Hub network validator nodes.
 
 * [Sentry node architecture](https://forum.cosmos.network/t/sentry-node-architecture-overview/454)
 
