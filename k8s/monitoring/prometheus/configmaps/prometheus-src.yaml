@@ -123,3 +123,6 @@ scrape_configs:
     - source_labels: [__meta_kubernetes_service_name]
       action: replace
       target_label: kubernetes_name
+  - job_name: 'opentelemetry'
+    static_configs:
+      - targets: [ 'otel-svc:8889' ]

@@ -1,0 +1,7 @@
+configMapGenerator:
+- name: otel-conf
+  namespace: monitoring
+  options:
+    disableNameSuffixHash: true
+  files:
+  - config.yaml=collector.yaml

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-deployment
+  namespace: monitoring
+  labels:
+    app: otel-run
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-run
+  template:
+    metadata:
+      labels:
+        app: otel-run
+    spec:
+      containers:
+        - name: otel
+          image: otel/opentelemetry-collector-contrib:0.111.0
+          ports:
+            - name: otlp-http
+              containerPort: 4317
+            - name: otlp-grpc
+              containerPort: 4318
+            - name: otlp-exporter
+              containerPort: 8889
+          volumeMounts:
+            - name: otel-config-volume
+              mountPath: /etc/otelcol-contrib/
+            - name: otel-storage-volume
+              mountPath: /otel/
+      volumes:
+        - name: otel-config-volume
+          configMap:
+            name: otel-conf
+  
+        - name: otel-storage-volume
+          emptyDir: {}
