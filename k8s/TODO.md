@@ -3,11 +3,9 @@
 ## Core
 
 * Traefik support
-  * traefik TLS
   * traefik Gateway API
 
 * Gno
-  * Config of validator vs RPC node
   * Node bootstrap
     * Setup of `genesis` file into persistent volumes
       * [How to mount data file in kubernetes via pvc? - Stack Overflow](https://stackoverflow.com/questions/51648465/how-to-mount-data-file-in-kubernetes-via-pvc "How to mount data file in kubernetes via pvc? - Stack Overflow")
@@ -23,7 +21,6 @@
 ## Monitoring
 
 * Alert Manager
-* Loki: logs filtered by single validator
 * Grafana: labels for container dashboard
 
 ## Secret Management

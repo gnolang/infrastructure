@@ -9,3 +9,4 @@ configMapGenerator:
   - node-monitoring.json=dashboards/node-monitoring.json
   - container-monitoring.json=dashboards/container-monitoring.json
   - validators-logs.json=dashboards/validators-logs.json
+  - gno-otel-dashboards.json=dashboards/gno-otel-dashboards.json
