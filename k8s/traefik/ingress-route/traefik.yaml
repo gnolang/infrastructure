@@ -46,7 +46,7 @@ spec:
             - --accesslog
             # - --log.level=DEBUG
             - --entrypoints.web.address=:80
-            - --entrypoints.websecure.address=:4443
+            - --entrypoints.websecure.address=:443
             # k8s
             - --providers.kubernetescrd
             # IngressRoute can reference resources in namespaces other than theirs

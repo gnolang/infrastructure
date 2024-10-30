@@ -22,7 +22,7 @@ spec:
   - name: webtls
     protocol: TCP
     port: 443
-    targetPort: 4443
+    targetPort: 443
     # explicitly remove the nodePorts entry to de-allocate those node ports
     # nodePort: null
   type: LoadBalancer
