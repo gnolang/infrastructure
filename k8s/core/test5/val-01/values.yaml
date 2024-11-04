@@ -1,0 +1,13 @@
+
+app:
+  name: gno-val-01
+  role: validator
+
+storage:
+  capacity: 1Gi
+
+svc:
+  name: gno-val-svc-01
+
+ingress:
+  enabled: false
