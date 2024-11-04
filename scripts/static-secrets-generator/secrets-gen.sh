@@ -1,8 +1,8 @@
 #!/bin/zsh
 
-ROOT_GNO_PATH="/Users/sergio/Documents/work work work/AiB/dev/src/forks/forked-gno/gno.land/build"
-ROOT_GNO_PATH=${ROOT_GNO_PATH:-"."}
+set -e
 
+ROOT_GNO_PATH=${ROOT_GNO_PATH:-"."}
 outpath=out.txt
 
 declare -A node_type
@@ -29,10 +29,24 @@ generateSecrets() {
     exit 1
   fi
   for ((i = 1; i <= $2; i++)); do
-    "$ROOT_GNO_PATH"/gnoland secrets init -data-dir $1"$i"/secrets
-    echo "$1$i:" >> $outpath
-    echo $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.address -raw -data-dir=$1"$i"/secrets) >> $outpath
-    echo $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.pub_key -raw -data-dir=$1"$i"/secrets) >> $outpath
+    valname=$(printf "%s-%02d" $1 $i)
+    configpath="$valname/config/config.toml"
+    "$ROOT_GNO_PATH"/gnoland secrets init -data-dir $valname/secrets
+    echo "$valname:" >> $outpath
+    echo $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.address -raw -data-dir=$valname/secrets) >> $outpath
+    echo $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.pub_key -raw -data-dir=$valname/secrets) >> $outpath
+    "$ROOT_GNO_PATH"/gnoland config init -config-path $configpath
+    "$ROOT_GNO_PATH"/gnoland config set moniker $valname -config-path $configpath
+    "$ROOT_GNO_PATH"/gnoland config set p2p.pex false -config-path $configpath
+
+    case "$1" in
+      rpc)
+        "$ROOT_GNO_PATH"/gnoland config set rpc.laddr tcp://0.0.0.0:26657 -config-path $configpath
+        ;;
+      sentry)
+        "$ROOT_GNO_PATH"/gnoland config set p2p.pex true -config-path $configpath
+        ;;
+    esac
   done
 }
 
