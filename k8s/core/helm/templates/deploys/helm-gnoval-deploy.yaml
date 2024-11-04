@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    gno.service: gnoland
+    gno.type: validator
+  name: {{ .Values.app.name }}
+  namespace: {{ default "gno" .Values.app.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      gno.service: gnoland
+      gno.type: validator
+  template:
+    metadata:
+      labels:
+        gno.service: gnoland
+        gno.type: validator
+        gno.role: {{ .Values.app.role }}
+    spec:
+      initContainers:
+      - name: init-genesis-secrets
+        # copies files from configmap into PVC to avoid RO fs problems
+        image: busybox
+        command:
+        - sh
+        - -c
+        - |
+          cp /gnoroot/genesis/genesis.json /gnoroot/gnoland-data/genesis.json
+          cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
+        volumeMounts:
+        - name: {{ .Values.app.name }}-vol
+          mountPath: /gnoroot/gnoland-data
+        - name: {{ .Values.app.name }}-secrets
+          mountPath: /gnoroot/secrets
+        - name: gnoland-genesis
+          mountPath: /gnoroot/genesis
+      - name: init-genesis-txs
+        image: ghcr.io/gnolang/gno/gnoland:0.2.0
+        args:
+        - genesis
+        - txs
+        - add
+        - packages
+        - /gnoroot/examples
+        - -genesis-path
+        - /gnoroot/gnoland-data/genesis.json
+        volumeMounts:
+        - name: {{ .Values.app.name }}-vol
+          mountPath: /gnoroot/gnoland-data
+      - name: init-genesis-balance
+        image: ghcr.io/gnolang/gno/gnoland:0.2.0
+        args:
+        - genesis
+        - balances
+        - add
+        - -balance-sheet
+        - /gnoroot/gno.land/genesis/genesis_balances.txt
+        - -genesis-path
+        - /gnoroot/gnoland-data/genesis.json
+        volumeMounts:
+        - name: {{ .Values.app.name }}-vol
+          mountPath: /gnoroot/gnoland-data
+      containers:
+      - name: gnoland
+        image: ghcr.io/gnolang/gno/gnoland:0.2.0
+        imagePullPolicy: IfNotPresent
+        args:
+          - start
+          - -genesis=/gnoroot/gnoland-data/genesis.json # loaded from init container
+        ports:
+          - name: val-internal
+            containerPort: 26656
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "4Gi"
+          requests:
+            cpu: "500m"
+            memory: "2Gi"
+        volumeMounts:
+        - name: {{ .Values.app.name }}-vol
+          mountPath: /gnoroot/gnoland-data
+        - name: {{ .Values.app.name }}-conf
+          mountPath: /gnoroot/gnoland-data/config
+      volumes:
+      - name: {{ .Values.app.name }}-vol
+        persistentVolumeClaim:
+          claimName: {{ .Values.app.name }}-pv-claim
+      - name: {{ .Values.app.name }}-conf
+        configMap:
+          name: {{ .Values.app.name }}-config
+          items:
+          - key: config.toml
+            path: config.toml
+      - name: {{ .Values.app.name }}-secrets
+        configMap:
+          name: {{ .Values.app.name }}-config
+          items:
+          - key: node_key.json
+            path: node_key.json
+          - key: priv_validator_key.json
+            path: priv_validator_key.json
+          - key: priv_validator_state.json
+            path: priv_validator_state.json
+          - key: node_key.json
+            path: node_key.json
+      - name: gnoland-genesis
+        configMap:
+          name: gno-genesis
+          items:
+          - key: genesis.json
+            path: genesis.json

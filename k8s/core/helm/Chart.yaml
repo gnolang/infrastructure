@@ -1,0 +1,15 @@
+apiVersion: v2
+name: gno-validator
+description: A Helm chart for Gnoi validator
+
+version: 1.0.0
+appVersion: 0.2.0
+
+maintainers:
+  - name: Jane Doe
+    email: jane@example.com
+
+keywords:
+  - gno
+  - gnoland
+  - validator

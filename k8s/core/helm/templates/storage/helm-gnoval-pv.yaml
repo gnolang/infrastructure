@@ -1,0 +1,31 @@
+# Gnoland Volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.app.name }}-pv-volume
+  namespace: {{ default "gno" .Values.app.namespace }}
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: {{ default "1Gi" .Values.storage.capacity }}
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/gnoland/validator/1/data" 
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.app.name }}-pv-claim
+  namespace: {{ default "gno" .Values.app.namespace }}
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ default "1Gi" .Values.storage.capacity }}

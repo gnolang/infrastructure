@@ -1,0 +1,17 @@
+{{- if .Values.ingress.enabled }}
+kind: IngressRoute
+apiVersion: traefik.io/v1alpha1
+metadata:
+  name: {{ .Values.app.name }}-ingress
+  namespace: {{ default "gno" .Values.app.namespace }}
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: {{ .Values.ingress.rule.host }}
+    kind: Rule
+    services:
+    - name: {{ .Values.svc.name }}
+      namespace: {{ default "gno" .Values.app.namespace }}
+      port: rpc-public
+{{- end }}
