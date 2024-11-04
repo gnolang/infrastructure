@@ -12,4 +12,4 @@ svc:
 ingress:
   enabled: false
   rule:
-    host: Host(`sentry01.gnoland.tech`)
+    host: Host(`sentry-01.gnoland.tech`)
