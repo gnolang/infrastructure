@@ -5,6 +5,8 @@ app:
 
 storage:
   capacity: 1Gi
+  local:
+    path: /opt/gnoland/sentry/1/data
 
 svc:
   name: gno-sentry-svc-01

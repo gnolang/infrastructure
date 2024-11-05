@@ -5,6 +5,8 @@ app:
 
 storage:
   capacity: 1Gi # 120Gi
+  local:
+    path: /opt/gnoland/validator/1/data
 
 svc:
   name: gno-val-svc-01
