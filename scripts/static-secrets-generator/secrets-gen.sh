@@ -33,8 +33,9 @@ generateSecrets() {
     configpath="$valname/config/config.toml"
     "$ROOT_GNO_PATH"/gnoland secrets init -data-dir $valname/secrets
     echo "$valname:" >> $outpath
-    echo $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.address -raw -data-dir=$valname/secrets) >> $outpath
-    echo $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.pub_key -raw -data-dir=$valname/secrets) >> $outpath
+    echo address: $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.address -raw -data-dir=$valname/secrets) >> $outpath
+    echo pub_key: $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.pub_key -raw -data-dir=$valname/secrets) >> $outpath
+    echo p2p_node_id: $("$ROOT_GNO_PATH"/gnoland secrets get node_id.id -raw -data-dir=$valname/secrets) >> $outpath
     "$ROOT_GNO_PATH"/gnoland config init -config-path $configpath
     "$ROOT_GNO_PATH"/gnoland config set moniker $valname -config-path $configpath
     "$ROOT_GNO_PATH"/gnoland config set p2p.pex false -config-path $configpath

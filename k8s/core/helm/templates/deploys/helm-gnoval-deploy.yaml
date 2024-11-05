@@ -18,6 +18,7 @@ spec:
         gno.service: gnoland
         gno.type: validator
         gno.role: {{ .Values.app.role }}
+        gno.name: {{ .Values.app.name }}
     spec:
       initContainers:
       - name: init-genesis-secrets
@@ -29,6 +30,7 @@ spec:
         - |
           cp /gnoroot/genesis/genesis.json /gnoroot/gnoland-data/genesis.json
           cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
+          echo "Successfully copied secrets and genesis file"
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data

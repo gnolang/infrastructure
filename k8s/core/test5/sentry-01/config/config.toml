@@ -122,14 +122,14 @@ proxy_app = "tcp://127.0.0.1:26658"
   max_packet_msg_payload_size = 1024
 
   # Comma separated list of nodes to keep persistent connections to
-  persistent_peers = "g1v7s48y8yp86nqn56fr79zrw9cyfze2gcn33rgd@sentry-01.gnoland.tech:26656"
+  persistent_peers = "g16384atcuf6ew3ufpwtvhymwfyl2aw390aq8jtt@gno-sentry-svc-01:26656"
 
   # Set true to enable the peer-exchange reactor
   pex = true
 
   # Comma separated list of peer IDs to keep private (will not be gossiped to other peers)
   # val-01, val-02
-  private_peer_ids = "g1qn3jwvdpva622j3fyudqy65zstnqx2wnqhrs3s, g1gtu9czw9qavrtdnf936usvwjwyjz0x0jk243au"
+  private_peer_ids = "g1jnm3zpyx09uyevu2csztmts0dcqe08s7m43kh0, g12ea5533ejr4kjgrrj4yt7fuq7am4jf79w20gj2"
 
   # Rate at which packets can be received, in bytes/second
   recv_rate = 5120000

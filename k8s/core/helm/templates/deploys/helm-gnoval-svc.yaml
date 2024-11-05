@@ -12,6 +12,7 @@ spec:
     gno.service: gnoland
     gno.type: validator
     gno.role: {{ .Values.app.role }}
+    gno.name: {{ .Values.app.name }}
   clusterIP: None
   type: ClusterIP
   ports:
