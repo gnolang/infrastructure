@@ -4,7 +4,7 @@ app:
   role: validator
 
 storage:
-  capacity: 1Gi
+  capacity: 200Mi
   local:
     path: /opt/gnoland/sentry/1/data
 
@@ -12,6 +12,6 @@ svc:
   name: gno-sentry-svc-01
 
 ingress:
-  enabled: true
+  enabled: false #true!
   rule:
     host: Host(`sentry-01.gnoland.tech`)

@@ -5,7 +5,7 @@ This is useful for validators node, where we want that each pod related to a val
 
 > 1 Kubernetes Node ~ 1 Validator Node
 
-## 1. Taints and Tolerations
+## 1. Taints and Tolerations [Node Level]
 
 Taints on the the node force that only pods with a matching toleration can be scheduled on it.
 This prevents any other pods without the matching toleration from being scheduled on the node.
@@ -34,7 +34,7 @@ spec:
     image: gno-val:latest
 ```
 
-## 2. Pod Anti-Affinity
+## 2. Pod Anti-Affinity [Pod Level]
 
 Use **pod anti-affinity** to prevent other pods from being scheduled on the same node.
 
@@ -61,7 +61,7 @@ spec:
 
 This configuration specifies that no other pod with an `gno.type=validator` label can be scheduled on the same node as this pod.
 
-## 3. Dedicated Nodes Using Node Selector Labels
+## 3. Dedicated Nodes Using Node Selector Labels [Node Level]
 
 By labeling nodes as dedicated to specific workloads, only certain pods are scheduled on them.
 
@@ -86,7 +86,7 @@ spec:
     image: gno-val:latest
 ```
 
-## 4. Resource Requests and Limits
+## 4. Resource Requests and Limits [Pod Level]
 
 By setting high **resource requests and limits**, the pod can consume all resources on the node, effectively blocking others from being scheduled there.
 

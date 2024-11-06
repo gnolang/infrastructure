@@ -1,0 +1,28 @@
+
+app:
+  name: gno-sentry-01
+  role: validator
+
+storage:
+  capacity: 120Gi
+  class: eks-ebs-storage
+
+svc:
+  name: gno-sentry-svc-01
+
+ingress:
+  enabled: true
+  tls: true
+  rule:
+    host: Host(`sentry-01.gnoland.tech`)
+
+placement:
+  tolerations:
+    enabled: true
+  resources: # saturate resources
+    limits:
+      cpu: "2"
+      memory: "4Gi"
+    requests:
+      cpu: "2"
+      memory: "4Gi"

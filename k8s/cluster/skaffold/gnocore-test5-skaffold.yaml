@@ -1,0 +1,49 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: test5-gnocore
+manifests:
+  rawYaml:
+    - ../../cluster/namespaces/core.yaml
+profiles:
+  - name: test5-dev
+    manifests:
+      kustomize:
+        paths:
+          ## Gnoland
+          ### RPC
+          - ../../core/test5/overlays/rpc/
+          ### Indexer
+          - ../../core/indexer
+          ### Gnofaucet
+          - ../../core/gnofaucet
+          ### Gnoweb
+          - ../../core/gnoweb
+      helm:
+        releases:
+        - name: val-01
+          chartPath: ../../core/helm
+          valuesFiles:
+            - ../../core/test5/val-01/values.yaml
+  - name: eks-dev
+    manifests:
+      kustomize:
+        paths:
+          ## AWS Storage Class + EKS Storage
+          - ../../aws-eks/storage
+          ## Gnoland overlays
+          ## TODO:
+          ## overlays/test5/eks 
+          - ../../core/overlays/eks/gnoland/rpc
+          - ../../core/overlays/eks/indexer
+          - ../../core/overlays/eks/gnofaucet
+          - ../../core/overlays/eks/gnoweb
+        helm:
+        releases:
+        - name: val-01
+          chartPath: ../../core/helm
+          valuesFiles:
+            - ../../core/test5/val-01/eks-values.yaml
+deploy:
+  kubectl: {}
+  helm: {}

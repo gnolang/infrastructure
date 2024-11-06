@@ -4,7 +4,7 @@ app:
   role: validator
 
 storage:
-  capacity: 1Gi
+  capacity: 200Mi
   local:
     path: /opt/gnoland/validator/1/data
 

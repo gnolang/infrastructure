@@ -20,6 +20,28 @@ spec:
         gno.role: {{ .Values.app.role }}
         gno.name: {{ .Values.app.name }}
     spec:
+      {{- if .Values.placement.tolerations.enabled }}
+      # Tainted node
+      tolerations:
+      - key: "type"
+        operator: "Equal"
+        value: "validator"
+        effect: "NoSchedule"
+      # Node Selector
+      nodeSelector:
+        reserved: validator-node
+      # Pod Anti-Affinity
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: gno.type
+                operator: In
+                values:
+                - "validator"
+            topologyKey: "kubernetes.io/hostname"
+      {{- end }}
       initContainers:
       - name: init-genesis-secrets
         # copies files from configmap into PVC to avoid RO fs problems
@@ -76,11 +98,11 @@ spec:
             containerPort: 26656
         resources:
           limits:
-            cpu: "1000m"
-            memory: "4Gi"
+            cpu: {{ default "2" .Values.placement.resources.limits.cpu }}
+            memory: {{ default "2Gi" .Values.placement.resources.limits.memory }}
           requests:
-            cpu: "500m"
-            memory: "2Gi"
+            cpu: {{ default "1" .Values.placement.resources.requests.cpu }}
+            memory: {{ default "1Gi" .Values.placement.resources.requests.memory }}
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data

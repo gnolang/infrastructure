@@ -7,7 +7,9 @@ Setup for the Kubernetes cluster.
 ### Prerequisites
 
 * K8S (+ kubectl)
-* [Kind](https://kind.sigs.k8s.io/)
+* [Kind](https://kind.sigs.k8s.io)
+* [Skaffold](https://skaffold.dev)
+* [Helm](https://helm.sh)
 
 ### Using KinD
 
