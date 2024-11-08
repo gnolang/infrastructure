@@ -25,7 +25,7 @@ profiles:
           - ../../core/test5/sentry-01
           ### Validators
           - ../../core/test5/val-01
-          #- ../../core/test5/val-02
+          - ../../core/test5/val-02
   - name: test5-eks
     manifests:
       kustomize:
@@ -37,14 +37,20 @@ profiles:
           - ../../core/test5/overlays/eks/gnofaucet
           - ../../core/test5/overlays/eks/gnoweb
           ## Gnoland
-          ### Genesis
-          - ../../core/test5/genesis
+          ### Genesis FINAL
+          - ../../core/test5/overlays/genesis
           ### RPC
           - ../../core/test5/rpc-01
           ### Sentries
           - ../../core/test5/sentry-01
+          - ../../core/test5/sentry-02
+          # - ../../core/test5/sentry-03
           ### Validators
           - ../../core/test5/val-01
-          #- ../../core/test5/val-02
+          - ../../core/test5/val-02
+          - ../../core/test5/val-03
+          - ../../core/test5/val-04
+          # - ../../core/test5/val-05
+          # - ../../core/test5/val-06
 deploy:
   kubectl: {}

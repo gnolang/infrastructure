@@ -23,6 +23,10 @@ profiles:
           name: val-01
           valuesFiles:
             - ../../core/test5/val-01/values.yaml
+        - <<: *helmInstance
+          name: val-02
+          valuesFiles:
+            - ../../core/test5/val-02/values.yaml
   - name: test5-eks
     manifests:
       helm:
@@ -37,10 +41,38 @@ profiles:
           name: sentry-01
           valuesFiles:
             - ../../core/test5/sentry-01/eks-values.yaml
+        - <<: *helmInstance
+          name: sentry-02
+          valuesFiles:
+            - ../../core/test5/sentry-02/eks-values.yaml
+        # - <<: *helmInstance
+        #   name: sentry-03
+        #   valuesFiles:
+        #     - ../../core/test5/sentry-03/eks-values.yaml
         ## Validators
         - <<: *helmInstance
           name: val-01
           valuesFiles:
             - ../../core/test5/val-01/eks-values.yaml
+        - <<: *helmInstance
+          name: val-02
+          valuesFiles:
+            - ../../core/test5/val-02/eks-values.yaml
+        - <<: *helmInstance
+          name: val-03
+          valuesFiles:
+            - ../../core/test5/val-03/eks-values.yaml
+        - <<: *helmInstance
+          name: val-04
+          valuesFiles:
+            - ../../core/test5/val-04/eks-values.yaml
+        # - <<: *helmInstance
+        #   name: val-05
+        #   valuesFiles:
+        #     - ../../core/test5/val-01/eks-values.yaml
+        # - <<: *helmInstance
+        #   name: val-06
+        #   valuesFiles:
+        #     - ../../core/test5/val-06/eks-values.yaml
 deploy:
   helm: {}

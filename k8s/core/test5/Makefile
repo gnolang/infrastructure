@@ -35,3 +35,25 @@ clean:
 			kubectl delete -k $$dir; \
 		fi \
 	done
+
+.PHONY: config-adjust
+config-adjust:
+	@for dir in $(shell find . -mindepth 1 -maxdepth 1 -type d); do \
+		if [ -d $$dir/gno-secrets ]; then \
+			echo "altering config for $$dir/"; \
+			docker run --rm -ti \
+				-v "$$dir/config:/gnoroot/gnoland-data/config" \
+				--entrypoint sh ghcr.io/gnolang/gno/gnoland:master -c "\
+				gnoland config set moniker gnocore-$$(basename $$dir); \
+				gnoland config set consensus.timeout_commit 1s; \
+				gnoland config set mempool.size 10000; \
+				gnoland config set p2p.max_num_inbound_peers 40; \
+				gnoland config set p2p.flush_throttle_timeout 10ms; \
+				gnoland config set p2p.peer_gossip_sleep_duration 10ms; \
+				gnoland config set telemetry.enabled true; \
+				gnoland config set telemetry.service_name test5_gnoland; \
+				gnoland config set telemetry.service_instance_id gnocore-$$(basename $$dir); \
+				gnoland config set telemetry.exporter_endpoint otel-svc:4317; \
+			"; \
+		fi \
+	done

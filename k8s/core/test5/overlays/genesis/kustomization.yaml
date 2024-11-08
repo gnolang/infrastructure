@@ -4,4 +4,4 @@ configMapGenerator:
   options:
     disableNameSuffixHash: true
   files:
-  - genesis.json=local-genesis.json
+  - genesis.json=FINAL-test5-genesis.json

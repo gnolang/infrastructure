@@ -26,7 +26,7 @@ filter_peers = false
 home = ""
 
 # A custom human readable name for this node
-moniker = "rpc-01"
+moniker = "gnocore-rpc-01"
 
 # Path to the JSON file containing the private key to use for node authentication in the p2p protocol
 node_key_file = "secrets/node_key.json"
@@ -44,7 +44,7 @@ priv_validator_state_file = "secrets/priv_validator_state.json"
 # TCP or UNIX socket address for the profiling server to listen on
 prof_laddr = ""
 
-# TCP or UNIX socket address of the ABCI application,
+# TCP or UNIX socket address of the ABCI application, 
 # or the name of an ABCI application compiled in with the Tendermint binary
 proxy_app = "tcp://127.0.0.1:26658"
 
@@ -86,7 +86,7 @@ proxy_app = "tcp://127.0.0.1:26658"
   recheck = true
 
   # Maximum number of transactions in the mempool
-  size = 5000
+  size = 10000
   wal_dir = ""
 
 ##### peer to peer configuration options #####
@@ -103,7 +103,7 @@ proxy_app = "tcp://127.0.0.1:26658"
   external_address = ""
 
   # Time to wait before flushing messages out on the connection
-  flush_throttle_timeout = "100ms"
+  flush_throttle_timeout = "10ms"
 
   # Peer connection configuration.
   handshake_timeout = "20s"

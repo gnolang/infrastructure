@@ -16,7 +16,7 @@ patches:
       entryPoints:
         - web
       routes:
-      - match: Host(`grafana.test5.gnoteam.com`)
+      - match: Host(`o11y.test5.gnoteam.com`)
         kind: Rule
         services:
         - name: grafana

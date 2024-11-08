@@ -26,7 +26,7 @@ filter_peers = false
 home = ""
 
 # A custom human readable name for this node
-moniker = "sentry-03"
+moniker = "gnocore-sentry-03"
 
 # Path to the JSON file containing the private key to use for node authentication in the p2p protocol
 node_key_file = "secrets/node_key.json"
@@ -62,7 +62,7 @@ proxy_app = "tcp://127.0.0.1:26658"
 
   # Make progress as soon as we have all the precommits (as if TimeoutCommit = 0)
   skip_timeout_commit = false
-  timeout_commit = "5s"
+  timeout_commit = "1s"
   timeout_precommit = "1s"
   timeout_precommit_delta = "500ms"
   timeout_prevote = "1s"
@@ -86,7 +86,7 @@ proxy_app = "tcp://127.0.0.1:26658"
   recheck = true
 
   # Maximum number of transactions in the mempool
-  size = 5000
+  size = 10000
   wal_dir = ""
 
 ##### peer to peer configuration options #####
@@ -103,7 +103,7 @@ proxy_app = "tcp://127.0.0.1:26658"
   external_address = ""
 
   # Time to wait before flushing messages out on the connection
-  flush_throttle_timeout = "100ms"
+  flush_throttle_timeout = "10ms"
 
   # Peer connection configuration.
   handshake_timeout = "20s"
