@@ -1,0 +1,19 @@
+
+app:
+  name: gno-val-05
+  role: validator
+
+storage:
+  capacity: 200Mi
+  local:
+    path: /opt/gnoland/validator/5/data
+
+svc:
+  name: gno-val-svc-05
+
+ingress:
+  enabled: false
+
+placement:
+  tolerations:
+    enabled: false

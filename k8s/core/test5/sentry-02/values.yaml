@@ -1,0 +1,22 @@
+
+app:
+  name: gno-sentry-02
+  role: validator
+
+storage:
+  capacity: 200Mi
+  local:
+    path: /opt/gnoland/sentry/2/data
+
+svc:
+  name: gno-sentry-svc-02
+
+ingress:
+  enabled: true
+  port: p2p-internal
+  rule:
+    host: Host(`sentry-02.gnoland.tech`)
+
+placement:
+  tolerations:
+    enabled: false

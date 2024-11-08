@@ -94,7 +94,7 @@ spec:
           - start
           - -genesis=/gnoroot/gnoland-data/genesis.json # loaded from init container
         ports:
-          {{- if and .Values.app.type (eq .Values.app.type "rpc") }}
+          {{- if eq .Values.app.type "rpc" }}
           - name: rpc-public
             containerPort: 26657
           {{- end }}

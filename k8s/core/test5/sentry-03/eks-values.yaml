@@ -1,6 +1,6 @@
 
 app:
-  name: gno-sentry-01
+  name: gno-sentry-03
   role: validator
 
 storage:
@@ -8,14 +8,14 @@ storage:
   class: eks-ebs-storage
 
 svc:
-  name: gno-sentry-svc-01
+  name: gno-sentry-svc-03
 
 ingress:
   enabled: true
   port: p2p-internal
   tls: true
   rule:
-    host: Host(`gno-core-sen-01.test5.gnoteam.com`)
+    host: Host(`gno-core-sen-03.test5.gnoteam.com`)
 
 placement:
   tolerations:
