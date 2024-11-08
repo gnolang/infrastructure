@@ -22,3 +22,12 @@ patches:
         - name: gnofaucet
           namespace: gno
           port: gnofaucet-port
+
+secretGenerator:
+- name: gnofaucet-env
+  namespace: gno
+  behavior: replace
+  options:
+    disableNameSuffixHash: true
+  envs:
+    - secrets/test5.eks.gnofaucet.ini

@@ -22,3 +22,13 @@ patches:
         - name: gnoweb
           namespace: gno
           port: gnoweb-port
+
+
+secretGenerator:
+- name: gnoweb-env
+  namespace: gno
+  behavior: replace
+  options:
+    disableNameSuffixHash: true
+  envs:
+    - secrets/test5.eks.gnoweb.ini
