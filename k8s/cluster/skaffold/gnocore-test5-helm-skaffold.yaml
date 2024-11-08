@@ -7,18 +7,18 @@ profiles:
     manifests:
       helm:
         releases:
-        # RPC
+        ## RPC
         - &helmInstance
           name: rpc-01
           chartPath: ../../core/helm
           valuesFiles:
             - ../../core/test5/rpc-01/values.yaml
-        # Sentries
+        ## Sentries
         - <<: *helmInstance
           name: sentry-01
           valuesFiles:
             - ../../core/test5/sentry-01/values.yaml
-        # Validators
+        ## Validators
         - <<: *helmInstance
           name: val-01
           valuesFiles:
@@ -27,17 +27,17 @@ profiles:
     manifests:
       helm:
         releases:
-        # RPC
+        ## RPC
         - <<: *helmInstance
           name: rpc-01
           valuesFiles:
             - ../../core/test5/rpc-01/eks-values.yaml
-        # Sentries
+        ## Sentries
         - <<: *helmInstance
           name: sentry-01
           valuesFiles:
             - ../../core/test5/sentry-01/eks-values.yaml
-        # Validators
+        ## Validators
         - <<: *helmInstance
           name: val-01
           valuesFiles:

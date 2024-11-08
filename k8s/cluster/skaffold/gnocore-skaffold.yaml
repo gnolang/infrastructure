@@ -19,7 +19,7 @@ profiles:
           - ../../core/gnofaucet
           ### Gnoweb
           - ../../core/gnoweb
-          ## Validator 1
+          ### Validator 1
           - ../../core/gnoland/validator
   - name: eks-dev
     manifests:

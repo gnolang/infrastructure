@@ -10,30 +10,41 @@ profiles:
     manifests:
       kustomize:
         paths:
-          ## Gnoland
-          ### RPC
-          - ../../core/test5/overlays/rpc/
-          # ### Indexer
+          ## Indexer
           - ../../core/indexer
-          ### Gnofaucet
+          ## Gnofaucet
           - ../../core/gnofaucet
-          ### Gnoweb
+          ## Gnoweb
           - ../../core/gnoweb
-          ## Validators
+          ## Gnoland
+          ### Genesis
+          - ../../core/test5/genesis
+          ### RPC
+          - ../../core/test5/rpc-01
+          ### Sentries
+          - ../../core/test5/sentry-01
+          ### Validators
           - ../../core/test5/val-01
+          #- ../../core/test5/val-02
   - name: test5-eks
     manifests:
       kustomize:
         paths:
           ## AWS Storage Class + EKS Storage
           - ../../aws-eks/storage
-          ## Gnoland overlays
-          # - ../../core/test5/overlays/eks/gnoland/rpc
+          ## Overlays
           - ../../core/test5/overlays/eks/indexer
           - ../../core/test5/overlays/eks/gnofaucet
           - ../../core/test5/overlays/eks/gnoweb
-          # TODO: move into general
-          - ../../core/test5/overlays/rpc/
+          ## Gnoland
+          ### Genesis
+          - ../../core/test5/genesis
+          ### RPC
+          - ../../core/test5/rpc-01
+          ### Sentries
+          - ../../core/test5/sentry-01
+          ### Validators
           - ../../core/test5/val-01
+          #- ../../core/test5/val-02
 deploy:
   kubectl: {}

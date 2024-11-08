@@ -1,0 +1,14 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: monitoring-test5
+profiles:
+  ## Test5
+  - name: test5-eks
+    manifests:
+      kustomize:
+        paths:
+        - ../../overlays/eks/grafana
+
+deploy:
+  kubectl: {}

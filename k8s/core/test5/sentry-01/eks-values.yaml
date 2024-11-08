@@ -15,7 +15,7 @@ ingress:
   port: p2p-internal
   tls: true
   rule:
-    host: Host(`sentry-01.gnoland.tech`)
+    host: Host(`rpc-01.test5.gnoteam.com`)
 
 placement:
   tolerations:

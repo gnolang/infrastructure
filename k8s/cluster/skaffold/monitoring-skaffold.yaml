@@ -5,20 +5,20 @@ metadata:
 manifests:
   rawYaml:
     - ../../cluster/namespaces/monitoring.yaml
-    # Node exporter
+    ## Node exporter
     - ../../monitoring/node-exporter/daemonset/*.yaml
 profiles:
   - name: dev
     manifests:
       kustomize:
         paths: &dev_monitoring_deploys
-          # Prometheus
+          ## Prometheus
           - ../../monitoring/prometheus
-          # Loki
+          ## Loki
           - ../../monitoring/loki
-          # Vector
+          ## Vector
           - ../../monitoring/vector
-          # Grafana
+          ## Grafana
           - ../../monitoring/grafana
   - name: eks-dev
     manifests:
@@ -27,11 +27,11 @@ profiles:
           ## AWS Storage Class + EKS Storage
           - ../../aws-eks/storage
           # Not overridden
-          # Prometheus
+          ## Prometheus
           - ../../monitoring/prometheus
-          # Vector
+          ## Vector
           - ../../monitoring/vector
-          ### Monitoring Overlays
+          ## Monitoring Overlays
           - ../../monitoring/overlays/eks/loki
           - ../../monitoring/overlays/eks/grafana
   ## Test5
@@ -42,9 +42,7 @@ profiles:
   - name: test5-eks
     manifests:
       kustomize:
-        paths:
-          - *eks_monitoring_deploys
-          - ../../monitoring/overlays/eks/grafana
+        paths: *eks_monitoring_deploys
 
 deploy:
   kubectl: {}

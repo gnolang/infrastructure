@@ -3,7 +3,7 @@ kind: Config
 metadata:
   name: gnocluster
 requires:
-  # - path: ../../cluster/skaffold/traefik-skaffold.yaml
+  - path: ../../cluster/skaffold/traefik-skaffold.yaml
   - path: ../../cluster/skaffold/gnocore-test5-skaffold.yaml
     activeProfiles: &kubeProfiles
     - name: test5-dev
@@ -12,8 +12,10 @@ requires:
       activatedBy: [test5-eks]
   - path: ../../cluster/skaffold/gnocore-test5-helm-skaffold.yaml
     activeProfiles: *kubeProfiles
-  # - path: ../../cluster/skaffold/monitoring-skaffold.yaml
-  #   activeProfiles: *kubeProfiles
+  - path: ../../cluster/skaffold/monitoring-skaffold.yaml
+    activeProfiles: *kubeProfiles
+  - path: ./cluster/skaffold/monitoring-test5-skaffold.yaml
+    activeProfiles: *kubeProfiles
 deploy:
   kubectl: {}
 profiles:

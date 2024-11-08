@@ -103,11 +103,11 @@ spec:
             containerPort: 26656
         resources:
           limits:
-            cpu: {{ (((.Values.placement).resources).limits).cpu | default "2" }}
-            memory: {{ (((.Values.placement).resources).limits).memory | default "2Gi"}}
+            cpu: {{ (((.Values.placement).resources).limits).cpu | default "1" }}
+            memory: {{ (((.Values.placement).resources).limits).memory | default "1Gi"}}
           requests:
             cpu: {{ (((.Values.placement).resources).requests).cpu | default "1" }}
-            memory: {{ (((.Values.placement).resources).requests).memory | default "1Gi"}}
+            memory: {{ (((.Values.placement).resources).requests).memory | default "500Mi"}}
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
