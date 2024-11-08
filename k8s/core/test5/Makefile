@@ -46,10 +46,10 @@ config-adjust:
 				--entrypoint sh ghcr.io/gnolang/gno/gnoland:master -c "\
 				gnoland config set moniker gnocore-$$(basename $$dir); \
 				gnoland config set consensus.timeout_commit 1s; \
+				gnoland config set consensus.peer_gossip_sleep_duration 10ms; \
 				gnoland config set mempool.size 10000; \
 				gnoland config set p2p.max_num_inbound_peers 40; \
 				gnoland config set p2p.flush_throttle_timeout 10ms; \
-				gnoland config set p2p.peer_gossip_sleep_duration 10ms; \
 				gnoland config set telemetry.enabled true; \
 				gnoland config set telemetry.service_name test5_gnoland; \
 				gnoland config set telemetry.service_instance_id gnocore-$$(basename $$dir); \

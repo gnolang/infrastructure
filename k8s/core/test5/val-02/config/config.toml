@@ -57,7 +57,7 @@ proxy_app = "tcp://127.0.0.1:26658"
   home = ""
 
   # Reactor sleep duration parameters
-  peer_gossip_sleep_duration = "100ms"
+  peer_gossip_sleep_duration = "10ms"
   peer_query_maj23_sleep_duration = "2s"
 
   # Make progress as soon as we have all the precommits (as if TimeoutCommit = 0)
