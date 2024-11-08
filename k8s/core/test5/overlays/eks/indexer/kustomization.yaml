@@ -22,3 +22,17 @@ patches:
         - name: tx-indexer
           namespace: gno
           port: tx-indexer-port
+
+- patch: |-
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: indexer-pv-claim
+      namespace: gno
+    spec:
+      storageClassName: eks-ebs-storage
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi
