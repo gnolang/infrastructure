@@ -6,7 +6,7 @@ resources:
 
 patches:
 # fix endpoint ingress
-- patch: |- 
+- patch: |-
     apiVersion: traefik.io/v1alpha1
     kind: IngressRoute
     metadata:

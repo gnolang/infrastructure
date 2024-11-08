@@ -6,7 +6,7 @@ resources:
 - gnofaucet-tls-ingress-eks.yaml
 
 patches:
-- patch: |- 
+- patch: |-
     kind: IngressRoute
     apiVersion: traefik.io/v1alpha1
     metadata:

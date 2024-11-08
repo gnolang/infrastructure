@@ -2,7 +2,7 @@ configMapGenerator:
 - name: dashboard-config
   namespace: monitoring
   options:
-    disableNameSuffixHash: true  
+    disableNameSuffixHash: true
   files:
   - datasource.yaml=datasources/datasource.yaml
   - dashboard.yaml=dashboards/dashboard.yaml

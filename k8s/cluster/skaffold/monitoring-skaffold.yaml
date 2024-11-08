@@ -42,7 +42,7 @@ profiles:
   - name: test5-eks
     manifests:
       kustomize:
-        paths: 
+        paths:
           - *eks_monitoring_deploys
           - ../../monitoring/overlays/eks/grafana
 

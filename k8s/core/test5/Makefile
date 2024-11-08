@@ -3,7 +3,7 @@
 .PHONY: all
 all: install
 
-.PHONY: 
+.PHONY:
 install:
 	@for dir in $(shell find . -mindepth 1 -maxdepth 1 -type d); do \
 		if [ -d $$dir/gno-secrets ]; then \

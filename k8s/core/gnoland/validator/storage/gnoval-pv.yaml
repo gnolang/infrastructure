@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/opt/gnoland/validator/1/data" 
+    path: "/opt/gnoland/validator/1/data"
 
 ---
 

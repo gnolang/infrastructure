@@ -39,10 +39,10 @@ spec:
     - name: prom-replaceprefix
       namespace: monitoring
 ---
-# apiVersion: v1 
-# kind: Secret 
+# apiVersion: v1
+# kind: Secret
 # metadata:
-#   name: prometheus-secret 
+#   name: prometheus-secret
 #   namespace: monitoring
 # data:
 # # USe base64 in the certs

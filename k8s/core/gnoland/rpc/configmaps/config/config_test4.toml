@@ -44,7 +44,7 @@ priv_validator_state_file = "secrets/priv_validator_state.json"
 # TCP or UNIX socket address for the profiling server to listen on
 prof_laddr = ""
 
-# TCP or UNIX socket address of the ABCI application, 
+# TCP or UNIX socket address of the ABCI application,
 # or the name of an ABCI application compiled in with the Tendermint binary
 proxy_app = "tcp://127.0.0.1:26658"
 
@@ -123,7 +123,7 @@ proxy_app = "tcp://127.0.0.1:26658"
 
   # Comma separated list of nodes to keep persistent connections to
   persistent_peers = ""
-  
+
   # Set true to enable the peer-exchange reactor
   pex = false
 

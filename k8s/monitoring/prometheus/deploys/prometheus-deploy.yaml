@@ -34,6 +34,6 @@ spec:
           configMap:
             defaultMode: 420
             name: prometheus-run-conf
-  
+
         - name: prometheus-storage-volume
           emptyDir: {}
