@@ -128,7 +128,7 @@ proxy_app = "tcp://127.0.0.1:26658"
   pex = true
 
   # Comma separated list of peer IDs to keep private (will not be gossiped to other peers)
-  private_peer_ids = ""
+  private_peer_ids = "g169qwkyfazdvjga4swj8e987kyudy7630h3laug,g1ta9mkg7878xnnxvkndq036pmly0pgqzp79sam0"
 
   # Rate at which packets can be received, in bytes/second
   recv_rate = 5120000

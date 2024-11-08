@@ -122,13 +122,13 @@ proxy_app = "tcp://127.0.0.1:26658"
   max_packet_msg_payload_size = 1024
 
   # Comma separated list of nodes to keep persistent connections to
-  persistent_peers = ""
+  persistent_peers = "g16384atcuf6ew3ufpwtvhymwfyl2aw390aq8jtt@gno-sentry-svc-01:26656,g1ty443uhf6qr2n0gv3dkemr4slt96e5hnmx90qh@gno-sentry-svc-02:26656"
 
   # Set true to enable the peer-exchange reactor
   pex = true
 
   # Comma separated list of peer IDs to keep private (will not be gossiped to other peers)
-  private_peer_ids = ""
+  private_peer_ids = "g1ec4qrfczxc0k4hu6vup5v4s96r2ngcvx5pa5rs,g1em506yk6tnd8rrutqekc04kwh2xhcjeuxq8fd9"
 
   # Rate at which packets can be received, in bytes/second
   recv_rate = 5120000
