@@ -13,7 +13,7 @@ spec:
     services:
     - name: {{ .Values.svc.name }}
       namespace: {{ default "gno" .Values.app.namespace }}
-      port: rpc-public
+      port: {{ default "rpc-public" .Values.ingress.port }}
 
   {{- if .Values.ingress.tls }}
 ---
@@ -31,7 +31,7 @@ spec:
     services:
     - name: {{ .Values.svc.name }}
       namespace: {{ default "gno" .Values.app.namespace }}
-      port: rpc-public
+      port: {{ default "rpc-public" .Values.ingress.port }}
   tls:
     certResolver: {{ default "gnoresolver" .Values.ingress.certresolver }}
   {{- end }}

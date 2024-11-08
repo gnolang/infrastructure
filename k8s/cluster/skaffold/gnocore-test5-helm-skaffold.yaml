@@ -7,16 +7,39 @@ profiles:
     manifests:
       helm:
         releases:
-        - name: val-01
+        # RPC
+        - &helmInstance
+          name: rpc-01
           chartPath: ../../core/helm
+          valuesFiles:
+            - ../../core/test5/rpc-01/values.yaml
+        # Sentries
+        - <<: *helmInstance
+          name: sentry-01
+          valuesFiles:
+            - ../../core/test5/sentry-01/values.yaml
+        # Validators
+        - <<: *helmInstance
+          name: val-01
           valuesFiles:
             - ../../core/test5/val-01/values.yaml
   - name: test5-eks
     manifests:
       helm:
         releases:
-        - name: val-01
-          chartPath: ../../core/helm
+        # RPC
+        - <<: *helmInstance
+          name: rpc-01
+          valuesFiles:
+            - ../../core/test5/rpc-01/eks-values.yaml
+        # Sentries
+        - <<: *helmInstance
+          name: sentry-01
+          valuesFiles:
+            - ../../core/test5/sentry-01/eks-values.yaml
+        # Validators
+        - <<: *helmInstance
+          name: val-01
           valuesFiles:
             - ../../core/test5/val-01/eks-values.yaml
 deploy:

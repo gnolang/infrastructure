@@ -12,6 +12,7 @@ svc:
 
 ingress:
   enabled: true
+  port: p2p-internal
   tls: true
   rule:
     host: Host(`sentry-01.gnoland.tech`)

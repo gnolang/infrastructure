@@ -12,7 +12,8 @@ svc:
   name: gno-sentry-svc-01
 
 ingress:
-  enabled: false #true!
+  enabled: true
+  port: p2p-internal
   rule:
     host: Host(`sentry-01.gnoland.tech`)
 

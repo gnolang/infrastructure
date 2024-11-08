@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     gno.service: gnoland
-    gno.type: validator
+    gno.type: {{ default "validator" .Values.app.type }}
   name: {{ .Values.app.name }}
   namespace: {{ default "gno" .Values.app.namespace }}
 spec:
@@ -11,12 +11,12 @@ spec:
   selector:
     matchLabels:
       gno.service: gnoland
-      gno.type: validator
+      gno.type: {{ default "validator" .Values.app.type }}
   template:
     metadata:
       labels:
         gno.service: gnoland
-        gno.type: validator
+        gno.type: {{ default "validator" .Values.app.type }}
         gno.role: {{ .Values.app.role }}
         gno.name: {{ .Values.app.name }}
     spec:
@@ -93,8 +93,13 @@ spec:
         args:
           - start
           - -genesis=/gnoroot/gnoland-data/genesis.json # loaded from init container
+          - -log-level=info
         ports:
-          - name: val-internal
+          {{- if and .Values.app.type (eq .Values.app.type "rpc") }}
+          - name: rpc-public
+            containerPort: 26657
+          {{- end }}
+          - name: p2p-internal
             containerPort: 26656
         resources:
           limits:

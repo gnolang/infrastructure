@@ -3,19 +3,24 @@ kind: Service
 metadata:
   labels:
     gno.service: gnoland
-    gno.type: validator
+    gno.type: {{ default "validator" .Values.app.type }}
     gno.role: {{ .Values.app.role }}
   name: {{ .Values.svc.name }}
   namespace: {{ default "gno" .Values.app.namespace }}
 spec:
   selector:
     gno.service: gnoland
-    gno.type: validator
+    gno.type: {{ default "validator" .Values.app.type }}
     gno.role: {{ .Values.app.role }}
     gno.name: {{ .Values.app.name }}
   clusterIP: None
   type: ClusterIP
   ports:
-    - name: rpc-internal
+    - name: p2p-internal
       port: 26656
-      targetPort: rpc-internal
+      targetPort: p2p-internal
+    {{- if eq .Values.app.type "rpc" }}
+    - name: rpc-public
+      port: 26657
+      targetPort: rpc-public
+    {{- end }}
