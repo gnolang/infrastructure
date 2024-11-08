@@ -13,3 +13,7 @@ svc:
 
 ingress:
   enabled: false
+
+placement:
+  tolerations:
+    enabled: false

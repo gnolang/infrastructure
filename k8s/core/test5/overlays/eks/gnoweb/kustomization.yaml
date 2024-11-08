@@ -2,21 +2,21 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../../../gnoweb/
+- ../../../../overlays/eks/gnoweb/
+- gnoweb-tls-ingress-eks.yaml
 
 patches:
-# fix endpoint ingress
-- patch: |- 
-    apiVersion: traefik.io/v1alpha1
+- patch: |-
     kind: IngressRoute
+    apiVersion: traefik.io/v1alpha1
     metadata:
       name: gnoweb-ingress
       namespace: gno
     spec:
       entryPoints:
-      - web
+        - web
       routes:
-      - match: Host(`gnoweb.k8s.gnoteam.com`)
+      - match: Host(`gnoweb.test5.gnoteam.com`)
         kind: Rule
         services:
         - name: gnoweb

@@ -19,6 +19,8 @@ template:
 		if [ -d $$dir/gno-secrets ]; then \
 			echo "Creating helm files in $$dir/out"; \
 			helm template $$(basename $$dir) ../helm --output-dir $$dir/out --values $$dir/values.yaml; \
+			echo "To install the chart:"; \
+			echo "helm install $$(basename $$dir) ../helm --values $$dir/values.yaml"; \
 		fi \
 	done
 

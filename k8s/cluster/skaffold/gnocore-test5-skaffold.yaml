@@ -13,37 +13,27 @@ profiles:
           ## Gnoland
           ### RPC
           - ../../core/test5/overlays/rpc/
-          ### Indexer
+          # ### Indexer
           - ../../core/indexer
           ### Gnofaucet
           - ../../core/gnofaucet
           ### Gnoweb
           - ../../core/gnoweb
-      helm:
-        releases:
-        - name: val-01
-          chartPath: ../../core/helm
-          valuesFiles:
-            - ../../core/test5/val-01/values.yaml
-  - name: eks-dev
+          ## Validators
+          - ../../core/test5/val-01
+  - name: test5-eks
     manifests:
       kustomize:
         paths:
           ## AWS Storage Class + EKS Storage
           - ../../aws-eks/storage
           ## Gnoland overlays
-          ## TODO:
-          ## overlays/test5/eks 
-          - ../../core/overlays/eks/gnoland/rpc
-          - ../../core/overlays/eks/indexer
-          - ../../core/overlays/eks/gnofaucet
-          - ../../core/overlays/eks/gnoweb
-        helm:
-        releases:
-        - name: val-01
-          chartPath: ../../core/helm
-          valuesFiles:
-            - ../../core/test5/val-01/eks-values.yaml
+          # - ../../core/test5/overlays/eks/gnoland/rpc
+          - ../../core/test5/overlays/eks/indexer
+          - ../../core/test5/overlays/eks/gnofaucet
+          - ../../core/test5/overlays/eks/gnoweb
+          # TODO: move into general
+          - ../../core/test5/overlays/rpc/
+          - ../../core/test5/val-01
 deploy:
   kubectl: {}
-  helm: {}

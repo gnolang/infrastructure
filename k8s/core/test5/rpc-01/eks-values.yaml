@@ -1,0 +1,21 @@
+app:
+  name: gno-rpc-01
+  role: validator
+  type: rpc
+
+storage:
+  capacity: 120Gi
+  class: eks-ebs-storage
+
+svc:
+  name: gno-rpc-svc-01
+
+ingress:
+  enabled: true
+  tls: true
+  rule:
+    host: Host(`rpc.test5.gnoteam.com`)
+
+placement:
+  tolerations:
+    enabled: false

@@ -1,0 +1,17 @@
+kind: IngressRoute
+apiVersion: traefik.io/v1alpha1
+metadata:
+  name: gnofaucet-ingress-tls
+  namespace: gno
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`gnofaucet.test5.gnoteam.com`)
+    kind: Rule
+    services:
+    - name: gnofaucet
+      namespace: gno
+      port: gnofaucet-port
+  tls:
+    certResolver: gnoresolver

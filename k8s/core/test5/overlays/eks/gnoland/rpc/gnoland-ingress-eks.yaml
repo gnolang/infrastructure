@@ -5,7 +5,7 @@ metadata:
   namespace: gno
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
   - match: Host(`rpc.k8s.gnoteam.com`)
     kind: Rule
@@ -30,4 +30,4 @@ spec:
       namespace: gno
       port: rpc-public
   tls:
-    certResolver: dns-gnoresolver
+    certResolver: gnoresolver

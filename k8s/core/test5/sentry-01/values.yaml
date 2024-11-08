@@ -15,3 +15,7 @@ ingress:
   enabled: false #true!
   rule:
     host: Host(`sentry-01.gnoland.tech`)
+
+placement:
+  tolerations:
+    enabled: false

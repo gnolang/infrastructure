@@ -2,21 +2,21 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../../../gnofaucet/
+- ../../../../overlays/eks/gnofaucet/
+- gnofaucet-tls-ingress-eks.yaml
 
 patches:
-# fix endpoint ingress
 - patch: |- 
-    apiVersion: traefik.io/v1alpha1
     kind: IngressRoute
+    apiVersion: traefik.io/v1alpha1
     metadata:
       name: gnofaucet-ingress
       namespace: gno
     spec:
       entryPoints:
-      - web
+        - web
       routes:
-      - match: Host(`gnofaucet.k8s.gnoteam.com`)
+      - match: Host(`gnofaucet.test5.gnoteam.com`)
         kind: Rule
         services:
         - name: gnofaucet

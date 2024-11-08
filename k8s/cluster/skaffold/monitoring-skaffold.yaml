@@ -42,7 +42,9 @@ profiles:
   - name: test5-eks
     manifests:
       kustomize:
-        paths: *eks_monitoring_deploys
+        paths: 
+          - *eks_monitoring_deploys
+          - ../../monitoring/overlays/eks/grafana
 
 deploy:
   kubectl: {}

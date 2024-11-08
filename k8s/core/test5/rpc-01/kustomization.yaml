@@ -1,5 +1,5 @@
 configMapGenerator:
-- name: gno-rpc-config
+- name: gno-rpc-01-config
   namespace: gno
   options:
     disableNameSuffixHash: true

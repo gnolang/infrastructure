@@ -1,0 +1,21 @@
+app:
+  name: gno-rpc-01
+  role: validator
+  type: rpc
+
+storage:
+  capacity: 50Mi
+  local:
+    path: /opt/gnoland/rpc/1/data
+
+svc:
+  name: gno-rpc-svc-01
+
+ingress:
+  enabled: true
+  rule:
+    host: Host(`rpc.gnoland.tech`)
+
+placement:
+  tolerations:
+    enabled: false

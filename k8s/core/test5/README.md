@@ -16,8 +16,8 @@ Refer to [General Readme](../../README.md).
 * Gno Core replacement: [k8s/cluster/skaffold/gnocore-test5-skaffold.yaml](../../cluster/skaffold/gnocore-test5-skaffold.yaml)
 
 * New profiles
-  * dev-test5 (activated also by env var `GNO_ENV=test5`)
-  * eks-test5 (activated also by env var `GNO_ENV=prod-test5`)
+  * dev-test5 (activated also by env var `GNO_INFRA=test5`)
+  * eks-test5 (activated also by env var `GNO_INFRA=prod-test5`)
   * applied into existing `monitoring` skaffold file [k8s/cluster/skaffold/monitoring.yaml](../../cluster/skaffold/monitoring.yaml)
 
 * Helm releases, using `values` per profile to bootstrap

@@ -234,6 +234,22 @@ kubectl delete pod <pod_name> -n <namespace> --grace-period=0 --force
 127.0.0.1 grafana.gnoland.tech
 ```
 
+* Get specific information on resource capacity of a node
+
+```bash
+kubectl describe node  <node-name>
+```
+
+and check output
+
+```yaml
+Capacity:
+  cpu:                2
+  memory:             3922840Ki
+  pods:               29
+  ...
+```
+
 ---
 
 ## Resources

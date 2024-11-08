@@ -1,0 +1,23 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: test5-gnocore-helm
+profiles:
+  - name: test5-dev
+    manifests:
+      helm:
+        releases:
+        - name: val-01
+          chartPath: ../../core/helm
+          valuesFiles:
+            - ../../core/test5/val-01/values.yaml
+  - name: test5-eks
+    manifests:
+      helm:
+        releases:
+        - name: val-01
+          chartPath: ../../core/helm
+          valuesFiles:
+            - ../../core/test5/val-01/eks-values.yaml
+deploy:
+  helm: {}
