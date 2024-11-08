@@ -8,7 +8,7 @@ storage:
   class: eks-ebs-storage
 
 svc:
-  name: gno-val-svc-03
+  name: gno-val-svc-02
 
 ingress:
   enabled: false
