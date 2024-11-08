@@ -8,7 +8,7 @@ storage:
   class: eks-ebs-storage
 
 svc:
-  name: gno-rpc-svc-01
+  name: gnoland-rpc # see potential clashes with gnoweb and gnofaucet
 
 ingress:
   enabled: true

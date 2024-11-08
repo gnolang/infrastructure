@@ -57,3 +57,20 @@ config-adjust:
 			"; \
 		fi \
 	done
+
+.PHONY: genesis-adjust
+genesis-adjust:
+	@for dir in $(shell find . -mindepth 1 -maxdepth 1 -type d); do \
+		if [ -d $$dir/gno-secrets ]; then \
+			echo "altering config for $$dir/"; \
+			docker run --rm -ti \
+				-v "$$dir/gno-secrets:/gnoroot/gnoland-data/secrets" \
+				--entrypoint sh ghcr.io/gnolang/gno/gnoland:0.2.0 -c "\
+				gnoland genesis generate -output-path /gnoroot/gnoland-data/secrets/genesis.json; \
+				gnoland genesis validator add -name gnocore-$$(basename $$dir) \
+				-address \$$(gnoland secrets get validator_key.address -raw -data-dir /gnoroot/gnoland-data/secrets) \
+				-pub-key \$$(gnoland secrets get validator_key.pub_key -raw -data-dir /gnoroot/gnoland-data/secrets) \
+				-genesis-path /gnoroot/gnoland-data/secrets/genesis.json; \
+			"; \
+		fi \
+	done
