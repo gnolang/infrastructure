@@ -30,4 +30,4 @@ secretGenerator:
   options:
     disableNameSuffixHash: true
   envs:
-    - secrets/test5.eks.gnofaucet.ini
+    - secrets/.env

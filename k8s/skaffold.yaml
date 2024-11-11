@@ -4,12 +4,13 @@ metadata:
   name: gnocluster
 requires:
   - path: cluster/skaffold/traefik-skaffold.yaml
-  - path: cluster/skaffold/gnocore-skaffold.yaml
     activeProfiles: &kubeProfiles
     - name: dev
       activatedBy: [dev]
     - name: eks-dev
       activatedBy: [eks-dev]
+  - path: cluster/skaffold/gnocore-skaffold.yaml
+    activeProfiles: *kubeProfiles
   - path: cluster/skaffold/monitoring-skaffold.yaml
     activeProfiles: *kubeProfiles
 deploy:
@@ -21,7 +22,3 @@ profiles:
   - name: eks-dev
     activation:
       - kubeContext: arn:aws:eks:eu-west-1:600627336512:cluster/test4b-cluster
-    manifests:
-      kustomize:
-        paths:
-          - traefik/overlays/eks

@@ -7,14 +7,21 @@ metadata:
     gno.role: {{ .Values.app.role }}
   name: {{ .Values.svc.name }}
   namespace: {{ default "gno" .Values.app.namespace }}
+{{- if eq .Values.svc.type "LoadBalancer" }}
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+{{- end}}
 spec:
   selector:
     gno.service: gnoland
     gno.type: {{ default "validator" .Values.app.type }}
     gno.role: {{ .Values.app.role }}
     gno.name: {{ .Values.app.name }}
+  {{- if ne .Values.svc.type "LoadBalancer" }}
   clusterIP: None
-  type: ClusterIP
+  {{- end}}
+  type: {{ default "ClusterIP" .Values.svc.type }}
   ports:
     - name: p2p-internal
       port: 26656

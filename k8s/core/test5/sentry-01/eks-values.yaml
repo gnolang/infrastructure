@@ -9,13 +9,10 @@ storage:
 
 svc:
   name: gnocore-sentry-svc-01
+  type: LoadBalancer
 
 ingress:
-  enabled: true
-  port: p2p-internal
-  tls: true
-  rule:
-    host: Host(`gno-core-sen-01.test5.gnoteam.com`)
+  enabled: false
 
 placement:
   tolerations:

@@ -1,5 +1,5 @@
 configMapGenerator:
-- name: gno-sentry-03-config
+- name: gnocore-sentry-03-config
   namespace: gno
   options:
     disableNameSuffixHash: true

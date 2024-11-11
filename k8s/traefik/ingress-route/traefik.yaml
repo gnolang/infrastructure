@@ -54,16 +54,17 @@ spec:
             # ingressRoutes can reference ExternalName services
             - --providers.kubernetescrd.allowexternalnameservices=true
             # TLS challenge for Lets encrypt
-            - --certificatesresolvers.gnoresolver.acme.tlschallenge
+            # - --certificatesresolvers.gnoresolver.acme.tlschallenge
             # # HTTP plain challenge alternative
-            # - --certificatesresolvers.gnoresolver.acme.httpchallenge
-            # - --certificatesresolvers.gnoresolver.acme.httpchallenge.entrypoint=web
+            - --certificatesresolvers.gnoresolver.acme.httpchallenge
+            - --certificatesresolvers.gnoresolver.acme.httpchallenge.entrypoint=web
             - --certificatesresolvers.gnoresolver.acme.email=gno@tendermint.com
             - --certificatesresolvers.gnoresolver.acme.storage=acme.json
             # Please note that this is the staging Let's Encrypt server.
             # Once you get things working, you should remove that whole line altogether.
-            - --certificatesresolvers.gnoresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+            - --certificatesresolvers.gnoresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
             # Letsencrypt dns challenge resolver
+            # CA server is using prod API by default
             - --certificatesresolvers.dns-gnoresolver.acme.dnschallenge
             - --certificatesresolvers.dns-gnoresolver.acme.dnschallenge.provider=cloudflare
             - --certificatesresolvers.dns-gnoresolver.acme.dnschallenge.delaybeforecheck=10
