@@ -27,7 +27,3 @@ profiles:
     activation:
       - kubeContext: arn:aws:eks:eu-central-1:600627336512:cluster/test5-eks-cluster
         env: "GNO_INFRA=prod-test5"
-    manifests:
-      kustomize:
-        paths:
-          - ../../traefik/overlays/eks
