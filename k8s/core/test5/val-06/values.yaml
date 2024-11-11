@@ -1,6 +1,6 @@
 
 app:
-  name: gno-val-06
+  name: gnocore-val-06
   role: validator
 
 storage:
@@ -9,7 +9,7 @@ storage:
     path: /opt/gnoland/validator/6/data
 
 svc:
-  name: gno-val-svc-06
+  name: gnocore-val-svc-06
 
 ingress:
   enabled: false

@@ -1,6 +1,6 @@
 
 app:
-  name: gno-val-04
+  name: gnocore-val-04
   role: validator
 
 storage:
@@ -8,7 +8,7 @@ storage:
   class: eks-ebs-storage
 
 svc:
-  name: gno-val-svc-04
+  name: gnocore-val-svc-04
 
 ingress:
   enabled: false

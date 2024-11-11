@@ -1,6 +1,6 @@
 
 app:
-  name: gno-sentry-01
+  name: gnocore-sentry-01
   role: validator
 
 storage:
@@ -9,7 +9,7 @@ storage:
     path: /opt/gnoland/sentry/1/data
 
 svc:
-  name: gno-sentry-svc-01
+  name: gnocore-sentry-svc-01
 
 ingress:
   enabled: true

@@ -1,5 +1,5 @@
 app:
-  name: gno-rpc-01
+  name: gnocore-rpc-01
   role: validator
   type: rpc
 
