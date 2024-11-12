@@ -1,5 +1,5 @@
 configMapGenerator:
-- name: gnocore-val-01-config
+- name: gnocore-val-06-config
   namespace: gno
   options:
     disableNameSuffixHash: true

@@ -51,7 +51,6 @@ spec:
         - -c
         - |
           wget -O /gnoroot/gnoland-data/genesis.json https://gno-snapshots.lon1.digitaloceanspaces.com/test5/genesis.json
-          sed -i '/genesis_time/{s/2024-11-12/2024-11-04/}' /gnoroot/gnoland-data/genesis.json
           cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
           echo "Successfully copied secrets and genesis file"
         volumeMounts:
@@ -66,10 +65,13 @@ spec:
         - sh
         - -c
         - |
-          gnoland config set persistent_peers {{ default "" .Values.gnoland.config.persistent_peers }}
+          cp -Lr /gnoroot/config-ro /gnoroot/gnoland-data/config
+          gnoland config set p2p.persistent_peers {{ default "\"\"" .Values.gnoland.config.persistent_peers }}
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
+        - name: {{ .Values.app.name }}-conf
+          mountPath: /gnoroot/config-ro
       {{- end }}
       containers:
       - name: gnoland
@@ -78,6 +80,7 @@ spec:
         args:
           - start
           - -genesis=/gnoroot/gnoland-data/genesis.json # loaded from init container
+          # - -log-level=info
         ports:
           {{- if eq .Values.app.type "rpc" }}
           - name: rpc-public
@@ -95,8 +98,10 @@ spec:
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
+        {{- if not (hasKey (.Values.gnoland) "config" ) }}
         - name: {{ .Values.app.name }}-conf
           mountPath: /gnoroot/gnoland-data/config
+        {{- end }}
       volumes:
       - name: {{ .Values.app.name }}-vol
         persistentVolumeClaim:

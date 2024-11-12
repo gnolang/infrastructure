@@ -69,7 +69,7 @@ profiles:
         - <<: *helmInstance
           name: val-05
           valuesFiles:
-            - ../../core/test5/val-01/eks-values.yaml
+            - ../../core/test5/val-05/eks-values.yaml
         - <<: *helmInstance
           name: val-06
           valuesFiles:
