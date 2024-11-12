@@ -70,6 +70,7 @@ spec:
           - start
           - -data-dir=/gnoroot/gnoland-data/ # left as reference
           - -genesis=/gnoroot/gnoland-data/genesis.json # loaded from init container
+          - -log-level=info
         ports:
           - name: rpc-public
             containerPort: 26657

@@ -17,7 +17,7 @@ profiles:
           ## Gnoweb
           - ../../core/gnoweb
           ## Gnoland
-          ### Genesis
+          ### Genesis FIXME: remove or handle
           - ../../core/test5/genesis
           ### RPC
           - ../../core/test5/rpc-01
@@ -37,8 +37,7 @@ profiles:
           - ../../core/test5/overlays/eks/gnofaucet
           - ../../core/test5/overlays/eks/gnoweb
           ## Gnoland
-          ### Genesis FINAL
-          - ../../core/test5/overlays/genesis
+          ### Genesis REMOVED - pulled remotely ###
           ### RPC
           - ../../core/test5/rpc-01
           ### Sentries

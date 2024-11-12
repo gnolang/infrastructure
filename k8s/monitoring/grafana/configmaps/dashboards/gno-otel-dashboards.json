@@ -1296,7 +1296,10 @@
   ],
   "refresh": "5s",
   "schemaVersion": 39,
-  "tags": [],
+  "tags": [
+    "otel",
+    "telemetry"
+  ],
   "templating": {
     "list": [
       {

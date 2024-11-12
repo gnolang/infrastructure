@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: tx-indexer
-        image: ghcr.io/gnolang/tx-indexer:0.4.1
+        image: ghcr.io/gnolang/tx-indexer:0.5.2
         imagePullPolicy: IfNotPresent
         args:
           - start

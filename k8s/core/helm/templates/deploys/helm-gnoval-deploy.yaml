@@ -50,7 +50,8 @@ spec:
         - sh
         - -c
         - |
-          cp /gnoroot/genesis/genesis.json /gnoroot/gnoland-data/genesis.json
+          wget -O /gnoroot/gnoland-data/genesis.json https://gno-snapshots.lon1.digitaloceanspaces.com/test5/genesis.json
+          sed -i '/genesis_time/{s/2024-11-12/2024-11-04/}' /gnoroot/gnoland-data/genesis.json
           cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
           echo "Successfully copied secrets and genesis file"
         volumeMounts:
@@ -58,37 +59,21 @@ spec:
           mountPath: /gnoroot/gnoland-data
         - name: {{ .Values.app.name }}-secrets
           mountPath: /gnoroot/secrets
-        - name: gnoland-genesis
-          mountPath: /gnoroot/genesis
-      - name: init-genesis-txs
-        image: ghcr.io/gnolang/gno/gnoland:0.2.0
-        args:
-        - genesis
-        - txs
-        - add
-        - packages
-        - /gnoroot/examples
-        - -genesis-path
-        - /gnoroot/gnoland-data/genesis.json
+      {{- if (.Values.gnoland).config }}
+      - name: init-config
+        image: ghcr.io/gnolang/gno/gnoland:chain-test5.0
+        command:
+        - sh
+        - -c
+        - |
+          gnoland config set persistent_peers {{ default "" .Values.gnoland.config.persistent_peers }}
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
-      - name: init-genesis-balance
-        image: ghcr.io/gnolang/gno/gnoland:0.2.0
-        args:
-        - genesis
-        - balances
-        - add
-        - -balance-sheet
-        - /gnoroot/gno.land/genesis/genesis_balances.txt
-        - -genesis-path
-        - /gnoroot/gnoland-data/genesis.json
-        volumeMounts:
-        - name: {{ .Values.app.name }}-vol
-          mountPath: /gnoroot/gnoland-data
+      {{- end }}
       containers:
       - name: gnoland
-        image: ghcr.io/gnolang/gno/gnoland:0.2.0
+        image: ghcr.io/gnolang/gno/gnoland:chain-test5.0
         imagePullPolicy: IfNotPresent
         args:
           - start
@@ -134,9 +119,3 @@ spec:
             path: priv_validator_state.json
           - key: node_key.json
             path: node_key.json
-      - name: gnoland-genesis
-        configMap:
-          name: gno-genesis
-          items:
-          - key: genesis.json
-            path: genesis.json

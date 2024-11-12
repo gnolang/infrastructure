@@ -1,6 +1,6 @@
 {
   "genesis_time": "2024-11-04T15:43:28Z",
-  "chain_id": "dev",
+  "chain_id": "test5",
   "consensus_params": {
     "Block": {
       "MaxTxBytes": "1000000",
