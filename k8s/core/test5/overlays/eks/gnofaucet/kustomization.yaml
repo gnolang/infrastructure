@@ -16,7 +16,7 @@ patches:
       entryPoints:
         - web
       routes:
-      - match: Host(`gnofaucet.test5.gnoteam.com`)
+      - match: Host(`gnofaucet.test5.gnoteam.com`) || Host(`faucet-api.test5.gno.land`)
         kind: Rule
         services:
         - name: gnofaucet

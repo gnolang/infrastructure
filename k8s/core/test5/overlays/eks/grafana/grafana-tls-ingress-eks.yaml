@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`o11y.test5.gnoteam.com`)
+  - match: Host(`o11y.test5.gnoteam.com`) || Host(`o11y.test5.gno.land`) 
     kind: Rule
     services:
     - name: grafana

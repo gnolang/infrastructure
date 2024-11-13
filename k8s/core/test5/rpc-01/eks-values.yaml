@@ -14,7 +14,7 @@ ingress:
   enabled: true
   tls: true
   rule:
-    host: Host(`rpc-01.test5.gnoteam.com`)
+    host: Host(`rpc-01.test5.gnoteam.com`) || Host(`rpc.test5.gno.land`)
 
 placement:
   tolerations:

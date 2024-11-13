@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`indexer.test5.gnoteam.com`)
+  - match: Host(`indexer.test5.gnoteam.com`) || Host(`indexer.test5.gno.land`)
     kind: Rule
     services:
     - name: tx-indexer

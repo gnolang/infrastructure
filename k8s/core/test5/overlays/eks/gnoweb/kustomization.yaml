@@ -16,7 +16,7 @@ patches:
       entryPoints:
         - web
       routes:
-      - match: Host(`gnoweb.test5.gnoteam.com`)
+      - match: Host(`gnoweb.test5.gnoteam.com`) || Host(`test5.gno.land`)
         kind: Rule
         services:
         - name: gnoweb

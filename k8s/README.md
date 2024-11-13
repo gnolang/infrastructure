@@ -284,3 +284,8 @@ Capacity:
 * [Profiles | Skaffold](https://skaffold.dev/docs/environment/profiles/)
 * [skaffold.yaml | Skaffold](https://skaffold.dev/docs/references/yaml/?version=v4beta11)
 * [skaffold/examples at main · GoogleContainerTools/skaffold](https://github.com/GoogleContainerTools/skaffold/tree/main/examples)
+
+### Log Rotation
+
+* [Logging Architecture | Kubernetes](https://kubernetes.io/docs/concepts/cluster-administration/logging/#log-rotation)
+* [Logging for Amazon EKS - AWS Prescriptive Guidance](https://docs.aws.amazon.com/prescriptive-guidance/latest/implementing-logging-monitoring-cloudwatch/kubernetes-eks-logging.html)
