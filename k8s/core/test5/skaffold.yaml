@@ -12,10 +12,10 @@ requires:
       activatedBy: [test5-eks]
 
   # Gnoland
-  - path: ../../cluster/skaffold/gnocore-test5-skaffold.yaml
+  - path: ./cluster/skaffold/gnocore-test5-skaffold.yaml
     activeProfiles: *kubeProfiles
 
-  - path: ../../cluster/skaffold/gnocore-test5-helm-skaffold.yaml
+  - path: ./cluster/skaffold/gnocore-test5-helm-skaffold.yaml
     activeProfiles: *kubeProfiles
 
   # Monitoring
