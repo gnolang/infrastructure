@@ -1,88 +1,104 @@
 package main
 
 import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"flag"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/gnolang/gno-infrastructure/betterstatus/pkg/betterstatus"
+	"github.com/gnolang/gno-infrastructure/betterstatus/pkg/cmd"
 )
 
-const Test5_GroupName = "test5"
+const Test5_GroupName = "test5bb"
 const Test5_MonitorPrefixName = "Test 5"
 const Test5_MonitorFqdn = "test5.gno.land"
+const Test5_AdditionalPath = "extra-services.json"
 
-func main() {
-	// Check if an argument is provided
-	if len(os.Args) < 2 {
+// Reads cmd line args
+func readCmline(args []string) {
+	apiCallerCfg := &cmd.ApiCallerCfg{
+		MonitorGroupName:  Test5_GroupName,
+		MonitorPrefixName: Test5_MonitorPrefixName,
+		MonitorFqdn:       Test5_MonitorFqdn,
+	}
+
+	apiCmd := cmd.NewApiCallerCmd(
+		apiCallerCfg,
+		func(ctx context.Context, _ []string) error {
+			return execApiCallCms(ctx, apiCallerCfg)
+		},
+	)
+	apiCmd.Execute(context.Background(), args)
+}
+
+// Executes main logic
+func execApiCallCms(_ context.Context, cfg *cmd.ApiCallerCfg) error {
+	if cfg.AuthToken == "" {
 		fmt.Println("Error: Missing required argument: BetterStack Auth Token.")
-		fmt.Println("Usage: go run main.go <BetterStack Auth Token>")
-		os.Exit(1)
+		return flag.ErrHelp
 	}
 
-	var groupName string = Test5_GroupName
-	if len(os.Args) == 3 {
-		groupName = os.Args[2]
+	if cfg.AdditionalPath == "" {
+		cfg.AdditionalPath = Test5_AdditionalPath
 	}
-	authToken := os.Args[1]
+
+	err := handleMonitorsApis(cfg)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Handles Monitor creations api calls
+func handleMonitorsApis(cfg *cmd.ApiCallerCfg) error {
 	apiCaller := betterstatus.BetterStackApiCaller{
 		BaseUrl:   betterstatus.BetterStackApiBaseEndpoint,
-		AuthToken: authToken,
+		AuthToken: cfg.AuthToken,
 		Client:    &http.Client{},
 	}
 
 	// Create Monitor Group
-	_, err := apiCaller.DoRequest(
+	monitorGroupApiResp, err := apiCaller.DoRequest(
 		betterstatus.BetterStackApiSet[betterstatus.CreateMonitorGroup],
 		betterstatus.CreateMonitorGroupPayload{
-			Name: groupName,
+			Name: cfg.MonitorGroupName,
 		})
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	// Unmarshal Monitor Group Resp
-	// var monitorGroupRespDecoder betterstatus.CreateMonitorGroupResponse = betterstatus.CreateMonitorGroupResponse{}
-	// decoder := json.NewDecoder(bytes.NewReader(monitorGroupApiResp))
-	// decoder.DisallowUnknownFields()
-	// if err := decoder.Decode(&monitorGroupRespDecoder); err != nil {
-	// 	log.Fatal("Unable to parse body: %w", err)
-	// }
+	var monitorGroupObj betterstatus.CreateMonitorGroupResponse = betterstatus.CreateMonitorGroupResponse{}
+	decoder := json.NewDecoder(bytes.NewReader(monitorGroupApiResp))
+	if err := decoder.Decode(&monitorGroupObj); err != nil {
+		return fmt.Errorf("Unable to parse body: %w", err)
+	}
+
+	// Collect services
+	gnoServices, err := betterstatus.CollectGnoServices(cfg.MonitorFqdn, cfg.AdditionalPath)
 
 	// Create Monitors
-	gnoServices := betterstatus.Gnoservices
-	// Fulfill Templates
 	for _, gnoService := range gnoServices {
-		err := gnoService.GetUrlFromTemplate(
-			betterstatus.GnoServiceDomain{
-				FQDN: Test5_MonitorFqdn,
-			})
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-	if len(os.Args) == 4 {
-		jsonPath := os.Args[3]
-		additionalMonitors, err := betterstatus.UmarshallMonitorsFromFile(jsonPath)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		for _, addMonitor := range additionalMonitors {
-			gnoServices = append(gnoServices, betterstatus.GnoMonitorPayload(addMonitor))
-		}
-	}
-
-	for _, gnoService := range gnoServices {
+		// Add group
+		gnoService.MonitorGroupID = monitorGroupObj.Data.ID
 		// Create Monitor
 		_, err := apiCaller.DoRequest(
 			betterstatus.BetterStackApiSet[betterstatus.CreateMonitor],
-			*gnoService.ApplyPrefix(Test5_MonitorPrefixName))
+			*gnoService.ApplyPrefix(cfg.MonitorPrefixName))
 
-		if err != nil {
+		if err != nil { // silently catch error
 			fmt.Println("%w", err)
 		}
 	}
+	return nil
+}
+
+func main() {
+	readCmline(os.Args[1:])
 }

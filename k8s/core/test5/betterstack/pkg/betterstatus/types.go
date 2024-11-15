@@ -57,6 +57,7 @@ func (cmp CreateMonitorPayload) MarshalJSON() ([]byte, error) {
 	if cmp.RecoveryPeriod == 0 {
 		cmp.RecoveryPeriod = 60
 	}
+	cmp.Email = true
 	cmp.Paused = true
 
 	// Marshal using the alias type to avoid recursion
@@ -87,5 +88,4 @@ type CreateMonitorGroupResponse struct {
 
 type CreateMonitorGroupRespData struct {
 	ID string `json:"id"`
-	// Type       string     `json:"type"`
 }

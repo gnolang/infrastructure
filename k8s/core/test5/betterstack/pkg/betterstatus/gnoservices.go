@@ -18,7 +18,7 @@ func (cmp GnoMonitorPayload) MarshalJSON() ([]byte, error) {
 }
 
 func (gp *GnoMonitorPayload) ApplyPrefix(prefix string) *GnoMonitorPayload {
-	gp.Name = fmt.Sprintf("%s %s", prefix, gp.Name)
+	gp.Name = fmt.Sprintf("%s - %s", prefix, gp.Name)
 	return gp
 }
 
@@ -39,7 +39,7 @@ func (gp *GnoMonitorPayload) GetUrlFromTemplate(domain GnoServiceDomain) error {
 	return nil
 }
 
-var Gnoservices []GnoMonitorPayload = []GnoMonitorPayload{
+var gnoservices []GnoMonitorPayload = []GnoMonitorPayload{
 	{
 		Name: "Gnoweb",
 		URL:  "https://{{.FQDN}}/status.json",
@@ -56,4 +56,32 @@ var Gnoservices []GnoMonitorPayload = []GnoMonitorPayload{
 		Name: "RPC Node HTTP",
 		URL:  "https://rpc.{{.FQDN}}/",
 	},
+}
+
+// Collect gno services info
+func CollectGnoServices(fqdn string, additionalPath string) ([]GnoMonitorPayload, error) {
+	gnoServices := gnoservices
+	// Fulfill Templates
+	for index := range gnoServices {
+		err := gnoServices[index].GetUrlFromTemplate(
+			GnoServiceDomain{
+				FQDN: fqdn,
+			})
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	// Read additional services
+	if additionalPath != "" {
+		additionalMonitors, err := UmarshallMonitorsFromFile(additionalPath)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, addMonitor := range additionalMonitors {
+			gnoServices = append(gnoServices, GnoMonitorPayload(addMonitor))
+		}
+	}
+	return gnoServices, nil
 }
