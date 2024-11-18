@@ -1,9 +1,7 @@
 package main
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"net/http"
@@ -62,39 +60,42 @@ func handleMonitorsApis(cfg *cmd.ApiCallerCfg) error {
 		Client:    &http.Client{},
 	}
 
+	// response receiver
+	var monitorGroupObj betterstatus.CreateMonitorGroupResponse = betterstatus.CreateMonitorGroupResponse{}
 	// Create Monitor Group
-	monitorGroupApiResp, err := apiCaller.DoRequest(
+	err := apiCaller.DoRequest(
 		betterstatus.BetterStackApiSet[betterstatus.CreateMonitorGroup],
 		betterstatus.CreateMonitorGroupPayload{
 			Name: cfg.MonitorGroupName,
-		})
+		},
+		&monitorGroupObj,
+	)
 
 	if err != nil {
 		return err
 	}
 
-	// Unmarshal Monitor Group Resp
-	var monitorGroupObj betterstatus.CreateMonitorGroupResponse = betterstatus.CreateMonitorGroupResponse{}
-	decoder := json.NewDecoder(bytes.NewReader(monitorGroupApiResp))
-	if err := decoder.Decode(&monitorGroupObj); err != nil {
-		return fmt.Errorf("Unable to parse body: %w", err)
-	}
-
 	// Collect services
 	gnoServices, err := betterstatus.CollectGnoServices(cfg.MonitorFqdn, cfg.AdditionalPath)
 
+	var createMonitorResponses []betterstatus.CreateMonitorResponse
+	var createMonitorResp betterstatus.CreateMonitorResponse
 	// Create Monitors
 	for _, gnoService := range gnoServices {
+		createMonitorResp = betterstatus.CreateMonitorResponse{}
 		// Add group
 		gnoService.MonitorGroupID = monitorGroupObj.Data.ID
 		// Create Monitor
-		_, err := apiCaller.DoRequest(
+		err := apiCaller.DoRequest(
 			betterstatus.BetterStackApiSet[betterstatus.CreateMonitor],
-			*gnoService.ApplyPrefix(cfg.MonitorPrefixName))
+			*gnoService.ApplyPrefix(cfg.MonitorPrefixName),
+			createMonitorResp,
+		)
 
 		if err != nil { // silently catch error
 			fmt.Println("%w", err)
 		}
+		createMonitorResponses = append(createMonitorResponses, createMonitorResp)
 	}
 	return nil
 }

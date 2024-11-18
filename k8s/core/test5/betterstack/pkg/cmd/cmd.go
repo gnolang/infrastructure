@@ -25,7 +25,7 @@ func NewApiCallerCmd(apiCallerCfg *ApiCallerCfg, executor commands.ExecMethod) *
 			Name:       "betterapi",
 			ShortUsage: "betterapi [flags]",
 			ShortHelp:  "run better stack api caller",
-			LongHelp:   "Step by step caller of Betterstack Api to generate Monitors and status page entries in Betterstack website",
+			LongHelp:   "Step by step caller of Betterstack Api to generate Monitors and Status Page entries in Betterstack website",
 		},
 		apiCallerCfg,
 		executor)
