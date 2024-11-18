@@ -47,7 +47,7 @@ var BetterStackApiSet map[BetterStackApi]BetterStackApiEndpoint = map[BetterStac
 // Request Payloads
 
 type CreateMonitorPayloadList struct {
-	Monitors []CreateMonitorPayload `json:"monitors"`
+	Services []CreateMonitorPayload `json:"services"`
 }
 
 type CreateMonitorPayload struct {
@@ -112,7 +112,7 @@ type CreateStatusPageResourcePayload struct {
 	PublicName        string `json:"public_name"`
 	Explanation       string `json:"explanation"`
 	ResourceID        string `json:"resource_id"`
-	ResourceType      string `json:"resource_type" default:"monitor"`
+	ResourceType      string `json:"resource_type" default:"Monitor"`
 	WidgetType        string `json:"widget_type" default:"history"`
 }
 
@@ -120,7 +120,7 @@ func (csp CreateStatusPageResourcePayload) MarshalJSON() ([]byte, error) {
 	type AliasStatusPage CreateStatusPageResourcePayload
 
 	if csp.ResourceType == "" {
-		csp.ResourceType = "monitor"
+		csp.ResourceType = "Monitor"
 	}
 	if csp.WidgetType == "" {
 		csp.WidgetType = "history"
@@ -141,6 +141,4 @@ type CreateMonitorGroupRespData struct {
 // Create single monitor response as the same structure of group api
 type CreateMonitorResponse CreateMonitorGroupResponse
 
-type CreateStatusPageSectionResponse struct {
-	ID string `json:"id"`
-}
+type CreateStatusPageSectionResponse CreateMonitorGroupResponse

@@ -7,6 +7,34 @@ import (
 	"github.com/gnolang/gno-infrastructure/betterstatus/pkg/cmd"
 )
 
+// Collect gno services info
+func collectGnoServices(fqdn string, additionalPath string) ([]GnoMonitorPayload, error) {
+	gnoServices := gnoServices_
+	// Fulfill Templates
+	for index := range gnoServices {
+		err := gnoServices[index].GetUrlFromTemplate(
+			GnoServiceDomain{
+				FQDN: fqdn,
+			})
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	// Read additional services
+	if additionalPath != "" {
+		additionalServices, err := UmarshallServicesFromFile(additionalPath)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, extraService := range additionalServices {
+			gnoServices = append(gnoServices, GnoMonitorPayload(extraService))
+		}
+	}
+	return gnoServices, nil
+}
+
 // create monitor group apis
 func createMonitorsAndStatusPageEntries(
 	apiCaller BetterStackApiCaller,
@@ -14,7 +42,7 @@ func createMonitorsAndStatusPageEntries(
 	monitorGroupId string,
 	pageSectiondId string) error {
 	// Collect services
-	gnoServices, err := CollectGnoServices(cfg.MonitorFqdn, cfg.AdditionalPath)
+	gnoServices, err := collectGnoServices(cfg.MonitorFqdn, cfg.AdditionalPath)
 	if err != nil {
 		return err
 	}
@@ -28,7 +56,7 @@ func createMonitorsAndStatusPageEntries(
 		err := apiCaller.DoRequest(
 			BetterStackApiSet[CreateMonitor],
 			*gnoService.ApplyPrefix(cfg.MonitorPrefixName),
-			createMonitorResp,
+			&createMonitorResp,
 		)
 
 		if err != nil { // silently catch error
@@ -43,7 +71,7 @@ func createMonitorsAndStatusPageEntries(
 				StatusPageSection: pageSectiondId,
 			},
 			// useless response
-			CreateStatusPageSectionResponse{},
+			&CreateStatusPageSectionResponse{},
 		)
 
 		if err != nil { // silently catch error
@@ -77,14 +105,14 @@ func HandleBetterStackApis(cfg *cmd.ApiCallerCfg) error {
 	}
 
 	// Create Section
-	var pageSectiondObj CreateStatusPageSectionResponse = CreateStatusPageSectionResponse{}
+	var pageSectionObj CreateStatusPageSectionResponse = CreateStatusPageSectionResponse{}
 	err = apiCaller.DoRequest(
 		BetterStackApiSet[CreateStatusPageSection],
 		CreateStatusPageSectionPayload{
 			Name:     cfg.MonitorFqdn,
-			Position: 1,
+			Position: 2,
 		},
-		&pageSectiondObj,
+		&pageSectionObj,
 	)
 
 	if err != nil {
@@ -95,6 +123,6 @@ func HandleBetterStackApis(cfg *cmd.ApiCallerCfg) error {
 		apiCaller,
 		cfg,
 		monitorGroupObj.Data.ID,
-		pageSectiondObj.ID,
+		pageSectionObj.Data.ID,
 	)
 }

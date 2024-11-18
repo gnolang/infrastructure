@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func UmarshallMonitorsFromFile(jsonPath string) ([]CreateMonitorPayload, error) {
+func UmarshallServicesFromFile(jsonPath string) ([]CreateMonitorPayload, error) {
 	// Open the JSON jsonData
 	jsonData, err := os.Open(jsonPath)
 	if err != nil {
@@ -20,5 +20,5 @@ func UmarshallMonitorsFromFile(jsonPath string) ([]CreateMonitorPayload, error) 
 	if err != nil {
 		return nil, err
 	}
-	return data.Monitors, nil
+	return data.Services, nil
 }

@@ -13,7 +13,7 @@ type GnoServiceDomain struct {
 
 type GnoMonitorPayload CreateMonitorPayload
 
-var gnoservices []GnoMonitorPayload = []GnoMonitorPayload{
+var gnoServices_ []GnoMonitorPayload = []GnoMonitorPayload{
 	{
 		Name: "Gnoweb",
 		URL:  "https://{{.FQDN}}/status.json",
@@ -56,32 +56,4 @@ func (gp *GnoMonitorPayload) GetUrlFromTemplate(domain GnoServiceDomain) error {
 	// The output of the template is now in builder
 	gp.URL = builder.String()
 	return nil
-}
-
-// Collect gno services info
-func CollectGnoServices(fqdn string, additionalPath string) ([]GnoMonitorPayload, error) {
-	gnoServices := gnoservices
-	// Fulfill Templates
-	for index := range gnoServices {
-		err := gnoServices[index].GetUrlFromTemplate(
-			GnoServiceDomain{
-				FQDN: fqdn,
-			})
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	// Read additional services
-	if additionalPath != "" {
-		additionalMonitors, err := UmarshallMonitorsFromFile(additionalPath)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, addMonitor := range additionalMonitors {
-			gnoServices = append(gnoServices, GnoMonitorPayload(addMonitor))
-		}
-	}
-	return gnoServices, nil
 }

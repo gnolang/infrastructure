@@ -28,7 +28,7 @@ func (bsapi *BetterStackApiCaller) marshalJson(payload interface{}) (jsonBody []
 
 func (bsapi *BetterStackApiCaller) unmarshalJson(respBody []byte, respReceviver interface{}) error {
 	switch respReceviver.(type) {
-	case CreateMonitorGroupResponse, CreateMonitorResponse, CreateStatusPageSectionResponse:
+	case *CreateMonitorGroupResponse, *CreateMonitorResponse, *CreateStatusPageSectionResponse:
 		decoder := json.NewDecoder(bytes.NewReader(respBody))
 		if err := decoder.Decode(&respReceviver); err != nil {
 			return fmt.Errorf("Unable to parse body: %w", err)

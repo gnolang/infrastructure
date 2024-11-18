@@ -10,7 +10,7 @@ import (
 	"github.com/gnolang/gno-infrastructure/betterstatus/pkg/cmd"
 )
 
-const Test5_GroupName = "test5bb"
+const Test5_GroupName = "test5"
 const Test5_MonitorPrefixName = "Test 5"
 const Test5_MonitorFqdn = "test5.gno.land"
 const Test5_AdditionalPath = "extra-services.json"
