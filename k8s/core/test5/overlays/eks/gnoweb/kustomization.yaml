@@ -31,4 +31,4 @@ secretGenerator:
   options:
     disableNameSuffixHash: true
   envs:
-    - secrets/test5.eks.gnoweb.ini
+    - secrets/.env
