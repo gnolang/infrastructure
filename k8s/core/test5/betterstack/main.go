@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"net/http"
 	"os"
 
 	"github.com/gnolang/gno-infrastructure/betterstatus/pkg/betterstatus"
@@ -44,59 +43,11 @@ func execApiCallCms(_ context.Context, cfg *cmd.ApiCallerCfg) error {
 		cfg.AdditionalPath = Test5_AdditionalPath
 	}
 
-	err := handleMonitorsApis(cfg)
+	err := betterstatus.HandleBetterStackApis(cfg)
 	if err != nil {
 		return err
 	}
 
-	return nil
-}
-
-// Handles Monitor creations api calls
-func handleMonitorsApis(cfg *cmd.ApiCallerCfg) error {
-	apiCaller := betterstatus.BetterStackApiCaller{
-		BaseUrl:   betterstatus.BetterStackApiBaseEndpoint,
-		AuthToken: cfg.AuthToken,
-		Client:    &http.Client{},
-	}
-
-	// response receiver
-	var monitorGroupObj betterstatus.CreateMonitorGroupResponse = betterstatus.CreateMonitorGroupResponse{}
-	// Create Monitor Group
-	err := apiCaller.DoRequest(
-		betterstatus.BetterStackApiSet[betterstatus.CreateMonitorGroup],
-		betterstatus.CreateMonitorGroupPayload{
-			Name: cfg.MonitorGroupName,
-		},
-		&monitorGroupObj,
-	)
-
-	if err != nil {
-		return err
-	}
-
-	// Collect services
-	gnoServices, err := betterstatus.CollectGnoServices(cfg.MonitorFqdn, cfg.AdditionalPath)
-
-	var createMonitorResponses []betterstatus.CreateMonitorResponse
-	var createMonitorResp betterstatus.CreateMonitorResponse
-	// Create Monitors
-	for _, gnoService := range gnoServices {
-		createMonitorResp = betterstatus.CreateMonitorResponse{}
-		// Add group
-		gnoService.MonitorGroupID = monitorGroupObj.Data.ID
-		// Create Monitor
-		err := apiCaller.DoRequest(
-			betterstatus.BetterStackApiSet[betterstatus.CreateMonitor],
-			*gnoService.ApplyPrefix(cfg.MonitorPrefixName),
-			createMonitorResp,
-		)
-
-		if err != nil { // silently catch error
-			fmt.Println("%w", err)
-		}
-		createMonitorResponses = append(createMonitorResponses, createMonitorResp)
-	}
 	return nil
 }
 

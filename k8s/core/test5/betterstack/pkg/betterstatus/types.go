@@ -4,6 +4,7 @@ import "encoding/json"
 
 const JSON_CONTENT_TYPE = "application/json"
 const BetterStackApiBaseEndpoint = "https://uptime.betterstack.com/api/v2"
+const GnoStatuPageId = "176113"
 
 type BetterStackApiEndpoint struct {
 	Endpoint      string
@@ -31,13 +32,15 @@ var BetterStackApiSet map[BetterStackApi]BetterStackApiEndpoint = map[BetterStac
 	},
 	// section in status page
 	CreateStatusPageSection: {
-		Endpoint: "/status-pages/{.EndpointParam}}/sections",
-		Method:   "POST",
+		Endpoint:      "/status-pages/{{.EndpointParam}}/sections",
+		Method:        "POST",
+		EndpointParam: GnoStatuPageId,
 	},
 	// single resource in status page
 	CreateStatusPageResource: {
-		Endpoint: "/status-pages/{.EndpointParam}/resources",
-		Method:   "POST",
+		Endpoint:      "/status-pages/{{.EndpointParam}}/resources",
+		Method:        "POST",
+		EndpointParam: GnoStatuPageId,
 	},
 }
 

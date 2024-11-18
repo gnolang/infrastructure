@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
+	"text/template"
 )
 
 type BetterStackApiCaller struct {
@@ -16,7 +18,7 @@ type BetterStackApiCaller struct {
 
 func (bsapi *BetterStackApiCaller) marshalJson(payload interface{}) (jsonBody []byte, err error) {
 	switch concretePayload := payload.(type) {
-	case GnoMonitorPayload, CreateMonitorGroupPayload, CreateMonitorPayload:
+	case GnoMonitorPayload, CreateMonitorGroupPayload, CreateMonitorPayload, CreateStatusPageSectionPayload, CreateStatusPageResourcePayload:
 		jsonBody, err = json.Marshal(concretePayload)
 	default:
 		jsonBody, err = json.Marshal(payload)
@@ -26,7 +28,7 @@ func (bsapi *BetterStackApiCaller) marshalJson(payload interface{}) (jsonBody []
 
 func (bsapi *BetterStackApiCaller) unmarshalJson(respBody []byte, respReceviver interface{}) error {
 	switch respReceviver.(type) {
-	case CreateMonitorGroupResponse:
+	case CreateMonitorGroupResponse, CreateMonitorResponse, CreateStatusPageSectionResponse:
 		decoder := json.NewDecoder(bytes.NewReader(respBody))
 		if err := decoder.Decode(&respReceviver); err != nil {
 			return fmt.Errorf("Unable to parse body: %w", err)
@@ -52,10 +54,32 @@ func (bsapi *BetterStackApiCaller) handleHttpResp(endpoint string, resp *http.Re
 	return bsapi.unmarshalJson(respBody, respReceviver)
 }
 
+// Resolve API endpoint template
+func (bsapi *BetterStackApiCaller) resolveEndpointTemplate(api BetterStackApiEndpoint) (string, error) {
+	var builder strings.Builder
+	t, err := template.New("Full Endpoint Name").Parse(api.Endpoint)
+	if err != nil {
+		return "", fmt.Errorf("Error parsing template: %w", err)
+	}
+	err = t.Execute(&builder, api)
+	if err != nil {
+		return "", fmt.Errorf("Error executing template: %w", err)
+	}
+	return builder.String(), nil
+}
+
 // General HTTP Client Handler
 func (bsapi *BetterStackApiCaller) DoRequest(api BetterStackApiEndpoint, reqPayload interface{}, respReceiver interface{}) (err error) {
 	var req *http.Request
-	endpoint := fmt.Sprintf("%s%s", bsapi.BaseUrl, api.Endpoint)
+	var endpointPart string = api.Endpoint
+	if api.EndpointParam != "" {
+		endpointPart, err = bsapi.resolveEndpointTemplate(api)
+		if err != nil {
+			return err
+		}
+	}
+
+	endpoint := fmt.Sprintf("%s%s", bsapi.BaseUrl, endpointPart)
 	var jsonBody []byte
 	switch api.Method {
 	case "POST":

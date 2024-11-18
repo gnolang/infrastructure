@@ -13,8 +13,27 @@ type GnoServiceDomain struct {
 
 type GnoMonitorPayload CreateMonitorPayload
 
-func (cmp GnoMonitorPayload) MarshalJSON() ([]byte, error) {
-	return json.Marshal(CreateMonitorPayload(cmp))
+var gnoservices []GnoMonitorPayload = []GnoMonitorPayload{
+	{
+		Name: "Gnoweb",
+		URL:  "https://{{.FQDN}}/status.json",
+	},
+	{
+		Name: "Faucet",
+		URL:  "https://faucet-api.{{.FQDN}}/health",
+	},
+	{
+		Name: "Indexer",
+		URL:  "https://faucet-api.{{.FQDN}}/health",
+	},
+	{
+		Name: "RPC Node HTTP",
+		URL:  "https://rpc.{{.FQDN}}/",
+	},
+}
+
+func (gp GnoMonitorPayload) MarshalJSON() ([]byte, error) {
+	return json.Marshal(CreateMonitorPayload(gp))
 }
 
 func (gp *GnoMonitorPayload) ApplyPrefix(prefix string) *GnoMonitorPayload {
@@ -37,25 +56,6 @@ func (gp *GnoMonitorPayload) GetUrlFromTemplate(domain GnoServiceDomain) error {
 	// The output of the template is now in builder
 	gp.URL = builder.String()
 	return nil
-}
-
-var gnoservices []GnoMonitorPayload = []GnoMonitorPayload{
-	{
-		Name: "Gnoweb",
-		URL:  "https://{{.FQDN}}/status.json",
-	},
-	{
-		Name: "Faucet",
-		URL:  "https://faucet-api.{{.FQDN}}/health",
-	},
-	{
-		Name: "Indexer",
-		URL:  "https://faucet-api.{{.FQDN}}/health",
-	},
-	{
-		Name: "RPC Node HTTP",
-		URL:  "https://rpc.{{.FQDN}}/",
-	},
 }
 
 // Collect gno services info
