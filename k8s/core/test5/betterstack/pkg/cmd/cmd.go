@@ -7,10 +7,6 @@ import (
 	"github.com/gnolang/gno/tm2/pkg/commands"
 )
 
-const Test5_GroupName = "test5"
-const Test5_MonitorPrefixName = "Test 5"
-const Test5_MonitorFqdn = "test5.gno.land"
-
 type ApiCallerCfg struct {
 	AuthToken         string
 	MonitorGroupName  string
