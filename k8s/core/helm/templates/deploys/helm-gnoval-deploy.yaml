@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    gno.service: gnoland
+    gno.type: {{ default "validator" .Values.app.type }}
+  name: {{ .Values.app.name }}
+  namespace: {{ default "gno" .Values.app.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      gno.service: gnoland
+      gno.type: {{ default "validator" .Values.app.type }}
+  template:
+    metadata:
+      labels:
+        gno.service: gnoland
+        gno.type: {{ default "validator" .Values.app.type }}
+        gno.role: {{ .Values.app.role }}
+        gno.name: {{ .Values.app.name }}
+    spec:
+      {{- if .Values.placement.tolerations.enabled }}
+      # Tainted node
+      tolerations:
+      - key: "type"
+        operator: "Equal"
+        value: "validator"
+        effect: "NoSchedule"
+      # Node Selector
+      nodeSelector:
+        reserved: validator-node
+      # Pod Anti-Affinity
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: gno.type
+                operator: In
+                values:
+                - "validator"
+            topologyKey: "kubernetes.io/hostname"
+      {{- end }}
+      initContainers:
+      - name: init-genesis-secrets
+        # copies files from configmap into PVC to avoid RO fs problems
+        image: busybox
+        command:
+        - sh
+        - -c
+        - |
+          wget -O /gnoroot/gnoland-data/genesis.json https://gno-snapshots.lon1.digitaloceanspaces.com/test5/genesis.json
+          cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
+          echo "Successfully copied secrets and genesis file"
+        volumeMounts:
+        - name: {{ .Values.app.name }}-vol
+          mountPath: /gnoroot/gnoland-data
+        - name: {{ .Values.app.name }}-secrets
+          mountPath: /gnoroot/secrets
+      {{- if (.Values.gnoland).config }}
+      - name: init-config
+        image: ghcr.io/gnolang/gno/gnoland:chain-test5.0
+        command:
+        - sh
+        - -c
+        - |
+          cp -Lr /gnoroot/config-ro /gnoroot/gnoland-data/config
+          gnoland config set p2p.persistent_peers {{ default "\"\"" .Values.gnoland.config.persistent_peers }}
+        volumeMounts:
+        - name: {{ .Values.app.name }}-vol
+          mountPath: /gnoroot/gnoland-data
+        - name: {{ .Values.app.name }}-conf
+          mountPath: /gnoroot/config-ro
+      {{- end }}
+      containers:
+      - name: gnoland
+        image: ghcr.io/gnolang/gno/gnoland:chain-test5.0
+        imagePullPolicy: IfNotPresent
+        args:
+          - start
+          - -genesis=/gnoroot/gnoland-data/genesis.json # loaded from init container
+        ports:
+          {{- if eq .Values.app.type "rpc" }}
+          - name: rpc-public
+            containerPort: 26657
+          {{- end }}
+          - name: p2p-internal
+            containerPort: 26656
+        resources:
+          limits:
+            cpu: {{ (((.Values.placement).resources).limits).cpu | default "1" }}
+            memory: {{ (((.Values.placement).resources).limits).memory | default "1Gi"}}
+          requests:
+            cpu: {{ (((.Values.placement).resources).requests).cpu | default "1" }}
+            memory: {{ (((.Values.placement).resources).requests).memory | default "500Mi"}}
+        volumeMounts:
+        - name: {{ .Values.app.name }}-vol
+          mountPath: /gnoroot/gnoland-data
+        {{- if not (hasKey (.Values.gnoland) "config" ) }}
+        - name: {{ .Values.app.name }}-conf
+          mountPath: /gnoroot/gnoland-data/config
+        {{- end }}
+      volumes:
+      - name: {{ .Values.app.name }}-vol
+        persistentVolumeClaim:
+          claimName: {{ .Values.app.name }}-pv-claim
+      - name: {{ .Values.app.name }}-conf
+        configMap:
+          name: {{ .Values.app.name }}-config
+          items:
+          - key: config.toml
+            path: config.toml
+      - name: {{ .Values.app.name }}-secrets
+        configMap:
+          name: {{ .Values.app.name }}-config
+          items:
+          - key: node_key.json
+            path: node_key.json
+          - key: priv_validator_key.json
+            path: priv_validator_key.json
+          - key: priv_validator_state.json
+            path: priv_validator_state.json
+          - key: node_key.json
+            path: node_key.json

@@ -1,0 +1,17 @@
+kind: IngressRoute
+apiVersion: traefik.io/v1alpha1
+metadata:
+  name: tx-indexer-ingress-tls
+  namespace: gno
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`indexer.test5.gnoteam.com`) || Host(`indexer.test5.gno.land`)
+    kind: Rule
+    services:
+    - name: tx-indexer
+      namespace: gno
+      port: tx-indexer-port
+  tls:
+    certResolver: gnoresolver

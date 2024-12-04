@@ -7,7 +7,9 @@ Setup for the Kubernetes cluster.
 ### Prerequisites
 
 * K8S (+ kubectl)
-* [Kind](https://kind.sigs.k8s.io/)
+* [Kind](https://kind.sigs.k8s.io)
+* [Skaffold](https://skaffold.dev)
+* [Helm](https://helm.sh)
 
 ### Using KinD
 
@@ -232,6 +234,22 @@ kubectl delete pod <pod_name> -n <namespace> --grace-period=0 --force
 127.0.0.1 grafana.gnoland.tech
 ```
 
+* Get specific information on resource capacity of a node
+
+```bash
+kubectl describe node  <node-name>
+```
+
+and check output
+
+```yaml
+Capacity:
+  cpu:                2
+  memory:             3922840Ki
+  pods:               29
+  ...
+```
+
 ---
 
 ## Resources
@@ -266,3 +284,8 @@ kubectl delete pod <pod_name> -n <namespace> --grace-period=0 --force
 * [Profiles | Skaffold](https://skaffold.dev/docs/environment/profiles/)
 * [skaffold.yaml | Skaffold](https://skaffold.dev/docs/references/yaml/?version=v4beta11)
 * [skaffold/examples at main · GoogleContainerTools/skaffold](https://github.com/GoogleContainerTools/skaffold/tree/main/examples)
+
+### Log Rotation
+
+* [Logging Architecture | Kubernetes](https://kubernetes.io/docs/concepts/cluster-administration/logging/#log-rotation)
+* [Logging for Amazon EKS - AWS Prescriptive Guidance](https://docs.aws.amazon.com/prescriptive-guidance/latest/implementing-logging-monitoring-cloudwatch/kubernetes-eks-logging.html)

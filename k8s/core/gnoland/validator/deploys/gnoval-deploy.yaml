@@ -20,21 +20,45 @@ spec:
         gno.role: validator
     spec:
       initContainers:
-      - name: init-secrets
-        image: ghcr.io/gnolang/gno/gnoland:0.2.0
-        args:
-        - secrets
-        - init
-        - -force=true
+      - name: init-genesis-secrets
+        # copies files from configmap into PVC to avoid RO fs problems
+        image: busybox
+        command:
+        - sh
+        - -c
+        - |
+          cp /gnoroot/genesis/genesis.json /gnoroot/gnoland-data/genesis.json
+          cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
         volumeMounts:
         - name: gno-val-vol
           mountPath: /gnoroot/gnoland-data
-      - name: init-config
+        - name: gno-val-secrets
+          mountPath: /gnoroot/secrets
+        - name: gnoland-genesis
+          mountPath: /gnoroot/genesis
+      - name: init-genesis-txs
         image: ghcr.io/gnolang/gno/gnoland:0.2.0
-        command: ["/bin/sh", "-c"]
         args:
-        - gnoland config init;
-          gnoland config set moniker gno-validator-1;
+        - genesis
+        - txs
+        - add
+        - packages
+        - /gnoroot/examples
+        - -genesis-path
+        - /gnoroot/gnoland-data/genesis.json
+        volumeMounts:
+        - name: gno-val-vol
+          mountPath: /gnoroot/gnoland-data
+      - name: init-genesis-balance
+        image: ghcr.io/gnolang/gno/gnoland:0.2.0
+        args:
+        - genesis
+        - balances
+        - add
+        - -balance-sheet
+        - /gnoroot/gno.land/genesis/genesis_balances.txt
+        - -genesis-path
+        - /gnoroot/gnoland-data/genesis.json
         volumeMounts:
         - name: gno-val-vol
           mountPath: /gnoroot/gnoland-data
@@ -44,9 +68,9 @@ spec:
         imagePullPolicy: IfNotPresent
         args:
           - start
-          - --lazy
+          - -genesis=/gnoroot/gnoland-data/genesis.json # loaded from init container
         ports:
-          - name: rpc-internal
+          - name: val-internal
             containerPort: 26656
         resources:
           limits:
@@ -58,7 +82,33 @@ spec:
         volumeMounts:
         - name: gno-val-vol
           mountPath: /gnoroot/gnoland-data
+        - name: gno-val-conf
+          mountPath: /gnoroot/gnoland-data/config
       volumes:
       - name: gno-val-vol
         persistentVolumeClaim:
           claimName: gno-val-pv-claim
+      - name: gno-val-conf
+        configMap:
+          name: gno-val-config
+          items:
+          - key: config.toml
+            path: config.toml
+      - name: gno-val-secrets
+        configMap:
+          name: gno-val-config
+          items:
+          - key: node_key.json
+            path: node_key.json
+          - key: priv_validator_key.json
+            path: priv_validator_key.json
+          - key: priv_validator_state.json
+            path: priv_validator_state.json
+          - key: node_key.json
+            path: node_key.json
+      - name: gnoland-genesis
+        configMap:
+          name: gno-genesis
+          items:
+          - key: genesis.json
+            path: genesis.json

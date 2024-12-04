@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/opt/indexer/data" 
+    path: "/opt/indexer/data"
 
 ---
 

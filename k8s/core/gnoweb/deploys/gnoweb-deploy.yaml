@@ -23,8 +23,8 @@ spec:
         args:
             - --bind=0.0.0.0:8888
             - --remote=http://gnoland-rpc:26657
-            - --faucet-url=http://gnofaucet:5050
-            - --captcha-site=
+            - --faucet-url=$(FAUCET_URL)
+            - --captcha-site=$(CAPTCHA_SITE_KEY)
             - --with-analytics
             - --help-chainid=$(CHAIN_ID)
             - --help-remote=$(RPC_REMOTE)

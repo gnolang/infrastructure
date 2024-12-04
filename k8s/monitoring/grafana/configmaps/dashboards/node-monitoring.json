@@ -1554,7 +1554,7 @@
         "query": "[a-z]+|nvme[0-9]+n[0-9]+|mmcblk[0-9]+",
         "skipUrlSync": false,
         "type": "custom"
-      } 
+      }
 
     ]
   },

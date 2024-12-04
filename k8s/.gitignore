@@ -1,3 +1,13 @@
-.ini
+*.ini
 to_be_trashed
 .env
+
+# Gno Secrets
+node_key.json
+priv_validator_key.json
+
+## Ignore all JSON files in folders ending with "secrets/"
+**/*secrets/**/*.json
+
+## Allow priv_validator_state.json specifically in any "secrets/" folder
+!**/*secrets/**/priv_validator_state.json

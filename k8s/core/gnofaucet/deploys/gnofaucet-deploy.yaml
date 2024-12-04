@@ -29,6 +29,6 @@ spec:
             - --num-accounts=10
             - --chain-id=$(CHAIN_ID)
             - --mnemonic=$(MNEMONIC)
-            - --captcha-secret=${CAPTCHA}
+            - --captcha-secret=$(CAPTCHA_SECRET_KEY)
         ports:
           - containerPort: 5050

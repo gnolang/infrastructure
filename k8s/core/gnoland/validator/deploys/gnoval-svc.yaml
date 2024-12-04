@@ -4,7 +4,7 @@ metadata:
   labels:
     gno.service: gnoland
     gno.type: validator
-    gno.role: validator 
+    gno.role: validator
   name: gnoland-val
   namespace: gno
 spec:

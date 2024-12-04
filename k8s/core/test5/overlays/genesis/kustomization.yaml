@@ -1,0 +1,7 @@
+configMapGenerator:
+- name: gno-genesis
+  namespace: gno
+  options:
+    disableNameSuffixHash: true
+  files:
+  - genesis.json=FINAL-test5-genesis.json

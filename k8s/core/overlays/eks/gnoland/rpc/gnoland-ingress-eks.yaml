@@ -4,6 +4,8 @@ metadata:
   name: gnoland-rpc-ingress
   namespace: gno
 spec:
+  entryPoints:
+    - web
   routes:
   - match: Host(`rpc.k8s.gnoteam.com`)
     kind: Rule

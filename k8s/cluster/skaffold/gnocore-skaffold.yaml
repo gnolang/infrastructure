@@ -13,12 +13,14 @@ profiles:
           ## Gnoland
           ### RPC
           - ../../core/gnoland/rpc
-          # ### Indexer
+          ### Indexer
           - ../../core/indexer
           ### Gnofaucet
           - ../../core/gnofaucet
           ### Gnoweb
           - ../../core/gnoweb
+          ### Validator 1
+          - ../../core/gnoland/validator
   - name: eks-dev
     manifests:
       kustomize:

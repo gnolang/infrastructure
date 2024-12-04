@@ -26,7 +26,7 @@ filter_peers = false
 home = ""
 
 # A custom human readable name for this node
-moniker = "5e9464f9ea32"
+moniker = "rpc.k8s.gno0"
 
 # Path to the JSON file containing the private key to use for node authentication in the p2p protocol
 node_key_file = "secrets/node_key.json"
@@ -44,7 +44,7 @@ priv_validator_state_file = "secrets/priv_validator_state.json"
 # TCP or UNIX socket address for the profiling server to listen on
 prof_laddr = ""
 
-# TCP or UNIX socket address of the ABCI application, 
+# TCP or UNIX socket address of the ABCI application,
 # or the name of an ABCI application compiled in with the Tendermint binary
 proxy_app = "tcp://127.0.0.1:26658"
 
@@ -62,7 +62,7 @@ proxy_app = "tcp://127.0.0.1:26658"
 
   # Make progress as soon as we have all the precommits (as if TimeoutCommit = 0)
   skip_timeout_commit = false
-  timeout_commit = "5s"
+  timeout_commit = "1s"
   timeout_precommit = "1s"
   timeout_precommit_delta = "500ms"
   timeout_prevote = "1s"
@@ -122,7 +122,7 @@ proxy_app = "tcp://127.0.0.1:26658"
   max_packet_msg_payload_size = 1024
 
   # Comma separated list of nodes to keep persistent connections to
-  persistent_peers = ""
+  persistent_peers = "g12wtg0jwusa8ksq2p3lgwwhpvjxf8w79nzraf48@gnoland-rpc:26656,g1azgtwan9grgsv33h4kwu6ktakl7ckqfhfqljef@gnoland-val:26656"
 
   # Set true to enable the peer-exchange reactor
   pex = true
@@ -227,14 +227,14 @@ proxy_app = "tcp://127.0.0.1:26658"
 
 ##### node telemetry #####
 [telemetry]
-  enabled = false
+  enabled = true
 
   # the endpoint to export metrics to, like a local OpenTelemetry collector
-  exporter_endpoint = ""
+  exporter_endpoint = "otel-svc:4317"
   meter_name = "gno.land"
 
   # the ID helps to distinguish instances of the same service that exist at the same time (e.g. instances of a horizontally scaled service)
-  service_instance_id = "gno-node-1"
+  service_instance_id = "gno-rpc-node-1"
   service_name = "gno.land"
 
 ##### event store #####

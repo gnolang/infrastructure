@@ -2,6 +2,6 @@ configMapGenerator:
 - name: prometheus-run-conf
   namespace: monitoring
   options:
-    disableNameSuffixHash: true  
+    disableNameSuffixHash: true
   files:
   - prometheus.yaml=prometheus-src.yaml

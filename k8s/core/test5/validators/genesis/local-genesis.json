@@ -1,0 +1,39 @@
+{
+  "genesis_time": "2024-11-04T15:43:28Z",
+  "chain_id": "test5",
+  "consensus_params": {
+    "Block": {
+      "MaxTxBytes": "1000000",
+      "MaxDataBytes": "2000000",
+      "MaxBlockBytes": "0",
+      "MaxGas": "100000000",
+      "TimeIotaMS": "100"
+    },
+    "Validator": {
+      "PubKeyTypeURLs": [
+        "/tm.PubKeyEd25519"
+      ]
+    }
+  },
+  "validators": [
+    {
+      "address": "g1qn3jwvdpva622j3fyudqy65zstnqx2wnqhrs3s",
+      "pub_key": {
+        "@type": "/tm.PubKeyEd25519",
+        "value": "zaBcr0biE2vRjIopHCLtDgte/5tKuCEdlBLvmfgRuZI="
+      },
+      "power": "1",
+      "name": "val-01"
+    },
+    {
+      "address": "g1gtu9czw9qavrtdnf936usvwjwyjz0x0jk243au",
+      "pub_key": {
+        "@type": "/tm.PubKeyEd25519",
+        "value": "VI8ITXN0TXGvOBjCbu5Rmus5zzqn79ws7AQeIqr6t2o="
+      },
+      "power": "1",
+      "name": "val-02"
+    }
+  ],
+  "app_hash": null
+}

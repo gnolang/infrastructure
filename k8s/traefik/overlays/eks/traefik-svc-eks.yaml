@@ -13,16 +13,16 @@ spec:
     protocol: TCP
     port: 8080
     targetPort: 8080
-    # nodePort: null
   - name: web
     protocol: TCP
     port: 80
     targetPort: 80
-    # nodePort: null
   - name: webtls
     protocol: TCP
     port: 443
-    targetPort: 4443
-    # explicitly remove the nodePorts entry to de-allocate those node ports
-    # nodePort: null
+    targetPort: 443
+  - name: p2p
+    protocol: TCP
+    port: 26656
+    targetPort: 26656
   type: LoadBalancer

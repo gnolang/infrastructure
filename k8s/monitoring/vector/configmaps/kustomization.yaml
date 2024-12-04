@@ -2,6 +2,6 @@ configMapGenerator:
 - name: vector-conf
   namespace: monitoring
   options:
-    disableNameSuffixHash: true  
+    disableNameSuffixHash: true
   files:
   - vector.yaml=vector-src.yaml

@@ -1,0 +1,14 @@
+apiVersion: v2
+name: gno-validator
+description: A Helm chart for Gno validator
+
+version: 1.0.0
+appVersion: 0.2.0
+
+maintainers:
+  - name: Sergio Matone
+
+keywords:
+  - gno
+  - gnoland
+  - validator

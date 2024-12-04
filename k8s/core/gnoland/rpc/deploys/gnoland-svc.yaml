@@ -4,14 +4,14 @@ metadata:
   labels:
     gno.service: gnoland
     gno.type: rpc
-    gno.role: validator 
+    gno.role: validator
   name: gnoland-rpc
   namespace: gno
 spec:
   selector:
     gno.service: gnoland
     gno.type: rpc
-    gno.role: validator 
+    gno.role: validator
   ports:
     - name: rpc-public
       port: 26657

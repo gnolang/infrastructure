@@ -9,8 +9,8 @@ sources:
     type: kubernetes_logs
     extra_field_selector: "metadata.namespace!=kube-system"
   vector_logs:
-    type: internal_logs  
-  
+    type: internal_logs
+
   host_metrics:
     filesystem:
       devices:
