@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func UmarshallServicesFromFile(jsonPath string) ([]CreateMonitorPayload, error) {
+func UnmarshallServicesFromFile(jsonPath string) ([]CreateMonitorPayload, error) {
 	// Open the JSON jsonData
 	jsonData, err := os.Open(jsonPath)
 	if err != nil {

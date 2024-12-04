@@ -4,6 +4,8 @@ import "encoding/json"
 
 const JSON_CONTENT_TYPE = "application/json"
 const BetterStackApiBaseEndpoint = "https://uptime.betterstack.com/api/v2"
+
+// This is the current Status Page id in BetterStack, which is unlikely to be changed
 const GnoStatuPageId = "176113"
 
 type BetterStackApiEndpoint struct {

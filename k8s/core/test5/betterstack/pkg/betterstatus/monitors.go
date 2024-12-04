@@ -12,10 +12,9 @@ func collectGnoServices(fqdn string, additionalPath string) ([]GnoMonitorPayload
 	gnoServices := gnoServices_
 	// Fulfill Templates
 	for index := range gnoServices {
-		err := gnoServices[index].GetUrlFromTemplate(
-			GnoServiceDomain{
-				FQDN: fqdn,
-			})
+		err := gnoServices[index].GetUrlFromTemplate(GnoServiceDomain{
+			FQDN: fqdn,
+		})
 		if err != nil {
 			return nil, err
 		}
@@ -23,7 +22,7 @@ func collectGnoServices(fqdn string, additionalPath string) ([]GnoMonitorPayload
 
 	// Read additional services
 	if additionalPath != "" {
-		additionalServices, err := UmarshallServicesFromFile(additionalPath)
+		additionalServices, err := UnmarshallServicesFromFile(additionalPath)
 		if err != nil {
 			return nil, err
 		}
@@ -91,7 +90,7 @@ func HandleBetterStackApis(cfg *cmd.ApiCallerCfg) error {
 	}
 
 	// Create Monitor Group
-	var monitorGroupObj CreateMonitorGroupResponse = CreateMonitorGroupResponse{}
+	var monitorGroupObj CreateMonitorGroupResponse
 	err := apiCaller.DoRequest(
 		BetterStackApiSet[CreateMonitorGroup],
 		CreateMonitorGroupPayload{
@@ -105,7 +104,7 @@ func HandleBetterStackApis(cfg *cmd.ApiCallerCfg) error {
 	}
 
 	// Create Section
-	var pageSectionObj CreateStatusPageSectionResponse = CreateStatusPageSectionResponse{}
+	var pageSectionObj CreateStatusPageSectionResponse
 	err = apiCaller.DoRequest(
 		BetterStackApiSet[CreateStatusPageSection],
 		CreateStatusPageSectionPayload{
