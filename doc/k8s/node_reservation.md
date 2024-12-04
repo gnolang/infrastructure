@@ -1,7 +1,7 @@
 # Reserving a Node for a Single Pod in Kubernetes
 
 In Kubernetes, it's possible to reserve an entire node for a single pod.
-This is useful for validators node, where we want that each pod related to a validator is scheduled into a node and nothing else,
+This is useful for validators node, where we want that each pod related to a validator is scheduled into a node and nothing else.
 
 > 1 Kubernetes Node ~ 1 Validator Node
 

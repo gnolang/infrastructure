@@ -80,7 +80,6 @@ spec:
         args:
           - start
           - -genesis=/gnoroot/gnoland-data/genesis.json # loaded from init container
-          # - -log-level=info
         ports:
           {{- if eq .Values.app.type "rpc" }}
           - name: rpc-public

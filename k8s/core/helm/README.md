@@ -20,7 +20,7 @@ helm template gno-validator . --output-dir ./out --values values.yaml
 
 ## Handling template resources
 
-### Intall
+### Install
 
 Renders the templates in the chart and deploys it to a Kubernetes cluster
 

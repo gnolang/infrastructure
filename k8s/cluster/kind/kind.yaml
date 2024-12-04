@@ -22,4 +22,5 @@ nodes:
       hostPort: 3000
     - containerPort: 30003
       hostPort: 9000
+# In order to add further workers, declare them below like
 # - role: worker

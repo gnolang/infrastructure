@@ -1,5 +1,3 @@
-out/
-
 # Allow secrets for dev purposes
 !node_key.json
 !priv_validator_key.json
