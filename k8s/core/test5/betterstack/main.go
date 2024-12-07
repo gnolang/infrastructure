@@ -1,19 +1,16 @@
 package main
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
 	"flag"
 	"fmt"
-	"net/http"
 	"os"
 
 	"github.com/gnolang/gno-infrastructure/betterstatus/pkg/betterstatus"
 	"github.com/gnolang/gno-infrastructure/betterstatus/pkg/cmd"
 )
 
-const Test5_GroupName = "test5bb"
+const Test5_GroupName = "test5"
 const Test5_MonitorPrefixName = "Test 5"
 const Test5_MonitorFqdn = "test5.gno.land"
 const Test5_AdditionalPath = "extra-services.json"
@@ -46,56 +43,11 @@ func execApiCallCms(_ context.Context, cfg *cmd.ApiCallerCfg) error {
 		cfg.AdditionalPath = Test5_AdditionalPath
 	}
 
-	err := handleMonitorsApis(cfg)
+	err := betterstatus.HandleBetterStackApis(cfg)
 	if err != nil {
 		return err
 	}
 
-	return nil
-}
-
-// Handles Monitor creations api calls
-func handleMonitorsApis(cfg *cmd.ApiCallerCfg) error {
-	apiCaller := betterstatus.BetterStackApiCaller{
-		BaseUrl:   betterstatus.BetterStackApiBaseEndpoint,
-		AuthToken: cfg.AuthToken,
-		Client:    &http.Client{},
-	}
-
-	// Create Monitor Group
-	monitorGroupApiResp, err := apiCaller.DoRequest(
-		betterstatus.BetterStackApiSet[betterstatus.CreateMonitorGroup],
-		betterstatus.CreateMonitorGroupPayload{
-			Name: cfg.MonitorGroupName,
-		})
-
-	if err != nil {
-		return err
-	}
-
-	// Unmarshal Monitor Group Resp
-	var monitorGroupObj betterstatus.CreateMonitorGroupResponse = betterstatus.CreateMonitorGroupResponse{}
-	decoder := json.NewDecoder(bytes.NewReader(monitorGroupApiResp))
-	if err := decoder.Decode(&monitorGroupObj); err != nil {
-		return fmt.Errorf("Unable to parse body: %w", err)
-	}
-
-	// Collect services
-	gnoServices, err := betterstatus.CollectGnoServices(cfg.MonitorFqdn, cfg.AdditionalPath)
-
-	// Create Monitors
-	for _, gnoService := range gnoServices {
-		// Add group
-		gnoService.MonitorGroupID = monitorGroupObj.Data.ID
-		// Create Monitor
-		_, err := apiCaller.DoRequest(
-			betterstatus.BetterStackApiSet[betterstatus.CreateMonitor],
-			*gnoService.ApplyPrefix(cfg.MonitorPrefixName))
-
-		if err != nil { // silently catch error
-			fmt.Println("%w", err)
-		}
-	}
 	return nil
 }
 

@@ -1,33 +1,58 @@
 package betterstatus
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"net/http"
+)
 
 const JSON_CONTENT_TYPE = "application/json"
 const BetterStackApiBaseEndpoint = "https://uptime.betterstack.com/api/v2"
 
+// This is the current Status Page id in BetterStack, which is unlikely to be changed
+const GnoStatuPageId = "176113"
+
 type BetterStackApiEndpoint struct {
-	Endpoint string
-	Method   string
+	Endpoint      string
+	Method        string
+	EndpointParam string
 }
+
+// APIs
 
 type BetterStackApi string
 
 const CreateMonitor BetterStackApi = "createMonitor"
 const CreateMonitorGroup BetterStackApi = "createMonitorGroup"
+const CreateStatusPageSection BetterStackApi = "createStatusPageSection"
+const CreateStatusPageResource BetterStackApi = "createStatusPageResource"
 
 var BetterStackApiSet map[BetterStackApi]BetterStackApiEndpoint = map[BetterStackApi]BetterStackApiEndpoint{
 	CreateMonitor: {
 		Endpoint: "/monitors",
-		Method:   "POST",
+		Method:   http.MethodPost,
 	},
 	CreateMonitorGroup: {
 		Endpoint: "/monitor-groups",
-		Method:   "POST",
+		Method:   http.MethodPost,
+	},
+	// section in status page
+	CreateStatusPageSection: {
+		Endpoint:      "/status-pages/{{.EndpointParam}}/sections",
+		Method:        http.MethodPost,
+		EndpointParam: GnoStatuPageId,
+	},
+	// single resource in status page
+	CreateStatusPageResource: {
+		Endpoint:      "/status-pages/{{.EndpointParam}}/resources",
+		Method:        http.MethodPost,
+		EndpointParam: GnoStatuPageId,
 	},
 }
 
+// Request Payloads
+
 type CreateMonitorPayloadList struct {
-	Monitors []CreateMonitorPayload `json:"monitors"`
+	Services []CreateMonitorPayload `json:"services"`
 }
 
 type CreateMonitorPayload struct {
@@ -82,6 +107,34 @@ func (cmgp CreateMonitorGroupPayload) MarshalJSON() ([]byte, error) {
 	return json.Marshal((AliasGroup)(cmgp))
 }
 
+type CreateStatusPageSectionPayload struct {
+	Name     string `json:"name"`
+	Position int    `json:"position"`
+}
+
+type CreateStatusPageResourcePayload struct {
+	StatusPageSection string `json:"status_page_section_id"`
+	PublicName        string `json:"public_name"`
+	Explanation       string `json:"explanation"`
+	ResourceID        string `json:"resource_id"`
+	ResourceType      string `json:"resource_type" default:"Monitor"`
+	WidgetType        string `json:"widget_type" default:"history"`
+}
+
+func (csp CreateStatusPageResourcePayload) MarshalJSON() ([]byte, error) {
+	type AliasStatusPage CreateStatusPageResourcePayload
+
+	if csp.ResourceType == "" {
+		csp.ResourceType = "Monitor"
+	}
+	if csp.WidgetType == "" {
+		csp.WidgetType = "history"
+	}
+	return json.Marshal((AliasStatusPage)(csp))
+}
+
+// Response Payload
+
 type CreateMonitorGroupResponse struct {
 	Data CreateMonitorGroupRespData `json:"data"`
 }
@@ -89,3 +142,8 @@ type CreateMonitorGroupResponse struct {
 type CreateMonitorGroupRespData struct {
 	ID string `json:"id"`
 }
+
+// Create single monitor response as the same structure of group api
+type CreateMonitorResponse CreateMonitorGroupResponse
+
+type CreateStatusPageSectionResponse CreateMonitorGroupResponse
