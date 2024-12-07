@@ -1,6 +1,9 @@
 package betterstatus
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"net/http"
+)
 
 const JSON_CONTENT_TYPE = "application/json"
 const BetterStackApiBaseEndpoint = "https://uptime.betterstack.com/api/v2"
@@ -26,22 +29,22 @@ const CreateStatusPageResource BetterStackApi = "createStatusPageResource"
 var BetterStackApiSet map[BetterStackApi]BetterStackApiEndpoint = map[BetterStackApi]BetterStackApiEndpoint{
 	CreateMonitor: {
 		Endpoint: "/monitors",
-		Method:   "POST",
+		Method:   http.MethodPost,
 	},
 	CreateMonitorGroup: {
 		Endpoint: "/monitor-groups",
-		Method:   "POST",
+		Method:   http.MethodPost,
 	},
 	// section in status page
 	CreateStatusPageSection: {
 		Endpoint:      "/status-pages/{{.EndpointParam}}/sections",
-		Method:        "POST",
+		Method:        http.MethodPost,
 		EndpointParam: GnoStatuPageId,
 	},
 	// single resource in status page
 	CreateStatusPageResource: {
 		Endpoint:      "/status-pages/{{.EndpointParam}}/resources",
-		Method:        "POST",
+		Method:        http.MethodPost,
 		EndpointParam: GnoStatuPageId,
 	},
 }

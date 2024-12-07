@@ -26,11 +26,17 @@ func (bsapi *BetterStackApiCaller) marshalJson(payload interface{}) (jsonBody []
 	return
 }
 
-func (bsapi *BetterStackApiCaller) unmarshalJson(respBody []byte, respReceviver interface{}) error {
-	switch respReceviver.(type) {
+func (bsapi *BetterStackApiCaller) unmarshalJson(endpoint string, respBody io.ReadCloser, respReceiver interface{}) error {
+	defer respBody.Close()
+	buf := new(bytes.Buffer)
+	_, err := buf.ReadFrom(respBody)
+	if err != nil {
+		return fmt.Errorf("Empty body from request %s", endpoint)
+	}
+
+	switch respReceiver.(type) {
 	case *CreateMonitorGroupResponse, *CreateMonitorResponse, *CreateStatusPageSectionResponse:
-		decoder := json.NewDecoder(bytes.NewReader(respBody))
-		if err := decoder.Decode(&respReceviver); err != nil {
+		if err := json.Unmarshal(buf.Bytes(), &respReceiver); err != nil {
 			return fmt.Errorf("Unable to parse body: %w", err)
 		}
 		return nil
@@ -44,14 +50,7 @@ func (bsapi *BetterStackApiCaller) handleHttpResp(endpoint string, resp *http.Re
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		return fmt.Errorf("Error in HTTP call: %s", resp.Status)
 	}
-	respBody, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return err
-	}
-	if len(respBody) == 0 {
-		return fmt.Errorf("Empty body from request %s", endpoint)
-	}
-	return bsapi.unmarshalJson(respBody, respReceviver)
+	return bsapi.unmarshalJson(endpoint, io.NopCloser(resp.Body), respReceviver)
 }
 
 // Resolve API endpoint template
@@ -59,11 +58,10 @@ func (bsapi *BetterStackApiCaller) resolveEndpointTemplate(api BetterStackApiEnd
 	var builder strings.Builder
 	t, err := template.New("Full Endpoint Name").Parse(api.Endpoint)
 	if err != nil {
-		return "", fmt.Errorf("Error parsing template: %w", err)
+		return "", fmt.Errorf("error parsing template: %w", err)
 	}
-	err = t.Execute(&builder, api)
-	if err != nil {
-		return "", fmt.Errorf("Error executing template: %w", err)
+	if err = t.Execute(&builder, api); err != nil {
+		return "", fmt.Errorf("error executing template: %w", err)
 	}
 	return builder.String(), nil
 }
@@ -82,7 +80,7 @@ func (bsapi *BetterStackApiCaller) DoRequest(api BetterStackApiEndpoint, reqPayl
 	endpoint := fmt.Sprintf("%s%s", bsapi.BaseUrl, endpointPart)
 	var jsonBody []byte
 	switch api.Method {
-	case "POST":
+	case http.MethodPost:
 		jsonBody, err = bsapi.marshalJson(reqPayload)
 		if err != nil {
 			err = fmt.Errorf("Unable to Marshal JSON, %w", err)
