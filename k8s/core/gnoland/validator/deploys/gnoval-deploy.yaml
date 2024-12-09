@@ -37,9 +37,9 @@ spec:
         - name: gnoland-genesis
           mountPath: /gnoroot/genesis
       - name: init-genesis-txs
-        image: ghcr.io/gnolang/gno/gnoland:0.2.0
-        args:
-        - genesis
+        image: ghcr.io/gnolang/gno/gnocontribs:master
+        command:
+        - gnogenesis
         - txs
         - add
         - packages
@@ -50,9 +50,9 @@ spec:
         - name: gno-val-vol
           mountPath: /gnoroot/gnoland-data
       - name: init-genesis-balance
-        image: ghcr.io/gnolang/gno/gnoland:0.2.0
-        args:
-        - genesis
+        image: ghcr.io/gnolang/gno/gnocontribs:master
+        command:
+        - gnogenesis
         - balances
         - add
         - -balance-sheet
@@ -64,7 +64,7 @@ spec:
           mountPath: /gnoroot/gnoland-data
       containers:
       - name: gnoland
-        image: ghcr.io/gnolang/gno/gnoland:0.2.0
+        image: ghcr.io/gnolang/gno/gnoland:master
         imagePullPolicy: IfNotPresent
         args:
           - start

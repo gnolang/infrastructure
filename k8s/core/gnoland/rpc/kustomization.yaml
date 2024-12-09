@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
 - ../configmap-shared
 - configmaps/
-- storage/gnoland-pv.yaml
-- deploys/gnoland-deploy.yaml
-- deploys/gnoland-svc.yaml
-- ingress/gnoland-ingress.yaml
+- storage/gnorpc-pv.yaml
+- deploys/gnorpc-deploy.yaml
+- deploys/gnorpc-svc.yaml
+- ingress/gnorpc-ingress.yaml

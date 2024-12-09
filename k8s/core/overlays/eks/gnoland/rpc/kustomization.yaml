@@ -31,4 +31,4 @@ patches:
       name: gno-stripprefix
       namespace: gno
 # fix endpoint ingress
-- path: gnoland-ingress-eks.yaml
+- path: gnorpc-ingress-eks.yaml
