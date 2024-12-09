@@ -46,6 +46,13 @@ This method should work _out of the box_ on any host, but it may be influenced b
   kubectl port-forward service/grafana 3000:3000
   ```
 
+## Env Files
+
+The following env files should be created:
+
+* Traefik secrets `traefik/ingress-route/secrets/sample.env` (_ONLYFOR LETSENCRYPT WITH DNSCHALLENGE_, see [sample.env](./traefik/ingress-route/secrets/sample.env))
+* Grafana secrets `monitoring/grafana/secrets/grafana.ini` (see [grafana.ini.sample](./monitoring/grafana/secrets/grafana.ini.sample))
+
 ---
 
 ## Core services
