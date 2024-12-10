@@ -50,7 +50,7 @@ spec:
         - sh
         - -c
         - |
-          wget -O /gnoroot/gnoland-data/genesis.json https://gno-snapshots.lon1.digitaloceanspaces.com/test5/genesis.json
+          wget -O /gnoroot/gnoland-data/genesis.json {{ .Values.global.genesisUrl }}
           cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
           echo "Successfully copied secrets and genesis file"
         volumeMounts:
@@ -60,7 +60,7 @@ spec:
           mountPath: /gnoroot/secrets
       {{- if (.Values.gnoland).config }}
       - name: init-config
-        image: ghcr.io/gnolang/gno/gnoland:chain-test5.0
+        image: ghcr.io/gnolang/gno/gnoland:{{ .Values.global.binaryVersion }}
         command:
         - sh
         - -c
@@ -75,7 +75,7 @@ spec:
       {{- end }}
       containers:
       - name: gnoland
-        image: ghcr.io/gnolang/gno/gnoland:chain-test5.0
+        image: ghcr.io/gnolang/gno/gnoland:{{ .Values.global.binaryVersion }} chain-test5.0
         imagePullPolicy: IfNotPresent
         args:
           - start

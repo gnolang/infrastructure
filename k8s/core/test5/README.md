@@ -33,6 +33,7 @@ For reference check [doc/k8s/node_reservation.md](../../../doc/k8s/node_reservat
 ## Helm
 
 * Helm templates for validator and sentry nodes are defined
+* Global values (like binary version) are served from a single file at [k8s/core/test5/helm-globals](./helm-globals/)
 * Different value are provided in the folder `validators/`, one per each sentry/validator
 
 ## Skaffold
@@ -62,6 +63,11 @@ The following env files should be created:
 * Attach to the proper cluster (dev or prod)
 * Define an appropriate value for `GNO_INFRA` env var
 * Run skaffold from this folder [k8s/core/test5/skaffold.yaml](skaffold.yaml)
+
+### Local Runs
+
+When Running the cluster in a local environment the genesis file is directly served from a dummy internal service which is ran for the sole
+purpose of making the Genesis file fetchable from an HTTP Url.
 
 ## Betterstack setup for Monitors and Status Page
 

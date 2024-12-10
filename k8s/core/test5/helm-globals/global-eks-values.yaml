@@ -1,0 +1,3 @@
+global:
+  genesisUrl: https://gno-snapshots.lon1.digitaloceanspaces.com/test5/genesis.json
+  binaryVersion: chain-test5.0
