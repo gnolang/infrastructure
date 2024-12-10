@@ -1,0 +1,21 @@
+app:
+  name: gnocore-rpc-01
+  role: validator
+  type: rpc
+
+storage:
+  capacity: 50Mi
+  local:
+    path: /opt/gnoland/rpc/1/data
+
+svc:
+  name: gnoland-rpc # see potential clashes with gnoweb and gnofaucet
+
+ingress:
+  enabled: true
+  rule:
+    host: Host(`rpc.gnoland.tech`)
+
+placement:
+  tolerations:
+    enabled: false

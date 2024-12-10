@@ -1,0 +1,21 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: monitoring-test6
+requires:
+  - path: ../../../../cluster/skaffold/monitoring-skaffold.yaml
+    activeProfiles:
+    - name: test6-dev
+      activatedBy: [test6-dev]
+    - name: test6-eks
+      activatedBy: [test6-eks]
+profiles:
+  - name: test6-dev
+  - name: test6-eks
+    manifests:
+      kustomize:
+        paths:
+        - ../../overlays/eks/grafana
+
+deploy:
+  kubectl: {}

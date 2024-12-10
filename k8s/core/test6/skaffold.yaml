@@ -1,0 +1,35 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: gnocluster
+requires:
+  # Traefik
+  - path: ../../cluster/skaffold/traefik-skaffold.yaml
+    activeProfiles: &kubeProfiles
+    - name: test6-dev
+      activatedBy: [test6-dev]
+    - name: test6-eks
+      activatedBy: [test6-eks]
+
+  # Gnoland
+  - path: ./cluster/skaffold/gnocore-test6-skaffold.yaml
+    activeProfiles: *kubeProfiles
+
+  - path: ./cluster/skaffold/gnocore-test6-helm-skaffold.yaml
+    activeProfiles: *kubeProfiles
+
+  # Monitoring
+  - path: ./cluster/skaffold/monitoring-test6-skaffold.yaml
+    activeProfiles: *kubeProfiles
+
+deploy:
+  kubectl: {}
+profiles:
+  - name: test6-dev
+    activation:
+      - kubeContext: kind-gnolive
+        env: "GNO_INFRA=test6"
+  - name: test6-eks
+    activation:
+      - kubeContext: arn:aws:eks:eu-central-1:600627336512:cluster/test6-eks-cluster
+        env: "GNO_INFRA=prod-test6"

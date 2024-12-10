@@ -75,5 +75,5 @@ Run the script
 
 ```bash
 cd ../../../tools/betterstack/
-go run main.go -token ${BETTER_AUTH_TOKEN} -group test5 -fqdn test5.gno.land -prefix Test 5
+go run main.go -token ${BETTER_AUTH_TOKEN} -group test5 -fqdn test5.gno.land -prefix Test 5 -extra-path ../../k8s/core/test5/betterstack/extra-services.json
 ```
