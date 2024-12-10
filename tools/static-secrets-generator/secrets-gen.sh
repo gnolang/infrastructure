@@ -4,6 +4,7 @@ set -e
 
 ROOT_GNO_PATH=${ROOT_GNO_PATH:-"."}
 outpath=out.txt
+dest_folder="."
 
 declare -A node_type
 node_type[r]="rpc"
@@ -12,12 +13,13 @@ node_type[v]="val"
 
 # Help function
 show_help() {
-    echo "Usage: $0 [-r n] [-v n] [-s n] [-h]"
+    echo "Usage: ./secrets-gen.sh [-r n] [-v n] [-s n] [-h]"
     echo "Options:"
-    echo "  -r n  Generates secrets for n RPC nodes"
-    echo "  -v n  Generates secrets for n Validator nodes."
-    echo "  -s n  Generates secrets for n Sentry nodes."
-    echo "  -h    Displays this help message."
+    echo "  -o path Destination folder for secrets"
+    echo "  -r n    Generates secrets for n RPC nodes"
+    echo "  -v n    Generates secrets for n Validator nodes."
+    echo "  -s n    Generates secrets for n Sentry nodes."
+    echo "  -h      Displays this help message."
 }
 
 # $1 - type of node
@@ -30,33 +32,58 @@ generateSecrets() {
   fi
   for ((i = 1; i <= $2; i++)); do
     valname=$(printf "%s-%02d" $1 $i)
-    configpath="$valname/config/config.toml"
-    "$ROOT_GNO_PATH"/gnoland secrets init -data-dir $valname/secrets
+    valpath=$(printf "%s/%s" $dest_folder $valname)
+    secrets_path="$valpath/secret" 
+    config_path="$valpath/config/config.toml"
+
+    "$ROOT_GNO_PATH"/gnoland secrets init -data-dir $valpath/secrets
     echo "$valname:" >> $outpath
-    echo address: $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.address -raw -data-dir=$valname/secrets) >> $outpath
-    echo pub_key: $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.pub_key -raw -data-dir=$valname/secrets) >> $outpath
-    echo p2p_node_id: $("$ROOT_GNO_PATH"/gnoland secrets get node_id.id -raw -data-dir=$valname/secrets) >> $outpath
-    "$ROOT_GNO_PATH"/gnoland config init -config-path $configpath
-    "$ROOT_GNO_PATH"/gnoland config set moniker $valname -config-path $configpath
-    "$ROOT_GNO_PATH"/gnoland config set p2p.pex false -config-path $configpath
+    echo address: $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.address -raw -data-dir=$secrets_path) >> $outpath
+    echo pub_key: $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.pub_key -raw -data-dir=$secrets_path) >> $outpath
+    echo p2p_node_id: $("$ROOT_GNO_PATH"/gnoland secrets get node_id.id -raw -data-dir=$secrets_path) >> $outpath
+    "$ROOT_GNO_PATH"/gnoland config init -config-path $config_path
+    "$ROOT_GNO_PATH"/gnoland config set moniker $valname -config-path $config_path
+    "$ROOT_GNO_PATH"/gnoland config set p2p.pex false -config-path $config_path
 
     case "$1" in
       rpc)
-        "$ROOT_GNO_PATH"/gnoland config set rpc.laddr tcp://0.0.0.0:26657 -config-path $configpath
+        "$ROOT_GNO_PATH"/gnoland config set rpc.laddr tcp://0.0.0.0:26657 -config-path $config_path
         ;;
       sentry)
-        "$ROOT_GNO_PATH"/gnoland config set p2p.pex true -config-path $configpath
+        "$ROOT_GNO_PATH"/gnoland config set p2p.pex true -config-path $config_path
         ;;
     esac
   done
 }
 
+# Read -o argument if present
+# Loop through all arguments
+for ((i=1; i<=$#; i++)); do
+  current_arg="${@[$i]}"
+  if [[ "$current_arg" == "-o" ]]; then
+    next_index=$((i + 1))
+    value="${@[$next_index]}"
+    if [[ $next_index -le $# && -n "$value" && "$value" != -* ]]; then
+      echo "setting dest folder to: $value"
+      dest_folder="$value"
+      outpath=$(printf "%s/%s" $dest_folder $outpath)
+    else
+      echo "Error: empty path for dest folder option: -o"
+      exit 1
+    fi
+    break
+  fi
+done
+
 # Use getopts with a single character to detect flags
-while getopts ":r:v:s:h" option; do
+while getopts ":r:v:s:o:h" option; do
   case "$option" in
     r|v|s)
       echo "opt: $option arg: $OPTARG ${node_type[$option]}"
       generateSecrets ${node_type[$option]} $OPTARG
+      ;;
+    o)
+      # do nothing
       ;;
     h)
       show_help
