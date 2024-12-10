@@ -47,12 +47,16 @@ spec:
         # copies files from configmap into PVC to avoid RO fs problems
         image: busybox
         command:
-        - sh
-        - -c
-        - |
-          wget -O /gnoroot/gnoland-data/genesis.json {{ .Values.global.genesisUrl }}
-          cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
-          echo "Successfully copied secrets and genesis file"
+          - /bin/sh
+          - -c
+        args:
+          {{- if eq (.Values.init).env "dev" }} # ONLY for dev purposes -> generate genesis
+          - cp -r /gnoroot/secrets/genesis.json /gnoroot/gnoland-data/genesis.json
+          {{- else }}
+          - wget -O /gnoroot/gnoland-data/genesis.json {{ .Values.global.genesisUrl }}
+          {{- end }}
+          - cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
+          - echo "Successfully copied secrets and genesis file"
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
@@ -75,7 +79,7 @@ spec:
       {{- end }}
       containers:
       - name: gnoland
-        image: ghcr.io/gnolang/gno/gnoland:{{ .Values.global.binaryVersion }} chain-test5.0
+        image: ghcr.io/gnolang/gno/gnoland:{{ .Values.global.binaryVersion }}
         imagePullPolicy: IfNotPresent
         args:
           - start
@@ -123,3 +127,7 @@ spec:
             path: priv_validator_state.json
           - key: node_key.json
             path: node_key.json
+          {{- if eq (.Values.init).env "dev" }}
+          - key: genesis.json
+            path: genesis.json
+          {{- end }}

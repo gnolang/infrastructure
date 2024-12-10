@@ -1,7 +1,10 @@
+init:
+  env: dev
 
 app:
   name: gno-val-01
   role: validator
+  initEnv: dev
 
 storage:
   capacity: 1Gi # 120Gi
@@ -15,3 +18,11 @@ ingress:
   enabled: false
   rule:
     host: Host(`sentry-01.gnoland.tech`)
+
+placement:
+  tolerations:
+    enabled: false
+
+### Globals ###
+global:
+  binaryVersion: master
