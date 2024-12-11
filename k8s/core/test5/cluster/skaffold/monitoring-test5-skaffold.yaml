@@ -15,7 +15,7 @@ profiles:
     manifests:
       kustomize:
         paths:
-        - ../../overlays/eks/grafana
+        - ../../overlays/eks/monitoring-overlays/grafana
 
 deploy:
   kubectl: {}

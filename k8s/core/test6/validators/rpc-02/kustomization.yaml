@@ -1,0 +1,10 @@
+configMapGenerator:
+- name: gnocore-rpc-02-config
+  namespace: gno
+  options:
+    disableNameSuffixHash: true
+  files:
+  - config.toml=config/config.toml
+  - node_key.json=gno-secrets/node_key.json
+  - priv_validator_key.json=gno-secrets/priv_validator_key.json
+  - priv_validator_state.json=gno-secrets/priv_validator_state.json

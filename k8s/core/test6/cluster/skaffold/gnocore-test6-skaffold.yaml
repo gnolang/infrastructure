@@ -39,7 +39,6 @@ profiles:
           - ../../overlays/eks/gnofaucet
           - ../../overlays/eks/gnoweb
           ## Gnoland
-          ### Genesis REMOVED - pulled remotely ###
           ### RPC
           - ../../validators/rpc-01
           ### Sentries

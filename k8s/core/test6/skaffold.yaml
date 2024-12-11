@@ -19,8 +19,13 @@ requires:
     activeProfiles: *kubeProfiles
 
   # Monitoring
-  - path: ./cluster/skaffold/monitoring-test6-skaffold.yaml
-    activeProfiles: *kubeProfiles
+  ## FIXME: attempt to reuse basic file 
+  - path: ../../cluster/skaffold/monitoring-skaffold.yaml
+    activeProfiles:
+    - name: dev
+      activatedBy: [test6-dev]
+    - name: eks-dev
+      activatedBy: [test6-eks]
 
 deploy:
   kubectl: {}
@@ -31,5 +36,11 @@ profiles:
         env: "GNO_INFRA=test6"
   - name: test6-eks
     activation:
-      - kubeContext: arn:aws:eks:eu-central-1:600627336512:cluster/test6-eks-cluster
+      - kubeContext: arn:aws:eks:eu-central-1:s:cluster/test6-eks-cluster # TODO:
         env: "GNO_INFRA=prod-test6"
+    manifests:
+      kustomize:
+        paths:
+        - ./overlays/eks/monitoring-overlays/grafana
+        - ./overlays/eks/monitoring-overlays/loki
+        - ./overlays/eks/monitoring-overlays/node-exporter
