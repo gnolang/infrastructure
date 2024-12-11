@@ -19,10 +19,6 @@ db_dir = "db"
 # allows them to catchup quickly by downloading blocks in parallel
 # and verifying their commits
 fast_sync = true
-
-# If true, query the ABCI app on connecting to a new peer
-# so the app can decide if we should keep the connection or not
-filter_peers = false
 home = ""
 
 # A custom human readable name for this node
@@ -92,10 +88,6 @@ proxy_app = "tcp://127.0.0.1:26658"
 ##### peer to peer configuration options #####
 [p2p]
 
-  # Toggle to disable guard against peers connecting from the same ip.
-  allow_duplicate_ip = false
-  dial_timeout = "3s"
-
   # Address to advertise to peers for them to dial
   # If empty, will use the same port as the laddr,
   # and will introspect on the listener or use UPnP
@@ -104,9 +96,6 @@ proxy_app = "tcp://127.0.0.1:26658"
 
   # Time to wait before flushing messages out on the connection
   flush_throttle_timeout = "10ms"
-
-  # Peer connection configuration.
-  handshake_timeout = "20s"
   home = ""
 
   # Address to listen for incoming connections
@@ -122,40 +111,22 @@ proxy_app = "tcp://127.0.0.1:26658"
   max_packet_msg_payload_size = 1024
 
   # Comma separated list of nodes to keep persistent connections to
-  persistent_peers = "g16384atcuf6ew3ufpwtvhymwfyl2aw390aq8jtt@gnocore-sentry-svc-01:26656,g1ty443uhf6qr2n0gv3dkemr4slt96e5hnmx90qh@gnocore-sentry-svc-02:26656"
+  persistent_peers = ""
 
   # Set true to enable the peer-exchange reactor
   pex = true
 
   # Comma separated list of peer IDs to keep private (will not be gossiped to other peers)
-  private_peer_ids = "g1ec4qrfczxc0k4hu6vup5v4s96r2ngcvx5pa5rs,g1em506yk6tnd8rrutqekc04kwh2xhcjeuxq8fd9"
+  private_peer_ids = ""
 
   # Rate at which packets can be received, in bytes/second
   recv_rate = 5120000
-
-  # Seed mode, in which node constantly crawls the network and looks for
-  # peers. If another node asks it for addresses, it responds and disconnects.
-  #
-  # Does not work if the peer-exchange reactor is disabled.
-  seed_mode = false
 
   # Comma separated list of seed nodes to connect to
   seeds = ""
 
   # Rate at which packets can be sent, in bytes/second
   send_rate = 5120000
-  test_dial_fail = false
-  test_fuzz = false
-
-  # UPNP port forwarding
-  upnp = false
-
-  [p2p.test_fuzz_config]
-    MaxDelay = "3s"
-    Mode = 0
-    ProbDropConn = 0.0
-    ProbDropRW = 0.2
-    ProbSleep = 0.0
 
 ##### rpc server configuration options #####
 [rpc]

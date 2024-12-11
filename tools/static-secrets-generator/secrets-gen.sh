@@ -33,16 +33,16 @@ generateSecrets() {
   for ((i = 1; i <= $2; i++)); do
     valname=$(printf "%s-%02d" $1 $i)
     valpath=$(printf "%s/%s" $dest_folder $valname)
-    secrets_path="$valpath/secret" 
+    secrets_path="$valpath/gno-secrets" 
     config_path="$valpath/config/config.toml"
 
-    "$ROOT_GNO_PATH"/gnoland secrets init -data-dir $valpath/secrets
+    "$ROOT_GNO_PATH"/gnoland secrets init -data-dir $secrets_path
     echo "$valname:" >> $outpath
     echo address: $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.address -raw -data-dir=$secrets_path) >> $outpath
     echo pub_key: $("$ROOT_GNO_PATH"/gnoland secrets get validator_key.pub_key -raw -data-dir=$secrets_path) >> $outpath
     echo p2p_node_id: $("$ROOT_GNO_PATH"/gnoland secrets get node_id.id -raw -data-dir=$secrets_path) >> $outpath
     "$ROOT_GNO_PATH"/gnoland config init -config-path $config_path
-    "$ROOT_GNO_PATH"/gnoland config set moniker $valname -config-path $config_path
+    "$ROOT_GNO_PATH"/gnoland config set moniker "gnocore-$valname" -config-path $config_path
     "$ROOT_GNO_PATH"/gnoland config set p2p.pex false -config-path $config_path
 
     case "$1" in
