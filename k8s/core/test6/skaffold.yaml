@@ -5,6 +5,14 @@ metadata:
 requires:
   # Traefik
   - path: ../../cluster/skaffold/traefik-skaffold.yaml
+    activeProfiles:
+    - name: dev
+      activatedBy: [test6-dev]
+    - name: eks-dev
+      activatedBy: [test6-eks]
+
+  # Gnoland
+  - path: ./cluster/skaffold/gnocore-test6-skaffold.yaml
     activeProfiles: &kubeProfiles
     - name: test6-dev
       activatedBy: [test6-dev]

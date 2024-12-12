@@ -15,7 +15,7 @@ helm template gno-validator . --output-dir ./out --dry-run
 Run the template against a set of values
 
 ```bash
-helm template gno-validator . --output-dir ./out --values val-00values.yaml
+helm template gno-validator . --output-dir ./out --values val-00/values.yaml
 ```
 
 ## Handling template resources
@@ -25,7 +25,7 @@ helm template gno-validator . --output-dir ./out --values val-00values.yaml
 Renders the templates in the chart and deploys it into a Kubernetes cluster
 
 ```bash
-helm intall gno-validator . --values val-00/values.yaml
+helm install gno-validator . --values val-00/values.yaml
 ```
 
 ### Upgrading / Overriding

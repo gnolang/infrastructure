@@ -5,3 +5,6 @@ configMapGenerator:
     disableNameSuffixHash: true
   files:
   - genesis.json=local-genesis.json
+
+resources:
+- deploys/genesis-server-deploy.yaml

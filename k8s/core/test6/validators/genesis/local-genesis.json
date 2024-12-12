@@ -17,19 +17,19 @@
   },
   "validators": [
     {
-      "address": "g1qn3jwvdpva622j3fyudqy65zstnqx2wnqhrs3s",
+      "address": "g1wsa9j6nel8ltt6q2lmf78585ymyfh5nsvhaxa3",
       "pub_key": {
         "@type": "/tm.PubKeyEd25519",
-        "value": "zaBcr0biE2vRjIopHCLtDgte/5tKuCEdlBLvmfgRuZI="
+        "value": "b6pUd9NubqpqqyQBCxBJnaM7ue3dbd6/gGqxfHsWf/M="
       },
       "power": "1",
       "name": "val-01"
     },
     {
-      "address": "g1gtu9czw9qavrtdnf936usvwjwyjz0x0jk243au",
+      "address": "g13762rd7y8s7jcc6uc4lyxv269hguchhpyzaamt",
       "pub_key": {
         "@type": "/tm.PubKeyEd25519",
-        "value": "VI8ITXN0TXGvOBjCbu5Rmus5zzqn79ws7AQeIqr6t2o="
+        "value": "Um1zju0AZkJbnsF4Mr8OctQZ3Fli1kZYT4NN46hW0rM="
       },
       "power": "1",
       "name": "val-02"

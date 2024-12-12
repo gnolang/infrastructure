@@ -49,14 +49,14 @@ spec:
         command:
           - /bin/sh
           - -c
-        args:
-          {{- if eq (.Values.init).env "dev" }} # ONLY for dev purposes -> generate genesis
-          - cp -r /gnoroot/secrets/genesis.json /gnoroot/gnoland-data/genesis.json
-          {{- else }}
-          - wget -O /gnoroot/gnoland-data/genesis.json {{ .Values.global.genesisUrl }}
-          {{- end }}
-          - cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
-          - echo "Successfully copied secrets and genesis file"
+          - |
+            {{- if eq (.Values.init).env "dev" }} {{/* ONLY for dev purposes -> generate genesis */}}
+            cp -r /gnoroot/secrets/genesis.json /gnoroot/gnoland-data/genesis.json
+            {{- else }}
+            wget -O /gnoroot/gnoland-data/genesis.json {{ .Values.global.genesisUrl }}
+            {{- end }}
+            cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
+            echo "Successfully copied secrets and genesis file"
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
