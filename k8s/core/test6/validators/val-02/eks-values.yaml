@@ -26,4 +26,5 @@ placement:
 
 gnoland:
   config:
-    persistent_peers: "g16384atcuf6ew3ufpwtvhymwfyl2aw390aq8jtt@gnocore-sentry-svc-01:26656,g1ty443uhf6qr2n0gv3dkemr4slt96e5hnmx90qh@gnocore-sentry-svc-02:26656,g19x2gsyn02fldtq44dpgtcq2dq28kszlf5jn2es@gnocore-sentry-svc-03:26656"
+    p2p:
+      persistent_peers: "g16384atcuf6ew3ufpwtvhymwfyl2aw390aq8jtt@gnocore-sentry-svc-01:26656,g1ty443uhf6qr2n0gv3dkemr4slt96e5hnmx90qh@gnocore-sentry-svc-02:26656,g19x2gsyn02fldtq44dpgtcq2dq28kszlf5jn2es@gnocore-sentry-svc-03:26656"

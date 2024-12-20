@@ -70,7 +70,11 @@ spec:
         - -c
         - |
           cp -Lr /gnoroot/config-ro /gnoroot/gnoland-data/config
-          gnoland config set p2p.persistent_peers {{ default "\"\"" .Values.gnoland.config.persistent_peers }}
+          {{- range $config_root, $config_item := .Values.gnoland.config }}
+            {{- range $config_item_key, $config_item_value := $config_item }}
+          gnoland config set {{ $config_root }}.{{ $config_item_key }} {{ $config_item_value }}
+            {{- end }}
+          {{- end }}
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
