@@ -1,4 +1,5 @@
 # Terraform
 terraform.tfstate*
+.terraform.tfstate*
 .terraform.lock.hcl
 .terraform/

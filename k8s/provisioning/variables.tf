@@ -15,7 +15,7 @@ variable "region" {
 variable "vpc_id" {
   type        = string
   description = "VPC ehre cluster will be deployed in"
-  default     = "vpc-00d9c94806eb719fb"
+  default     = "vpc-0b8f7e6c751800463"
 }
 
 locals {

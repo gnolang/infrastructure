@@ -29,6 +29,8 @@ resource "aws_eks_addon" "addons" {
   addon_name                  = each.key
   addon_version               = each.value.version
   resolve_conflicts_on_update = "PRESERVE"
+
+  depends_on = [ aws_eks_node_group.eks_nodes ]
 }
 
 # Node groups

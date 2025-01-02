@@ -18,15 +18,15 @@ Terraform output variables can be used as input in Ansible.
 
 Terrfaorm provisioning passes through 3 phases:
 
-- init; setups the provisioning environment, downloading required provdiers (such as AWS)
-- plan; prepares and verifies all the provisioning steps checking all required input values status
-- apply; effecively performs the provisioning steps prepared in the previous phase
+- `init`; setups the provisioning environment, downloading required provdiers (such as AWS)
+- `plan`; prepares and verifies all the provisioning steps checking all required input values status
+- `apply`; effecively performs the provisioning steps prepared in the previous phase
 
 Other useful commands:
 
-- validate; validates the syntax of the tf files
-- fmt; formats text of structures in tf files
-- output; show output once provisioning has been applied
+- `validate`; validates the syntax of the tf files
+- `fmt`; formats text of structures in tf files
+- `output`; show output once provisioning has been applied
 
 ### Concepts
 
