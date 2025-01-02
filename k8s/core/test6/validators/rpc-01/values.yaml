@@ -2,6 +2,7 @@ app:
   name: gnocore-rpc-01
   role: validator
   type: rpc
+  compiled:
 
 storage:
   capacity: 50Mi

@@ -86,9 +86,20 @@ spec:
       - name: gnoland
         image: ghcr.io/gnolang/gno/gnoland:{{ .Values.global.binaryVersion }}
         imagePullPolicy: IfNotPresent
-        args:
-          - start
-          - -genesis=/gnoroot/gnoland-data/genesis.json # loaded from init container
+        command:
+        - /bin/sh
+        - -c
+        {{- if hasKey .Values.app "compiled" }}
+        - |
+          apk add git make go linux-headers
+          rm -rf /sur/bin/gnoland
+          git clone https://github.com/gnolang/gno.git --branch {{ default "master" (.Values.app.compiled).branch }} --depth 1 --single-branch gnoland-src
+          GOPATH='/usr/' make -C gnoland-src/gno.land build.gnoland install.gnoland
+          gnoland start -genesis=/gnoroot/gnoland-data/genesis.json # -> loaded from init container
+        {{- else }}
+        - |
+          gnoland start -genesis=/gnoroot/gnoland-data/genesis.json # -> loaded from init container
+        {{- end}}
         ports:
           {{- if eq .Values.app.type "rpc" }}
           - name: rpc-public
