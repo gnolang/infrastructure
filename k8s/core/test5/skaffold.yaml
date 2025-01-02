@@ -5,22 +5,26 @@ metadata:
 requires:
   # Traefik
   - path: ../../cluster/skaffold/traefik-skaffold.yaml
-    activeProfiles: &kubeProfiles
+    activeProfiles: &kubeBaseProfiles
+    - name: dev
+      activatedBy: [test5-dev]
+    - name: eks-dev
+      activatedBy: [test5-eks]
+
+  # Gnoland
+  - path: ./cluster/skaffold/gnocore-test5-skaffold.yaml
+    activeProfiles: &kubeTest5Profiles
     - name: test5-dev
       activatedBy: [test5-dev]
     - name: test5-eks
       activatedBy: [test5-eks]
 
-  # Gnoland
-  - path: ./cluster/skaffold/gnocore-test5-skaffold.yaml
-    activeProfiles: *kubeProfiles
-
   - path: ./cluster/skaffold/gnocore-test5-helm-skaffold.yaml
-    activeProfiles: *kubeProfiles
+    activeProfiles: *kubeTest5Profiles
 
   # Monitoring
-  - path: ./cluster/skaffold/monitoring-test5-skaffold.yaml
-    activeProfiles: *kubeProfiles
+  - path: ../../cluster/skaffold/monitoring-skaffold.yaml
+    activeProfiles: *kubeBaseProfiles
 
 deploy:
   kubectl: {}
@@ -33,3 +37,7 @@ profiles:
     activation:
       - kubeContext: arn:aws:eks:eu-central-1:600627336512:cluster/test5-eks-cluster
         env: "GNO_INFRA=prod-test5"
+    manifests:
+      kustomize:
+        paths:
+        - ./overlays/eks/monitoring-overlays/grafana

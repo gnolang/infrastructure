@@ -5,7 +5,7 @@ metadata:
 requires:
   # Traefik
   - path: ../../cluster/skaffold/traefik-skaffold.yaml
-    activeProfiles:
+    activeProfiles: &kubeBaseProfiles
     - name: dev
       activatedBy: [test6-dev]
     - name: eks-dev
@@ -13,27 +13,18 @@ requires:
 
   # Gnoland
   - path: ./cluster/skaffold/gnocore-test6-skaffold.yaml
-    activeProfiles: &kubeProfiles
+    activeProfiles: &kubeTest6Profiles
     - name: test6-dev
       activatedBy: [test6-dev]
     - name: test6-eks
       activatedBy: [test6-eks]
 
-  # Gnoland
-  - path: ./cluster/skaffold/gnocore-test6-skaffold.yaml
-    activeProfiles: *kubeProfiles
-
   - path: ./cluster/skaffold/gnocore-test6-helm-skaffold.yaml
-    activeProfiles: *kubeProfiles
+    activeProfiles: *kubeTest6Profiles
 
   # Monitoring
-  ## FIXME: attempt to reuse basic file 
   - path: ../../cluster/skaffold/monitoring-skaffold.yaml
-    activeProfiles:
-    - name: dev
-      activatedBy: [test6-dev]
-    - name: eks-dev
-      activatedBy: [test6-eks]
+    activeProfiles: *kubeBaseProfiles
 
 deploy:
   kubectl: {}
@@ -44,7 +35,7 @@ profiles:
         env: "GNO_INFRA=test6"
   - name: test6-eks
     activation:
-      - kubeContext: arn:aws:eks:eu-central-1:s:cluster/test6-eks-cluster # TODO:
+      - kubeContext: arn:aws:eks:eu-west-3:600627336512:cluster/test6-cluster
         env: "GNO_INFRA=prod-test6"
     manifests:
       kustomize:

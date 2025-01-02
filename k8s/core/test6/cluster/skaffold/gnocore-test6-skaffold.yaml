@@ -1,5 +1,3 @@
-FIXME: reuse
-
 apiVersion: skaffold/v4beta11
 kind: Config
 metadata:
@@ -19,7 +17,7 @@ profiles:
           ## Gnoweb
           - ../../../gnoweb
           ## Gnoland
-          ### Genesis FIXME: remove or handle
+          ### Local Genesis Server
           - ../../validators/genesis
           ### RPC
           - ../../validators/rpc-01

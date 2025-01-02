@@ -34,15 +34,6 @@ profiles:
           ## Monitoring Overlays
           - ../../monitoring/overlays/eks/loki
           - ../../monitoring/overlays/eks/grafana
-  ## Test5
-  - name: test5-dev
-    manifests:
-      kustomize:
-        paths: *dev_monitoring_deploys
-  - name: test5-eks
-    manifests:
-      kustomize:
-        paths: *eks_monitoring_deploys
 
 deploy:
   kubectl: {}
