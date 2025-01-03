@@ -37,3 +37,5 @@ sinks:
     endpoint: "http://loki-svc:3100"
     labels:
       logsource: kube
+      pod_labels_*: "{{kubernetes.pod_labels}}"
+      namespace: "{{kubernetes.pod_namespace}}"

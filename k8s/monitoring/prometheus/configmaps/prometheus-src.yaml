@@ -13,6 +13,8 @@ scrape_configs:
   # - job_name: 'kube-state-metrics' # <-- TODO: check deployment
   #   static_configs:
   #     - targets: ['kube-state-metrics.kube-system.svc.cluster.local:8080']
+  ##################################
+  ######## Node Exporter ###########
   - job_name: 'node-exporter'
     kubernetes_sd_configs:
       - role: endpoints
@@ -20,6 +22,13 @@ scrape_configs:
     - source_labels: [__meta_kubernetes_endpoints_name]
       action: keep
       regex: 'node-exporter'
+  ##################################
+  ######## Open Telemetry ###########
+  - job_name: 'opentelemetry'
+    static_configs:
+      - targets: [ 'otel-svc:8889' ]
+  ##################################
+  ######## Kube API Server #########
   # It gets all the metrics from the API servers.
   - job_name: 'kubernetes-apiservers'
     kubernetes_sd_configs:
@@ -32,6 +41,28 @@ scrape_configs:
     - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
       action: keep
       regex: default;kubernetes;https
+  ##################################
+  ######### Kube cAdvisor ##########
+  # Collects all cAdvisor metrics
+  - job_name: 'kubernetes-cadvisor'
+    scheme: https
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    metrics_path: /metrics/cadvisor
+    kubernetes_sd_configs:
+    - role: node
+    relabel_configs:
+    - action: labelmap
+      regex: __meta_kubernetes_node_label_(.+)
+    - target_label: __address__
+      replacement: kubernetes.default.svc:443
+    - source_labels: [__meta_kubernetes_node_name]
+      regex: (.+)
+      target_label: __metrics_path__
+      replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor##################################
+  ##################################
+  ########### Kube Nodes ###########
   # It collects all the kubernetes node metrics.
   - job_name: 'kubernetes-nodes'
     scheme: https
@@ -49,6 +80,8 @@ scrape_configs:
       regex: (.+)
       target_label: __metrics_path__
       replacement: /api/v1/nodes/${1}/proxy/metrics
+  ##################################
+  ########### Kube PODs ############
   # All the pod metrics get discovered if the pod metadata is annotated
   # with prometheus.io/scrape and prometheus.io/port annotations.
   - job_name: 'kubernetes-pods'
@@ -75,24 +108,11 @@ scrape_configs:
     - source_labels: [__meta_kubernetes_pod_name]
       action: replace
       target_label: kubernetes_pod_name
-  # Collects all cAdvisor metrics
-  - job_name: 'kubernetes-cadvisor'
-    scheme: https
-    tls_config:
-      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-    metrics_path: /metrics/cadvisor
-    kubernetes_sd_configs:
-    - role: node
-    relabel_configs:
-    - action: labelmap
-      regex: __meta_kubernetes_node_label_(.+)
-    - target_label: __address__
-      replacement: kubernetes.default.svc:443
-    - source_labels: [__meta_kubernetes_node_name]
-      regex: (.+)
-      target_label: __metrics_path__
-      replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
+    # - source_labels: [__meta_kubernetes_pod_name]
+    #   action: replace
+    #   target_label: ginacarlina_nostra
+  ##################################
+  ######### Kube Services ##########
   # All the Service endpoints are scrapped if the service metadata is annotated
   # with prometheus.io/scrape and prometheus.io/port annotations.
   - job_name: 'kubernetes-service-endpoints'
@@ -123,6 +143,5 @@ scrape_configs:
     - source_labels: [__meta_kubernetes_service_name]
       action: replace
       target_label: kubernetes_name
-  - job_name: 'opentelemetry'
-    static_configs:
-      - targets: [ 'otel-svc:8889' ]
+    # - source_labels: [__meta_kubernetes_pod_label_gno_service]
+    #   target_label: gno_service
