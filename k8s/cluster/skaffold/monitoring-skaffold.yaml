@@ -5,7 +5,8 @@ metadata:
 manifests:
   rawYaml:
     - ../../cluster/namespaces/monitoring.yaml
-    ## Node exporter - Kustomization version also avilable
+    ## Node exporter - Kustomization version also available,
+    ## but here to reduce repetitions in multiple skaffold profiles
     - ../../monitoring/node-exporter/daemonset/*.yaml
 profiles:
   - name: dev
