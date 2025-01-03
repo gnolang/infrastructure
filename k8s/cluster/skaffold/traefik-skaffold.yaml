@@ -6,12 +6,12 @@ profiles:
   - name: dev
     manifests:
       kustomize:
-        paths: &dev_traefik_deploys
+        paths:
           - ../../traefik/ingress-route/
   - name: eks-dev
     manifests:
       kustomize:
-        paths: &eks_traefik_deploys
+        paths:
           - ../../traefik/overlays/eks
 
 deploy:

@@ -11,22 +11,26 @@ profiles:
   - name: dev
     manifests:
       kustomize:
-        paths: &dev_monitoring_deploys
+        paths:
+          ## Otel
+          - ../../monitoring/otel
           ## Prometheus
           - ../../monitoring/prometheus
-          ## Loki
-          - ../../monitoring/loki
           ## Vector
           - ../../monitoring/vector
+          ## Loki
+          - ../../monitoring/loki
           ## Grafana
           - ../../monitoring/grafana
   - name: eks-dev
     manifests:
       kustomize:
-        paths: &eks_monitoring_deploys
+        paths:
           ## AWS Storage Class + EKS Storage
           - ../../aws-eks/storage
           # Not overridden
+          ## Otel
+          - ../../monitoring/otel
           ## Prometheus
           - ../../monitoring/prometheus
           ## Vector
