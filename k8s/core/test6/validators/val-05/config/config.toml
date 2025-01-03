@@ -201,7 +201,7 @@ proxy_app = "tcp://127.0.0.1:26658"
   enabled = true
 
   # the endpoint to export metrics to, like a local OpenTelemetry collector
-  exporter_endpoint = "otel-svc:4317"
+  exporter_endpoint = "otel-svc.monitoring.svc.cluster.local:4317"
   meter_name = "gno.land"
 
   # the ID helps to distinguish instances of the same service that exist at the same time (e.g. instances of a horizontally scaled service)

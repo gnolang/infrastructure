@@ -34,6 +34,5 @@ spec:
         - name: otel-config-volume
           configMap:
             name: otel-conf
-
         - name: otel-storage-volume
           emptyDir: {}

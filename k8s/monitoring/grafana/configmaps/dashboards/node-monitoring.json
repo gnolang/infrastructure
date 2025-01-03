@@ -1496,7 +1496,7 @@
         "name": "job",
         "options": [],
         "query": {
-          "query": "label_values(node_uname_info, job)",
+          "query": "label_values(node_uname_info{job!=\"node-exporter\"},job)",
           "refId": "Prometheus-job-Variable-Query"
         },
         "refresh": 1,

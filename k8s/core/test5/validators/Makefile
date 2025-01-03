@@ -53,7 +53,7 @@ config-adjust:
 				gnoland config set telemetry.enabled true; \
 				gnoland config set telemetry.service_name test5_gnoland; \
 				gnoland config set telemetry.service_instance_id gnocore-$$(basename $$dir); \
-				gnoland config set telemetry.exporter_endpoint otel-svc:4317; \
+				gnoland config set telemetry.exporter_endpoint otel-svc.monitoring.svc.cluster.local:4317; \
 			"; \
 		fi \
 	done
