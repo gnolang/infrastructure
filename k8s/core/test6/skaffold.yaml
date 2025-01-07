@@ -41,5 +41,5 @@ profiles:
       kustomize:
         paths:
         - ./overlays/eks/monitoring-overlays/grafana
-        - ./overlays/eks/monitoring-overlays/loki
         - ./overlays/eks/monitoring-overlays/node-exporter
+        - ./overlays/eks/monitoring-overlays/vector

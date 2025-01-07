@@ -1,0 +1,75 @@
+{
+  "genesis_time": "2025-01-06T15:43:28Z",
+  "chain_id": "test6",
+  "consensus_params": {
+    "Block": {
+      "MaxTxBytes": "1000000",
+      "MaxDataBytes": "2000000",
+      "MaxBlockBytes": "0",
+      "MaxGas": "100000000",
+      "TimeIotaMS": "100"
+    },
+    "Validator": {
+      "PubKeyTypeURLs": [
+        "/tm.PubKeyEd25519"
+      ]
+    }
+  },
+  "validators": [
+    {
+      "address": "g1wsa9j6nel8ltt6q2lmf78585ymyfh5nsvhaxa3",
+      "pub_key": {
+        "@type": "/tm.PubKeyEd25519",
+        "value": "b6pUd9NubqpqqyQBCxBJnaM7ue3dbd6/gGqxfHsWf/M="
+      },
+      "power": "1",
+      "name": "val-01"
+    },
+    {
+      "address": "g13762rd7y8s7jcc6uc4lyxv269hguchhpyzaamt",
+      "pub_key": {
+        "@type": "/tm.PubKeyEd25519",
+        "value": "Um1zju0AZkJbnsF4Mr8OctQZ3Fli1kZYT4NN46hW0rM="
+      },
+      "power": "1",
+      "name": "val-02"
+    },
+    {
+      "address": "g1nufxptnq5cafgx48ahunaz97qencr4cdqvlads",
+      "pub_key": {
+        "@type": "/tm.PubKeyEd25519",
+        "value": "jhSqzcGVHx2kEgc6xzVYV++1ASCDitANHfWmCp4vFGg="
+      },
+      "power": "1",
+      "name": "val-03"
+    },
+    {
+      "address": "g1apsm67nsckvmlct9sxhpsvy67fmlrve4m7m7fl",
+      "pub_key": {
+        "@type": "/tm.PubKeyEd25519",
+        "value": "SOeGIGRK6ZgypOhuGjXdVBL1esg9K/xCm/HfH923l2s="
+      },
+      "power": "1",
+      "name": "val-04"
+    },
+    {
+      "address": "g156n8ufefzenzye54lhcwa70nutpxgfzyraaz5m",
+      "pub_key": {
+        "@type": "/tm.PubKeyEd25519",
+        "value": "Fx6OWh2h8GA90SynAti+xnz0j6/DGZbvUr95Pg/AWAw="
+      },
+      "power": "1",
+      "name": "val-05"
+    },
+    {
+      "address": "g1mjgzy04gr8hfx64rpvqqcjpa8acf4qyfwg7869",
+      "pub_key": {
+        "@type": "/tm.PubKeyEd25519",
+        "value": "ulTpX3yczDwtfp/2rv1IgM7vz88xWSUEexFtM+jF4iQ="
+      },
+      "power": "1",
+      "name": "val-06"
+    }
+  ],
+  "app_hash": null
+}

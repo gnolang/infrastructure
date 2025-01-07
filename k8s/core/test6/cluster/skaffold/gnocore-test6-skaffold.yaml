@@ -39,6 +39,7 @@ profiles:
           ## Gnoland
           ### RPC
           - ../../validators/rpc-01
+          - ../../validators/rpc-02
           ### Sentries
           - ../../validators/sentry-01
           - ../../validators/sentry-02

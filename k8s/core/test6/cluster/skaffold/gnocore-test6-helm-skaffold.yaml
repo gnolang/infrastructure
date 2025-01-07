@@ -41,6 +41,11 @@ profiles:
           valuesFiles:
             - ../../validators/rpc-01/eks-values.yaml
             - ../../helm-globals/global-eks-values.yaml
+        - <<: *helmInstance
+          name: rpc-02
+          valuesFiles:
+            - ../../validators/rpc-02/eks-values.yaml
+            - ../../helm-globals/global-eks-values.yaml
         ## Sentries
         - <<: *helmInstance
           name: sentry-01
