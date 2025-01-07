@@ -9,15 +9,20 @@ Refer to:
 
 ## Provisioning
 
-The provisioning of the cluster was manual on AWS EKS, defining two different node group:
+The provisioning of the cluster was for the first time by IaC.
 
-* general purpose, for any service that is not a validator or sentry node
-* validators, for validators and sentry nodes
+* VPC was still manually created
+* EKS cluster was provisioned using [Tearraform](../../provisioning/README.md).
 
-The idea behind this decision is that validators and sentries should be guaranteed having thier own node wothout any
-other service being scheduled onto that.
+The general architecture is the one illustrated in [Test5 Provisioning](../test5/README.md#provisioning)
 
-For reference check [doc/k8s/node_reservation.md](../../../doc/k8s/node_reservation.md)
+Terraform commands are:
+
+```bash
+terraform init
+terraform plan -var 'gno_project=test6'
+terraform apply -auto-approve
+```
 
 ### Env Files
 
