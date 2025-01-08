@@ -44,20 +44,21 @@ variable "node_groups" {
     "generic" : {
       description     = "generic nodes"
       instance_type   = "c6i.large"
+      scaling_desired = 2
       scaling_min     = 1
       scaling_max     = 3
-      scaling_desired = 2
+      max_unavailable = 10
       labels = {
-        "reserved" : "validator-node"
         "node-role.kubernetes.io/worker": "worker"
       }
     },
     "validator" : {
       description     = "validator nodes"
-      instance_type   = "c6in.large"
-      scaling_min     = 2
-      scaling_max     = 8
-      scaling_desired = 4
+      instance_type   = "c6in.xlarge"
+      scaling_desired = 8
+      scaling_min     = 6
+      scaling_max     = 10
+      max_unavailable = 20
       labels = {
         "reserved" : "validator-node"
         "node-role.kubernetes.io/validator": "validator"

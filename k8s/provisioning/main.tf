@@ -10,7 +10,6 @@ terraform {
 
 provider "aws" {
   region = var.region
-  # profile = "gno"
 }
 
 data "aws_vpc" "vpc_cluster" {

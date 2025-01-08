@@ -18,7 +18,6 @@ resource "aws_eks_cluster" "eks_gno" {
     subnet_ids         = toset(data.aws_subnets.all_vpc_subnets.ids)
     security_group_ids = [aws_security_group.eks_sg.id]
   }
-
 }
 
 # Addons
@@ -46,16 +45,17 @@ resource "aws_eks_node_group" "eks_nodes" {
   subnet_ids      = local.public_subnets
 
   scaling_config {
+    desired_size = each.value.scaling_desired
     min_size     = each.value.scaling_min
     max_size     = each.value.scaling_max
-    desired_size = each.value.scaling_desired
   }
 
   update_config {
-    max_unavailable = 1
+    max_unavailable_percentage = each.value.max_unavailable
   }
   ami_type       = var.eks_ng_ami
   instance_types = [each.value.instance_type]
+  capacity_type  = "ON_DEMAND"
   disk_size      = 20
 
   labels = each.value.labels
@@ -69,6 +69,11 @@ resource "aws_eks_node_group" "eks_nodes" {
       value  = taint.value.value
       effect = taint.value.effect
     }
+  }
+
+  # Allow external changes without Terraform plan difference
+  lifecycle {
+    ignore_changes = [scaling_config[0].desired_size]
   }
 }
 
