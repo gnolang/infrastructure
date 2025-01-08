@@ -29,7 +29,7 @@ resource "aws_eks_addon" "addons" {
   addon_version               = each.value.version
   resolve_conflicts_on_update = "PRESERVE"
 
-  depends_on = [ aws_eks_node_group.eks_nodes ]
+  depends_on = [aws_eks_node_group.eks_nodes]
 }
 
 # Node groups
@@ -51,7 +51,7 @@ resource "aws_eks_node_group" "eks_nodes" {
   }
 
   update_config {
-    max_unavailable_percentage = each.value.max_unavailable
+    max_unavailable_percentage = 20 # each.value.max_unavailable
   }
   ami_type       = var.eks_ng_ami
   instance_types = [each.value.instance_type]
@@ -84,8 +84,8 @@ output "eks_cluster_id" {
 
 output "kube-config" {
   description = "command to update kube context to newly created cluster"
-  value = <<EOT
+  value       = <<EOT
 Please switch Kube Context to the cluster just created
-AWS_PROFILE=<optional_AWS_profile> aws eks update-kubeconfig --region ${var.region} --name ${aws_eks_cluster.eks_gno.name}
+AWS_PROFILE=<optional_AWS_profile> aws eks update-kubeconfig --region ${var.eks_region} --name ${aws_eks_cluster.eks_gno.name}
   EOT
 }

@@ -49,9 +49,10 @@ variable "node_groups" {
       scaling_max     = 3
       max_unavailable = 10
       labels = {
-        "node-role.kubernetes.io/worker": "worker"
+        "node-role.kubernetes.io/worker" : "worker"
       }
     },
+
     "validator" : {
       description     = "validator nodes"
       instance_type   = "c6in.xlarge"
@@ -61,7 +62,7 @@ variable "node_groups" {
       max_unavailable = 20
       labels = {
         "reserved" : "validator-node"
-        "node-role.kubernetes.io/validator": "validator"
+        "node-role.kubernetes.io/validator" : "validator"
       }
       taints = [{
         key    = "type"
@@ -69,7 +70,6 @@ variable "node_groups" {
         effect = "NO_SCHEDULE"
         }
       ]
-
     },
   }
 }
