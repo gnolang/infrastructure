@@ -1,4 +1,3 @@
-# create an EKS
 terraform {
   required_providers {
     aws = {
@@ -6,11 +5,18 @@ terraform {
       version = "~>5.80"
     }
   }
+
+  backend "s3" {
+    # dynamodb_table = ""
+    bucket  = ""
+    key     = ""
+    encrypt = true
+    # region = ""
+  }
 }
 
 provider "aws" {
-  region = var.region
-  # profile = "gno"
+  region = var.eks_region
 }
 
 data "aws_vpc" "vpc_cluster" {

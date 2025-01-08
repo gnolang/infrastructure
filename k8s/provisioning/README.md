@@ -34,6 +34,36 @@ Other useful commands:
 - Terraform automatically recognizes files containing variables values with the follwoing filename convention,terraform.tfvars(.json) / *auto.tfvars(.json)
 - Terraform `modules` can be defined as reusable libraries
 
+## Running
+
+- Initialize remote state resources (Bucket and DynamoDb where Terraform state will be remotely stored)
+
+```bash
+cd remote-state
+terraform init
+terraform plan
+terraform apply -auto-approve 
+```
+
+- Initalize remote state Backend in this folder (including a key for file)
+
+```bash
+terraform init -backend-config=remote_state/terraform.tfvars -backend-config="key=test6-terraform-state/terraform.tfstate"
+```
+
+- Define reference project name
+
+```bash
+export TF_VAR_gno_project="test6"
+```
+
+- Spin up the cluster
+
+```bash
+terraform plan
+terraform apply -auto-approve 
+```
+
 ## Terraform Tips
 
 ### importing a resource in a for-each loop

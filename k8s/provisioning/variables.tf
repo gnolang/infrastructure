@@ -6,7 +6,7 @@ variable "gno_project" {
 #   description = "AWS profile to be used (optional)"
 # }
 
-variable "region" {
+variable "eks_region" {
   type        = string
   description = "AWS region where resources should be provisioned"
   default     = "eu-west-3"
