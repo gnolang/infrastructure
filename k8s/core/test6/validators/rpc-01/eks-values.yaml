@@ -16,7 +16,7 @@ ingress:
   enabled: true
   tls: true
   rule:
-    host: Host(`rpc-01.test6.gnoteam.com`) || Host(`rpc.test6.gno.land`)
+    host: Host(`rpc-01.test6.gnoteam.com`) || Host(`rpc.test6.gnoteam.com`) || Host(`rpc.test6.gno.land`)
 
 placement:
   tolerations:
@@ -25,6 +25,5 @@ placement:
 gnoland:
   config:
     p2p:
-      # TODO:
-      # Sentry1, Sentry2, Sentry3
+      # Sentry1, Sentry2
       persistent_peers: "g1s0x78pl3c2xv2n7hp33lh4jkyqvhg5hlx6huh7@gnocore-sentry-svc-01:26656,g1jeta40dllwtrh293498hq0dh0cr3u4gw77h5rc@gnocore-sentry-svc-02:26656"

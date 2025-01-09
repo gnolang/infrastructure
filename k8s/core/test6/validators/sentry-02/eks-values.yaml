@@ -25,7 +25,8 @@ placement:
       cpu: "1"
       memory: "1Gi"
 
-# gnoland:
-#   config:
-#     p2p:
-#       persistent_peers: "g16384atcuf6ew3ufpwtvhymwfyl2aw390aq8jtt@gnocore-sentry-svc-01:26656,g1ty443uhf6qr2n0gv3dkemr4slt96e5hnmx90qh@gnocore-sentry-svc-02:26656,g19x2gsyn02fldtq44dpgtcq2dq28kszlf5jn2es@gnocore-sentry-svc-03:26656,g12p9l546ah4qeenhum8v4m2dg92jxcsrfy67yww@163.172.33.181:26656,g1s40khr8fruvsp2e9tveqyfwgzrqw4fs9kr4hwc@3.18.33.75:26656,g1gdt4c8rs3l4gpmp0f840nj93sv59cag6hn00cd@3.133.216.128:26656,g18vg9lgndagym626q8jsgv2peyjatscykde3xju@devx-sen-1.test6.gnodevx.network:26656,g1fnwswr6p5nqfvusglv7g2vy0tzwt5npwe7stvv@devx-sen-2.test6.gnodevx.network:26656,g1q887j0vrwpg7admfn4n203u8k30rj8k84zxvn9@195.154.203.189:26656"
+gnoland:
+  config:
+    p2p:
+      # Sentry1, Sentry2, Val3, Val4
+      persistent_peers: "g1s0x78pl3c2xv2n7hp33lh4jkyqvhg5hlx6huh7@gnocore-sentry-svc-01:26656,g1jeta40dllwtrh293498hq0dh0cr3u4gw77h5rc@gnocore-sentry-svc-02:26656,g17k5qnra0t5qvfnqn20nhafugxqk6fuvhzqz3zc@gnocore-val-svc-03:26656,g1mt3ujyhq73jkres8chqdm3y80hfv3cqrtl5mzc@gnocore-val-svc-04:26656"

@@ -57,11 +57,6 @@ profiles:
           valuesFiles:
             - ../../validators/sentry-02/eks-values.yaml
             - ../../helm-globals/global-eks-values.yaml
-        - <<: *helmInstance
-          name: sentry-03
-          valuesFiles:
-            - ../../validators/sentry-03/eks-values.yaml
-            - ../../helm-globals/global-eks-values.yaml
         ## Validators
         - <<: *helmInstance
           name: val-01
@@ -83,15 +78,6 @@ profiles:
           valuesFiles:
             - ../../validators/val-04/eks-values.yaml
             - ../../helm-globals/global-eks-values.yaml
-        - <<: *helmInstance
-          name: val-05
-          valuesFiles:
-            - ../../validators/val-05/eks-values.yaml
-            - ../../helm-globals/global-eks-values.yaml
-        - <<: *helmInstance
-          name: val-06
-          valuesFiles:
-            - ../../validators/val-06/eks-values.yaml
-            - ../../helm-globals/global-eks-values.yaml
+
 deploy:
   helm: {}

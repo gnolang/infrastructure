@@ -71,9 +71,12 @@ spec:
         - -c
         - |
           cp -Lr /gnoroot/config-ro /gnoroot/gnoland-data/config
+          ls -la /gnoroot/gnoland-data/config
+          head -n 10 /gnoroot/gnoland-data/config/config.toml
           {{- range $config_root, $config_item := .Values.gnoland.config }}
             {{- range $config_item_key, $config_item_value := $config_item }}
-          gnoland config set {{ $config_root }}.{{ $config_item_key }} {{ $config_item_value }}
+          echo gnoland config set {{ $config_root }}.{{ $config_item_key }} {{ $config_item_value }}
+          gnoland config set {{ $config_root }}.{{ $config_item_key }} {{ $config_item_value }} -config-path /gnoroot/gnoland-data/config/config.toml
             {{- end }}
           {{- end }}
         volumeMounts:

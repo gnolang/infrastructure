@@ -28,6 +28,5 @@ placement:
 gnoland:
   config:
     p2p:
-      # TODO:
-      # Sentry1, Sentry2, Sentry3, Val1, Val2
+      # Sentry1, Sentry2, Val1, Val2
       persistent_peers: "g1s0x78pl3c2xv2n7hp33lh4jkyqvhg5hlx6huh7@gnocore-sentry-svc-01:26656,g1jeta40dllwtrh293498hq0dh0cr3u4gw77h5rc@gnocore-sentry-svc-02:26656,g1zun2nwvu85w92eezaqy6lg99mlhdtp9m3cm0wy@gnocore-val-svc-01:26656,g1gld56k0yx6rh9k9pggfw6dnwp50ctgrjnncjg6@gnocore-val-svc-02:26656"

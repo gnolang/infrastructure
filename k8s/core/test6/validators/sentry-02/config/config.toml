@@ -44,6 +44,12 @@ prof_laddr = ""
 # or the name of an ABCI application compiled in with the Tendermint binary
 proxy_app = "tcp://127.0.0.1:26658"
 
+##### app settings #####
+[application]
+
+  # Lowest gas prices accepted by a validator
+  min_gas_prices = ""
+
 ##### consensus configuration options #####
 [consensus]
 
@@ -127,7 +133,6 @@ proxy_app = "tcp://127.0.0.1:26658"
   # Comma separated list of seed nodes to connect to
   # Sentry1, Sentry2, Val3, Val4
   seeds = "g1s0x78pl3c2xv2n7hp33lh4jkyqvhg5hlx6huh7@gnocore-sentry-svc-01:26656,g1jeta40dllwtrh293498hq0dh0cr3u4gw77h5rc@gnocore-sentry-svc-02:26656,g17k5qnra0t5qvfnqn20nhafugxqk6fuvhzqz3zc@gnocore-val-svc-03:26656,g1mt3ujyhq73jkres8chqdm3y80hfv3cqrtl5mzc@gnocore-val-svc-04:26656"
-
 
   # Rate at which packets can be sent, in bytes/second
   send_rate = 5120000
