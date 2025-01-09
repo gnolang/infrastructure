@@ -24,7 +24,7 @@ var gnoServices_ []GnoMonitorPayload = []GnoMonitorPayload{
 	},
 	{
 		Name: "Indexer",
-		URL:  "https://faucet-api.{{.FQDN}}/health",
+		URL:  "https://indexer.{{.FQDN}}/health",
 	},
 	{
 		Name: "RPC Node HTTP",
