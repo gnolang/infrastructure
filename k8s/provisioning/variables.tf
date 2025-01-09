@@ -2,9 +2,9 @@ variable "gno_project" {
   description = "The Gno project the provisioning operation is referring to"
 }
 
-# variable "gno_aws_profile" {
-#   description = "AWS profile to be used (optional)"
-# }
+variable "eks_cluster_admin_user" {
+  description = "reference to the username of the IAM user who will admin the cluster."
+}
 
 variable "eks_region" {
   type        = string

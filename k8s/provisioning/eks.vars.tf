@@ -32,6 +32,7 @@ variable "node_groups" {
     scaling_min     = number
     scaling_max     = number
     scaling_desired = number
+    max_unavailable = number
     labels          = optional(map(string))
     taints = optional(list(object({
       key    = string

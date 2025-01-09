@@ -2,6 +2,10 @@ data "aws_iam_role" "eks_cluster_role" {
   name = "eksTestClusterRole"
 }
 
+data "aws_iam_user" "eks_admin_role" {
+  user_name = var.eks_cluster_admin_user
+}
+
 resource "aws_eks_cluster" "eks_gno" {
   name = local.cluster_name
 
@@ -17,6 +21,22 @@ resource "aws_eks_cluster" "eks_gno" {
   vpc_config {
     subnet_ids         = toset(data.aws_subnets.all_vpc_subnets.ids)
     security_group_ids = [aws_security_group.eks_sg.id]
+  }
+}
+
+resource "aws_eks_access_entry" "access_entry" {
+  cluster_name  = aws_eks_cluster.eks_gno.name
+  principal_arn = data.aws_iam_user.eks_admin_role.arn
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "access_policy" {
+  cluster_name  = aws_eks_cluster.eks_gno.name
+  principal_arn = data.aws_iam_user.eks_admin_role.arn
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+  access_scope {
+    type = "cluster"
   }
 }
 
@@ -51,7 +71,7 @@ resource "aws_eks_node_group" "eks_nodes" {
   }
 
   update_config {
-    max_unavailable_percentage = 20 # each.value.max_unavailable
+    max_unavailable_percentage = each.value.max_unavailable
   }
   ami_type       = var.eks_ng_ami
   instance_types = [each.value.instance_type]
@@ -75,6 +95,7 @@ resource "aws_eks_node_group" "eks_nodes" {
   lifecycle {
     ignore_changes = [scaling_config[0].desired_size]
   }
+  depends_on = [ aws_eks_access_policy_association.access_policy ]
 }
 
 output "eks_cluster_id" {

@@ -26,7 +26,8 @@ Other useful commands:
 
 - `validate`; validates the syntax of the tf files
 - `fmt`; formats text of structures in tf files
-- `output`; show output once provisioning has been applied
+- `output`; shows output once provisioning has been applied
+- `destroy`; forcelly and permanently deletes all the resources created by the plan
 
 ### Concepts
 
@@ -51,10 +52,11 @@ terraform apply -auto-approve
 terraform init -backend-config=remote_state/terraform.tfvars -backend-config="key=test6-terraform-state/terraform.tfstate"
 ```
 
-- Define reference project name
+- Define reference project name and username of IAM user who will admin the cluster
 
 ```bash
 export TF_VAR_gno_project="test6"
+export TF_VAR_cluster_admin_user="eks-username"
 ```
 
 - Spin up the cluster
