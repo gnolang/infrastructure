@@ -60,7 +60,7 @@ scrape_configs:
     - source_labels: [__meta_kubernetes_node_name]
       regex: (.+)
       target_label: __metrics_path__
-      replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor##################################
+      replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
   ##################################
   ########### Kube Nodes ###########
   # It collects all the kubernetes node metrics.
@@ -108,9 +108,6 @@ scrape_configs:
     - source_labels: [__meta_kubernetes_pod_name]
       action: replace
       target_label: kubernetes_pod_name
-    # - source_labels: [__meta_kubernetes_pod_name]
-    #   action: replace
-    #   target_label: ginacarlina_nostra
   ##################################
   ######### Kube Services ##########
   # All the Service endpoints are scrapped if the service metadata is annotated
@@ -143,5 +140,4 @@ scrape_configs:
     - source_labels: [__meta_kubernetes_service_name]
       action: replace
       target_label: kubernetes_name
-    # - source_labels: [__meta_kubernetes_pod_label_gno_service]
-    #   target_label: gno_service
+
