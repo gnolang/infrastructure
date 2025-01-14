@@ -307,7 +307,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 0,
         "y": 16
@@ -316,9 +316,9 @@
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": false
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "maxHeight": 600,
@@ -416,7 +416,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 12,
         "y": 16
@@ -425,9 +425,9 @@
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": false
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "maxHeight": 600,
@@ -472,6 +472,7 @@
       "fieldConfig": {
         "defaults": {
           "custom": {
+            "align": "auto",
             "cellOptions": {
               "type": "auto"
             },
@@ -501,10 +502,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 0,
-        "y": 23
+        "y": 25
       },
       "id": 37,
       "options": {
@@ -517,7 +518,13 @@
           ],
           "show": false
         },
-        "showHeader": true
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Memory"
+          }
+        ]
       },
       "pluginVersion": "11.0.0",
       "targets": [
@@ -526,11 +533,13 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} - container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
-          "hide": true,
+          "editorMode": "code",
+          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} - container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} > 0 ) by (pod)",
+          "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
           "metric": "",
+          "range": true,
           "refId": "A",
           "step": 240
         },
@@ -552,7 +561,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "expr": "container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}",
-          "hide": false,
+          "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
           "refId": "C",
@@ -568,6 +577,18 @@
             "reducers": [
               "lastNotNull"
             ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Field": "Pod",
+              "Last *": "Memory"
+            }
           }
         }
       ],
@@ -706,12 +727,20 @@
                 "value": null
               },
               {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 80
+                "color": "dark-red",
+                "value": 10
               },
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": 90
+                "color": "dark-orange",
+                "value": 20
+              },
+              {
+                "color": "semi-dark-green",
+                "value": 30
+              },
+              {
+                "color": "dark-purple",
+                "value": 100
               }
             ]
           },
@@ -723,7 +752,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 30
+        "y": 34
       },
       "id": 35,
       "options": {
@@ -736,7 +765,13 @@
           ],
           "show": false
         },
-        "showHeader": true
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Memory"
+          }
+        ]
       },
       "pluginVersion": "11.0.0",
       "targets": [
@@ -745,10 +780,13 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(100 - ((container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} - container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"})  * 100 / container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) ) by (pod) ",
+          "editorMode": "code",
+          "expr": "sum( (((container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} > 0) - container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) * 100) / (container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} > 0)) by (pod) ",
+          "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
           "metric": "",
+          "range": true,
           "refId": "A",
           "step": 240
         },
@@ -757,10 +795,12 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
+          "editorMode": "code",
           "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
+          "range": true,
           "refId": "B",
           "step": 240
         },
@@ -769,10 +809,12 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}",
+          "editorMode": "code",
+          "expr": "sum(container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
+          "range": true,
           "refId": "C",
           "step": 240
         }
@@ -786,6 +828,18 @@
             "reducers": [
               "lastNotNull"
             ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Field": "Pod",
+              "Last *": "Memory"
+            }
           }
         }
       ],
@@ -831,9 +885,9 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 30
+        "y": 34
       },
-      "id": 36,
+      "id": 34,
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -844,7 +898,13 @@
           ],
           "show": false
         },
-        "showHeader": true
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Memory"
+          }
+        ]
       },
       "pluginVersion": "11.0.0",
       "targets": [
@@ -895,6 +955,18 @@
             "reducers": [
               "lastNotNull"
             ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Field": "Pod",
+              "Last *": "Memory"
+            }
           }
         }
       ],
