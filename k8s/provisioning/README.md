@@ -56,7 +56,7 @@ terraform init -backend-config=remote_state/terraform.tfvars -backend-config="ke
 
 ```bash
 export TF_VAR_gno_project="test6"
-export TF_VAR_cluster_admin_user="eks-username"
+export TF_VAR_eks_cluster_admin_user="eks-username"
 ```
 
 - Spin up the cluster
