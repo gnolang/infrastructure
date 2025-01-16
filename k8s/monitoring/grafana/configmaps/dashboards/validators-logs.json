@@ -181,7 +181,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "{logsource=\"kube\"} | json  | line_format \"{{ .kubernetes_pod_name }} - {{ .message }}\" | kubernetes_pod_namespace=`gno`, kubernetes_pod_labels_gno_service!=`gnoland`, kubernetes_pod_labels_app=`$non_validator_pod_name` \n",
+          "expr": "{logsource=\"kube\"} | json  | line_format \"{{ .kubernetes_pod_name }} - {{ .message }}\" | kubernetes_pod_namespace=`gno`, kubernetes_pod_labels_gno_service=`$non_validator_pod_name` ",
           "queryType": "range",
           "refId": "A"
         }
@@ -246,9 +246,9 @@
         "name": "non_validator_pod_name",
         "options": [],
         "query": {
-          "label": "pod_labels_app",
+          "label": "pod_labels_gno_service",
           "refId": "LokiVariableQueryEditor-VariableQuery",
-          "stream": "{namespace=\"gno\"}",
+          "stream": "{namespace=\"gno\", pod_labels_gno_service!=\"gnoland\"}",
           "type": 1
         },
         "refresh": 1,
