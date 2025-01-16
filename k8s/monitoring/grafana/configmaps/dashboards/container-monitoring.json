@@ -120,7 +120,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(rate(container_cpu_usage_seconds_total{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}[$interval])) by (pod) * 100",
+          "editorMode": "code",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{pod=~\".+\", container!=\"\",  namespace=~\"$namespace\", instance=~\"$instance\"}[$interval])) by (pod) * 100",
           "hide": false,
           "interval": "",
           "intervalFactor": 2,
@@ -223,7 +224,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(container_memory_rss{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod)",
+          "editorMode": "code",
+          "expr": "sum(container_memory_rss{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod)",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -235,7 +237,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}",
+          "editorMode": "code",
+          "expr": "container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -534,7 +537,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} - container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} > 0 ) by (pod)",
+          "expr": "sum(container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"} > 0 ) by (pod)",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -548,7 +551,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
+          "editorMode": "code",
+          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -560,7 +564,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}",
+          "editorMode": "code",
+          "expr": "container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -663,7 +668,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
+          "editorMode": "code",
+          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -676,7 +682,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
+          "editorMode": "code",
+          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -688,7 +695,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}",
+          "editorMode": "code",
+          "expr": "container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -800,7 +808,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum( (((container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} > 0) - container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) * 100) / (container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} > 0)) by (pod) ",
+          "expr": "sum( (((container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"} > 0) - container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}) * 100) / (container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"} > 0)) by (pod) ",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -815,7 +823,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
+          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -829,7 +837,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
+          "expr": "sum(container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -951,7 +959,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(container_memory_swap{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod)",
+          "editorMode": "code",
+          "expr": "sum(container_memory_swap{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod)",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -963,7 +972,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}",
+          "editorMode": "code",
+          "expr": "container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
