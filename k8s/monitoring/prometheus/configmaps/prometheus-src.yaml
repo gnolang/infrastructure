@@ -61,6 +61,15 @@ scrape_configs:
       regex: (.+)
       target_label: __metrics_path__
       replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
+    # AWS EKS nodegroup replacement
+    - source_labels: [eks_amazonaws_com_nodegroup]
+      regex: '(test[0-9]+\-ng-)(.*)'
+      target_label: eks_amazonaws_com_nodegroup_type
+      replacement: '$2'
+    - source_labels: [eks_amazonaws_com_nodegroup_type, kubernetes_io_hostname]
+      target_label: aws_eks_hostanme_node_group
+      separator: ": "
+      replacement: '$1$2' 
   ##################################
   ########### Kube Nodes ###########
   # It collects all the kubernetes node metrics.
