@@ -669,38 +669,11 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
-          "hide": true,
-          "intervalFactor": 2,
-          "legendFormat": "{{pod}}",
-          "metric": "",
-          "refId": "A",
-          "step": 240
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
+          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"} > 0) by (pod) ",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
-          "refId": "B",
-          "step": 240
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "expr": "container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", instance=~\"$instance\"}",
-          "hide": true,
-          "intervalFactor": 2,
-          "legendFormat": "{{pod}}",
-          "refId": "C",
+          "refId": "A",
           "step": 240
         }
       ],
