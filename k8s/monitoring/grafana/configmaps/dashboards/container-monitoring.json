@@ -614,7 +614,17 @@
             "inspect": false
           },
           "decimals": 2,
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 0,
+                  "text": "Not Defined"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
