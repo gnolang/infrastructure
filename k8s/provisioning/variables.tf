@@ -9,17 +9,13 @@ variable "eks_cluster_admin_user" {
 variable "eks_region" {
   type        = string
   description = "AWS region where resources should be provisioned"
-  default     = "eu-west-3"
-}
-
-variable "vpc_id" {
-  type        = string
-  description = "VPC ehre cluster will be deployed in"
-  default     = "vpc-0b8f7e6c751800463"
+  default     = "eu-west-1"
 }
 
 locals {
   cluster_name = "${var.gno_project}-cluster"
+  vpc_name = "${var.gno_project}-vpc"
+  node_group_role = "eks-nodegrouprole"
 }
 
 variable "vpc_sg_inbound_ports" {

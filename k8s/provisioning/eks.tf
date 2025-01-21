@@ -8,20 +8,28 @@ data "aws_iam_user" "eks_admin_role" {
 
 resource "aws_eks_cluster" "eks_gno" {
   name = local.cluster_name
+  version  = "1.31"
+  role_arn = data.aws_iam_role.eks_cluster_role.arn
 
   access_config {
     authentication_mode = "API"
+    # adds the current caller identity as an administrator
+    # bootstrap_cluster_creator_admin_permissions = true
   }
-
-  role_arn = data.aws_iam_role.eks_cluster_role.arn
-  version  = "1.31"
 
   enabled_cluster_log_types = ["scheduler", "controllerManager"]
+  upgrade_policy {
+    support_type = "STANDARD"
+  }
 
   vpc_config {
-    subnet_ids         = toset(data.aws_subnets.all_vpc_subnets.ids)
+    subnet_ids         = toset(concat(module.vpc_for_eks.public_subnets, module.vpc_for_eks.private_subnets))
     security_group_ids = [aws_security_group.eks_sg.id]
+    endpoint_public_access = true
+    endpoint_private_access = true
   }
+
+  depends_on = [ module.vpc_for_eks ]
 }
 
 resource "aws_eks_access_entry" "access_entry" {
@@ -49,12 +57,13 @@ resource "aws_eks_addon" "addons" {
   addon_version               = each.value.version
   resolve_conflicts_on_update = "PRESERVE"
 
+  # Note: this is needed especially for CoreDNS add-on
   depends_on = [aws_eks_node_group.eks_nodes]
 }
 
 # Node groups
 data "aws_iam_role" "eks_node_group_role" {
-  name = "eks-nodegrouprole"
+  name = local.node_group_role
 }
 
 resource "aws_eks_node_group" "eks_nodes" {
@@ -62,7 +71,7 @@ resource "aws_eks_node_group" "eks_nodes" {
   cluster_name    = aws_eks_cluster.eks_gno.name
   node_group_name = "${var.gno_project}-ng-${each.key}"
   node_role_arn   = data.aws_iam_role.eks_node_group_role.arn
-  subnet_ids      = local.public_subnets
+  subnet_ids      = module.vpc_for_eks.public_subnets 
 
   scaling_config {
     desired_size = each.value.scaling_desired

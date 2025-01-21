@@ -21,7 +21,7 @@ variable "eks_addons" {
 
 variable "eks_ng_ami" {
   description = "ami for node group"
-  default     = "AL2_x86_64"
+  default     = "AL2023_x86_64_STANDARD"
 }
 
 variable "node_groups" {
@@ -49,9 +49,6 @@ variable "node_groups" {
       scaling_min     = 1
       scaling_max     = 3
       max_unavailable = 10
-      labels = {
-        "node-role.kubernetes.io/worker" : "worker"
-      }
     },
 
     "validator" : {
@@ -63,7 +60,8 @@ variable "node_groups" {
       max_unavailable = 20
       labels = {
         "reserved" : "validator-node"
-        "node-role.kubernetes.io/validator" : "validator"
+        # FIXME: this prevents node group to join kubelet
+        # "node-role.kubernetes.io/validator" : "validator"
       }
       taints = [{
         key    = "type"
