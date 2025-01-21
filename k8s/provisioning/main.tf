@@ -8,10 +8,10 @@ terraform {
 
   backend "s3" {
     dynamodb_table = ""
-    bucket  = ""
-    key     = ""
-    region = ""
-    encrypt = true
+    bucket         = ""
+    key            = ""
+    region         = ""
+    encrypt        = true
   }
 }
 

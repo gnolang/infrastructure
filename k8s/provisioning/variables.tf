@@ -13,8 +13,8 @@ variable "eks_region" {
 }
 
 locals {
-  cluster_name = "${var.gno_project}-cluster"
-  vpc_name = "${var.gno_project}-vpc"
+  cluster_name    = "${var.gno_project}-cluster"
+  vpc_name        = "${var.gno_project}-vpc"
   node_group_role = "eks-nodegrouprole"
 }
 
