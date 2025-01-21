@@ -6,13 +6,13 @@ terraform {
     }
   }
 
-  # backend "s3" {
-  #   # dynamodb_table = ""
-  #   bucket  = ""
-  #   key     = ""
-  #   encrypt = true
-  #   # region = ""
-  # }
+  backend "s3" {
+    dynamodb_table = ""
+    bucket  = ""
+    key     = ""
+    region = ""
+    encrypt = true
+  }
 }
 
 provider "aws" {

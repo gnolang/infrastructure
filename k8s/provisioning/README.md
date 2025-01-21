@@ -46,17 +46,17 @@ terraform plan
 terraform apply -auto-approve 
 ```
 
-- Initalize remote state Backend in this folder (including a key for file)
-
-```bash
-terraform init -backend-config=remote_state/terraform.tfvars -backend-config="key=test6-terraform-state/terraform.tfstate"
-```
-
 - Define reference project name and username of IAM user who will admin the cluster
 
 ```bash
 export TF_VAR_gno_project="test6"
 export TF_VAR_eks_cluster_admin_user="eks-username"
+```
+
+- Initalize remote state Backend in this folder (including a key for file)
+
+```bash
+terraform init -backend-config=remote_state/terraform.tfvars -backend-config="key=${TF_VAR_gno_project}-terraform-state/terraform.tfstate"
 ```
 
 - Spin up the cluster
