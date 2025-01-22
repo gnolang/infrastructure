@@ -35,7 +35,7 @@ profiles:
         env: "GNO_INFRA=test6"
   - name: test6-eks
     activation:
-      - kubeContext: arn:aws:eks:eu-west-3:600627336512:cluster/test6-cluster
+      - kubeContext: arn:aws:eks:eu-west-1:600627336512:cluster/test6-cluster
         env: "GNO_INFRA=prod-test6"
     manifests:
       kustomize:

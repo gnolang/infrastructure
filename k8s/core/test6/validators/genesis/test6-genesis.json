@@ -51,24 +51,6 @@
       },
       "power": "1",
       "name": "val-04"
-    },
-    {
-      "address": "g156n8ufefzenzye54lhcwa70nutpxgfzyraaz5m",
-      "pub_key": {
-        "@type": "/tm.PubKeyEd25519",
-        "value": "Fx6OWh2h8GA90SynAti+xnz0j6/DGZbvUr95Pg/AWAw="
-      },
-      "power": "1",
-      "name": "val-05"
-    },
-    {
-      "address": "g1mjgzy04gr8hfx64rpvqqcjpa8acf4qyfwg7869",
-      "pub_key": {
-        "@type": "/tm.PubKeyEd25519",
-        "value": "ulTpX3yczDwtfp/2rv1IgM7vz88xWSUEexFtM+jF4iQ="
-      },
-      "power": "1",
-      "name": "val-06"
     }
   ],
   "app_hash": null

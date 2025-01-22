@@ -21,7 +21,7 @@ variable "eks_addons" {
 
 variable "eks_ng_ami" {
   description = "ami for node group"
-  default     = "AL2023_x86_64_STANDARD"
+  default     = "AL2_x86_64"
 }
 
 variable "node_groups" {

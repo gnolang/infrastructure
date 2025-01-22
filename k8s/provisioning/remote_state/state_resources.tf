@@ -40,9 +40,6 @@ resource "aws_dynamodb_table" "state_dynamo_db" {
   name           = var.dynamodb_table
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "LockID"
-  read_capacity  = 1
-  write_capacity = 1
-
   attribute {
     name = "LockID"
     type = "S"
