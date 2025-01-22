@@ -11,20 +11,21 @@ Refer to:
 
 The provisioning of the cluster was for the first time by IaC.
 
-* VPC was still manually created
-* EKS cluster was provisioned using [Tearraform](../../provisioning/README.md).
-
-The general architecture is the one illustrated in [Test5 Provisioning](../test5/README.md#provisioning)
-
-Terraform commands are:
+* The general architecture is the one illustrated in [Test5 Provisioning](../test5/README.md#provisioning).
+* EKS cluster is provisioned using [Tearraform](../../provisioning/README.md).
+* Terraform commands are listed in [Provisioning section](../../provisioning/README.md#running).
+* Define useful and coherent env vars
 
 ```bash
-terraform init
-terraform plan -var 'gno_project=test6'
-terraform apply -auto-approve
+export TF_VAR_gno_project="test6"
+export TF_VAR_eks_cluster_admin_user="eks-username"
 ```
 
-### Env Files
+## Internal Helm chart version
+
+* The following Helm chart version is used for internal helm templates: `0.1.0`
+
+## Env Files
 
 The following env files should be created:
 
@@ -33,7 +34,7 @@ The following env files should be created:
 
 ## Betterstack setup for Monitors and Status Page
 
-Run the script
+* Run the script
 
 ```bash
 cd ../../../tools/betterstack/

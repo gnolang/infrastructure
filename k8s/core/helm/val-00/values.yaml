@@ -1,6 +1,3 @@
-init:
-  env: dev
-
 app:
   name: gno-val-01
   role: validator

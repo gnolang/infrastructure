@@ -51,7 +51,7 @@ spec:
           - -c
           - |
             set -e
-            {{- if eq (.Values.init).env "dev" }} {{/* ONLY for dev purposes -> generate genesis */}}
+            {{- if eq .Values.app.initEnv "dev" }} {{/* ONLY for dev purposes -> generate genesis */}}
             cp -r /gnoroot/secrets/genesis.json /gnoroot/gnoland-data/genesis.json
             {{- else }}
             wget -T 100 -O /gnoroot/gnoland-data/genesis.json {{ .Values.global.genesisUrl }}
@@ -146,7 +146,7 @@ spec:
             path: priv_validator_state.json
           - key: node_key.json
             path: node_key.json
-          {{- if eq (.Values.init).env "dev" }}
+          {{- if eq .Values.app.initEnv "dev" }}
           - key: genesis.json
             path: genesis.json
           {{- end }}
