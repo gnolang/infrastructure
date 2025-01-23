@@ -55,6 +55,7 @@ spec:
             cp -r /gnoroot/secrets/genesis.json /gnoroot/gnoland-data/genesis.json
             {{- else }}
             wget -T 100 -O /gnoroot/gnoland-data/genesis.json {{ .Values.global.genesisUrl }}
+            echo "Downloaded {{ .Values.global.genesisUrl }}"
             {{- end }}
             cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
             echo "Successfully copied secrets and genesis file"
