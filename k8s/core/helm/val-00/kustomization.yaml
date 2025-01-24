@@ -5,8 +5,15 @@ configMapGenerator:
     disableNameSuffixHash: true
   files:
   - config.toml=config/config.toml
-  - node_key.json=gno-secrets/node_key.json
-  - priv_validator_key.json=gno-secrets/priv_validator_key.json
   - priv_validator_state.json=gno-secrets/priv_validator_state.json
 # Genesis file
   - genesis.json=genesis/val00-genesis.json
+
+secretGenerator:
+- name: gno-val-01-secrets
+  namespace: gno
+  options:
+    disableNameSuffixHash: true
+  files:
+  - node_key.json=gno-secrets/node_key.json
+  - priv_validator_key.json=gno-secrets/priv_validator_key.json

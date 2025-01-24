@@ -52,18 +52,25 @@ spec:
           - |
             set -e
             {{- if eq .Values.app.initEnv "dev" }} {{/* ONLY for dev purposes -> generate genesis */}}
-            cp -r /gnoroot/secrets/genesis.json /gnoroot/gnoland-data/genesis.json
+            cp -rL /gnoroot/info/genesis.json /gnoroot/gnoland-data/genesis.json
             {{- else }}
             wget -T 100 -O /gnoroot/gnoland-data/genesis.json {{ .Values.global.genesisUrl }}
             echo "Downloaded {{ .Values.global.genesisUrl }}"
             {{- end }}
-            cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
+            cp -rL /gnoroot/secrets/* /gnoroot/boot
+            chmod 600 /gnoroot/boot/*_key.json
+            cp -rL /gnoroot/info/priv_validator_state.json /gnoroot/boot
             echo "Successfully copied secrets and genesis file"
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
-        - name: {{ .Values.app.name }}-secrets
+        - name: {{ .Values.app.name }}-boot
+          mountPath: /gnoroot/boot
+        - name: {{ .Values.app.name }}-info
+          mountPath: /gnoroot/info
+        - name: {{ .Values.app.name }}-node-secrets
           mountPath: /gnoroot/secrets
+
       {{- if (.Values.gnoland).config }}
       - name: init-config
         image: ghcr.io/gnolang/gno/gnoland:{{ .Values.global.binaryVersion }}
@@ -121,6 +128,8 @@ spec:
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
+        - name: {{ .Values.app.name }}-boot
+          mountPath: /gnoroot/gnoland-data/secrets
         {{- if not (hasKey (.Values.gnoland) "config" ) }}
         - name: {{ .Values.app.name }}-conf
           mountPath: /gnoroot/gnoland-data/config
@@ -129,24 +138,29 @@ spec:
       - name: {{ .Values.app.name }}-vol
         persistentVolumeClaim:
           claimName: {{ .Values.app.name }}-pv-claim
+      # volume holding secrets
+      - name: {{ .Values.app.name }}-boot
+        emptyDir:
       - name: {{ .Values.app.name }}-conf
         configMap:
           name: {{ .Values.app.name }}-config
           items:
           - key: config.toml
             path: config.toml
-      - name: {{ .Values.app.name }}-secrets
-        configMap:
-          name: {{ .Values.app.name }}-config
+      - name: {{ .Values.app.name }}-node-secrets
+        secret:
+          secretName: {{ .Values.app.name }}-secrets
           items:
           - key: node_key.json
             path: node_key.json
           - key: priv_validator_key.json
             path: priv_validator_key.json
+      - name: {{ .Values.app.name }}-info
+        configMap:
+          name: {{ .Values.app.name }}-config
+          items:
           - key: priv_validator_state.json
             path: priv_validator_state.json
-          - key: node_key.json
-            path: node_key.json
           {{- if eq .Values.app.initEnv "dev" }}
           - key: genesis.json
             path: genesis.json
