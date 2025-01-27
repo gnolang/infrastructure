@@ -28,7 +28,7 @@ var gnoServices_ []GnoMonitorPayload = []GnoMonitorPayload{
 	},
 	{
 		Name: "RPC Node HTTP",
-		URL:  "https://rpc.{{.FQDN}}/",
+		URL:  "https://rpc.{{.FQDN}}/health",
 	},
 }
 
