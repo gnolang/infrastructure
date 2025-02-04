@@ -5,7 +5,7 @@ app:
 
 storage:
   capacity: 120Gi
-  class: eks-ebs-storage
+  class: eks-ebs-storage-tagged
 
 svc:
   name: gnocore-val-svc-03

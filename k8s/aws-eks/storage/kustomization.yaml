@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - csi/
 - storage-class.yaml
+- tagged-storage-class.yaml
