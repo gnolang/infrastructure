@@ -43,3 +43,5 @@ profiles:
         - ./overlays/eks/monitoring-overlays/grafana
         - ./overlays/eks/monitoring-overlays/node-exporter
         - ./overlays/eks/monitoring-overlays/vector
+        # Snapshots
+        - ./overlays/eks/snapshotter-job-overlay
