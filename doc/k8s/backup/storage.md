@@ -21,3 +21,50 @@ Regular snapshots of a validator should be taken by:
 
 * using a snapshot command/routine, like explained in [Gnops](https://gnops.io/articles/effective-gnops/snapshot-nodes/)
 * deploying a Kubernetes CronJob for the specific cluster.
+
+### Requirments for K8s CronJob
+
+The CronJob that handles the snapshot taks has several requirments:
+
+* a mounted Volume that refers to the PVC from a target validator/sentry Pod in read-only mode
+  * scheduling on the same node of sentry node
+  * using `Affinity` rules to allow the CronJob Pod to be scheduled into the same node where the validator/sentry
+
+* an RBAC which allows to handle scaling of a deployment into the cluster from within the job, for snapshot consistency
+  * installing and using kubectl control plane commands from within the job in a sandboxxed environment
+
+* the permissions to access an S3 bucket prof withing the POD
+  * installing AWS CLI
+  * uploading directly by piping tar compress commmand to S3 upload command
+  * accessing to bucket can granted by [EKS POD Identitity](https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html), which enables PODs to automattically inherit the IAM role of the node their are scheduled in
+
+### Requirements for AWS Node running job
+
+* A Policy in the node IAM Role to get Full Access to AWS S3 target Bucket (e.g. `CustomSnapshotsBucketFullAccess`)
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": "arn:aws:s3:::gno-snapshot"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject",
+                "s3:ListMultipartUploadParts",
+                "s3:AbortMultipartUpload"
+            ],
+            "Resource": "arn:aws:s3:::gno-snapshot/*"
+        }
+    ]
+}
+```

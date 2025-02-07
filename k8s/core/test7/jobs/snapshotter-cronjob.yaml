@@ -1,0 +1,56 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gnodata-snapshot-to-aws-s3
+  namespace: gno
+spec:
+  schedule: "0 */2 * * *" # Runs every 6 hours
+  failedJobsHistoryLimit: 1 # Keep last failed job
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 300 # Auto-delete after 5 min
+      template:
+        spec:
+          serviceAccountName: gnodata-snapshot-sa
+          restartPolicy: OnFailure
+          tolerations:
+          - key: "type"
+            operator: "Equal"
+            value: "validator"
+            effect: "NoSchedule"
+          affinity:
+            podAffinity:
+              # Pod should be scheduled on the same node of reference Pod app to
+              # allow mounting the same PVC as readonly vol
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      gno.name: gnocore-sentry-01 # Helmizable -> {{ .Values.app.name }}
+                  topologyKey: "kubernetes.io/hostname"
+          containers:
+            - name: snaphotter
+              image: alpine:3.21
+              command: 
+                - /bin/sh
+                - -c
+                - |
+                  apk add jq curl xz aws-cli kubectl
+                  RPC_ENDPOINT=${RPC_ENDPOINT:-http://gnoland-rpc:26657}
+                  LATEST_HEIGHT=$(curl -s ${RPC_ENDPOINT}/status | jq -r '.result.sync_info.latest_block_height')
+                  kubectl scale --replicas=0 deployment -n gno gnocore-sentry-01
+                  kubectl wait --for=delete pod -l gno.name=gnocore-sentry-01 --timeout=3s
+                  tar -cJ -C /mnt/data wal db | aws s3 cp - s3://${AWS_S3_BUCKET}/${CHAIN_ID}/${CHAIN_ID}_snapshot_${LATEST_HEIGHT}_$(date +\%Y-\%m-\%d).tar.xz
+                  kubectl scale --replicas=1 deployment -n gno gnocore-sentry-01
+                # Alt. using LZ4
+                # tar -c -C /mnt/data wal db | lz4 | aws s3 cp - s3://...
+              envFrom:
+              - secretRef:
+                  name: snapshotter-env
+              volumeMounts:
+                - name: gnodata-vol
+                  mountPath: /mnt/data
+                  readOnly: true
+          volumes:
+            - name: gnodata-vol
+              persistentVolumeClaim:
+                claimName: gnocore-sentry-01-pv-claim # Helmizable -> {{ .Values.app.name }}-pv-claim
