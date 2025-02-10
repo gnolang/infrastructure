@@ -22,7 +22,7 @@ Regular snapshots of a validator should be taken by:
 * using a snapshot command/routine, like explained in [Gnops](https://gnops.io/articles/effective-gnops/snapshot-nodes/)
 * deploying a Kubernetes CronJob for the specific cluster.
 
-### Requirments for K8s CronJob
+### Requirements for K8s CronJob
 
 The CronJob that handles the snapshot taks has several requirments:
 
