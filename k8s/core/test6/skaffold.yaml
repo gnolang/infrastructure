@@ -21,6 +21,9 @@ requires:
 
   - path: ./cluster/skaffold/gnocore-test6-helm-skaffold.yaml
     activeProfiles: *kubeTest6Profiles
+  
+  - path: ./cluster/skaffold/gnocore-test6-storage-class.yaml
+    activeProfiles: *kubeTest6Profiles
 
   # Monitoring
   - path: ../../cluster/skaffold/monitoring-skaffold.yaml

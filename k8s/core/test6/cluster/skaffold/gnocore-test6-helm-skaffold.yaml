@@ -13,6 +13,7 @@ profiles:
           chartPath: ../../../helm
           version: "0.2.0"
           namespace: "gno"
+          createNamespace: true
           valuesFiles:
             - ../../validators/rpc-01/values.yaml
             - ../../helm-globals/global-values.yaml

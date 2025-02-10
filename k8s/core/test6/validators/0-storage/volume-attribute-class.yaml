@@ -1,0 +1,8 @@
+apiVersion: storage.k8s.io/v1beta1
+kind: VolumeAttributesClass
+metadata:
+  name: validator-tags-class
+driverName: ebs.csi.aws.com
+parameters:
+  tagSpecification_1: "Project=test6"
+  tagSpecification_2: "ref-project=testnet"
