@@ -260,7 +260,7 @@ Capacity:
 * Generate a single K8s Job resource from an existing CronJob resource
 
 ```bash
-kubectl create job --from=cronjob/<cron-job-resource> <custom-job-resource-name> 
+kubectl create job --from=cronjob/<cron-job-resource> <custom-job-resource-name>
 ```
 
 ---

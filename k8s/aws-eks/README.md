@@ -71,5 +71,7 @@ In our setup we will assign a special storage class to volume that will have a s
 Then each PVC can be furterly tagged using a `VolumeAttributesClass` after creation.
 
 ```bash
-kubectl patch pvc pv-claim --patch '{"spec": {"volumeAttributesClassName": "validator-tags"}}'   
+kubectl patch pvc pv-claim --patch '{"spec": {"volumeAttributesClassName": "validator-tags"}}'
 ```
+
+This is achieved in `skaffold` using a specific resource definition that instanciates the `VolumeAttributesClass` and patches the existing and targeted PVCs storage.
