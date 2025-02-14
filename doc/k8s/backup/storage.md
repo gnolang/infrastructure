@@ -15,6 +15,15 @@ To backup this storage created dynamically two steps are required:
 * Defining an AWS Backup Plan both via AWS Management Console or via Provisioning (e.g. Terraform),
 that targets in its rule the given tagged EBS volumes
 
+**NOTE:** when provisioning AWS Backup with Terraform, the value of the tags in the `AWS BackupPlan` and in the `VolumeAttributesClass`
+in Kubernetes must correspond.
+
+The AWS Backup Should be assigned to as specific or predifined IAM role which holds the following policies:
+
+* `AWSBackupServiceRolePolicyForBackup`
+* `AWSBackupServiceRolePolicyForIndexing`
+* `AWSBackupServiceRolePolicyForRestores`
+
 ## Snapshots
 
 Regular snapshots of a validator should be taken by:

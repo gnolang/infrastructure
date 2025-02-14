@@ -67,6 +67,29 @@ Adding Tags to an EBS Volume is possible in two ways:
 * [Volume Modification via VolumeAttributesClass](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/modify-volume)
 * [Modify Volume example](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/modify-volume "aws-ebs-csi-driver/examples/kubernetes/modify-volume at master · kubernetes-sigs/aws-ebs-csi-driver")
 
+In order to allow tagging of Volumes the IAM role corresponding to the EKS `Node Group` role, should explicitly hold a policy allowing
+Tagging on Volumes:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DeleteTags",
+                "ec2:CreateTags"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:volume/*",
+                "arn:aws:ec2:*:*:instance/*"
+            ]
+        }
+    ]
+}
+```
+
 In our setup we will assign a special storage class to volume that will have a set of basic tags.
 Then each PVC can be furterly tagged using a `VolumeAttributesClass` after creation.
 
@@ -74,4 +97,4 @@ Then each PVC can be furterly tagged using a `VolumeAttributesClass` after creat
 kubectl patch pvc pv-claim --patch '{"spec": {"volumeAttributesClassName": "validator-tags"}}'
 ```
 
-This is achieved in `skaffold` using a specific resource definition that instanciates the `VolumeAttributesClass` and patches the existing and targeted PVCs storage.
+This is achieved in `skaffold` using a specific resource definition that instanciates the `VolumeAttributesClass` and patches the existing and targeted PVC storages.
