@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: supernova
+  namespace: gno
+spec:
+  template:
+    metadata:
+      name: supernova
+    spec:
+      containers:
+      - name: supernova
+        image: ghcr.io/gnolang/supernova:1.5.0
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: supernova-env
+        command:
+          - /bin/sh
+          - -c
+          - |
+            /supernova \
+            -sub-accounts ${ACCOUNT_NUM} \
+            -transactions ${TX_NUM} \
+            -chain-id ${CHAIN_ID} \
+            -url http://gnoland-rpc:26657 \
+            -mnemonic "source bonus chronic canvas draft south burst lottery vacant surface solve popular case indicate oppose farm nothing bullet exhibit title speed wink action roast"
+      restartPolicy: Never
