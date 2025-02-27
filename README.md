@@ -6,6 +6,5 @@ Collect all the different infrastructure implementations used so far for the Gno
 ├── doc
 ├── docker
 ├── k8s
-├── nomad
-└── swarm
+└── nomad
 ```

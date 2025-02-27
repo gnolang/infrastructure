@@ -1,5 +1,16 @@
 # Monitoring
 
+## Architecture
+
+The monitoing infrastracture is composed of the following elements:
+
+* `Prometheus`: collecting metrics and pushing them to Grafana
+* `Otel Collector`: collecting Open Telemetry metrics and pushing them to Prometheus
+* `Vector`: data pipeline tool, collecting logs from pods/containers and pushing them to Loki
+* `Loki`: log aggregation system, storing and querying logs received from Vector.
+* `Node Exporter`: collecting raw metrics from physical nodes and pushing them to Prometheus
+* `Grafana`: UI to display monitoring data on different dashboards
+
 ## Logs
 
 ### LogQL and Vector

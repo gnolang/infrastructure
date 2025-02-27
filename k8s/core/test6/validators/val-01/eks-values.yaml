@@ -1,0 +1,25 @@
+
+app:
+  name: gnocore-val-01
+  role: validator
+
+storage:
+  capacity: 120Gi
+  class: eks-ebs-storage
+
+svc:
+  name: gnocore-val-svc-01
+
+ingress:
+  enabled: false
+
+placement:
+  tolerations:
+    enabled: true
+  resources: # saturate resources
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+    requests:
+      cpu: "1"
+      memory: "1Gi"

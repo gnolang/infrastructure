@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: otel-deployment
+  name: open-telemetry
   namespace: monitoring
   labels:
     app: otel-run
@@ -34,6 +34,5 @@ spec:
         - name: otel-config-volume
           configMap:
             name: otel-conf
-
         - name: otel-storage-volume
           emptyDir: {}

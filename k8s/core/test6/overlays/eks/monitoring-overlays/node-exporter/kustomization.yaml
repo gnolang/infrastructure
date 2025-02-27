@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../../../../monitoring/node-exporter/
+
+patches:
+- patch: |-
+    apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      labels:
+        app.kubernetes.io/component: exporter
+        app.kubernetes.io/name: node-exporter
+      name: node-exporter
+      namespace: monitoring
+    spec:
+      template:
+        spec:
+          tolerations:
+          - key: "type"
+            operator: "Equal"
+            value: "validator"
+            effect: "NoSchedule"

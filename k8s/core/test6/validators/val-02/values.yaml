@@ -1,0 +1,19 @@
+
+app:
+  name: gnocore-val-02
+  role: validator
+
+storage:
+  capacity: 200Mi
+  local:
+    path: /opt/gnoland/validator/2/data
+
+svc:
+  name: gnocore-val-svc-02
+
+ingress:
+  enabled: false
+
+placement:
+  tolerations:
+    enabled: false

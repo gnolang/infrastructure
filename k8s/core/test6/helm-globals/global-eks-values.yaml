@@ -1,0 +1,3 @@
+global:
+  genesisUrl: https://gno-testnets-genesis.s3.eu-central-1.amazonaws.com/test6-genesis.json
+  binaryVersion: master

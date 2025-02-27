@@ -1,0 +1,86 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: test6-gnocore-helm
+profiles:
+  - name: test6-dev
+    manifests:
+      helm:
+        releases:
+        ## RPC
+        - &helmInstance
+          name: rpc-01
+          chartPath: ../../../helm
+          version: "0.2.0"
+          # TODO:
+          # namespace: "gno"
+          valuesFiles:
+            - ../../validators/rpc-01/values.yaml
+            - ../../helm-globals/global-values.yaml
+        ## Sentries
+        - <<: *helmInstance
+          name: sentry-01
+          valuesFiles:
+            - ../../validators/sentry-01/values.yaml
+            - ../../helm-globals/global-values.yaml
+        ## Validators
+        - <<: *helmInstance
+          name: val-01
+          valuesFiles:
+            - ../../validators/val-01/values.yaml
+            - ../../helm-globals/global-values.yaml
+        - <<: *helmInstance
+          name: val-02
+          valuesFiles:
+            - ../../validators/val-02/values.yaml
+            - ../../helm-globals/global-values.yaml
+  - name: test6-eks
+    manifests:
+      helm:
+        releases:
+        ## RPC
+        - <<: *helmInstance
+          name: rpc-01
+          valuesFiles:
+            - ../../validators/rpc-01/eks-values.yaml
+            - ../../helm-globals/global-eks-values.yaml
+        - <<: *helmInstance
+          name: rpc-02
+          valuesFiles:
+            - ../../validators/rpc-02/eks-values.yaml
+            - ../../helm-globals/global-eks-values.yaml
+        ## Sentries
+        - <<: *helmInstance
+          name: sentry-01
+          valuesFiles:
+            - ../../validators/sentry-01/eks-values.yaml
+            - ../../helm-globals/global-eks-values.yaml
+        - <<: *helmInstance
+          name: sentry-02
+          valuesFiles:
+            - ../../validators/sentry-02/eks-values.yaml
+            - ../../helm-globals/global-eks-values.yaml
+        ## Validators
+        - <<: *helmInstance
+          name: val-01
+          valuesFiles:
+            - ../../validators/val-01/eks-values.yaml
+            - ../../helm-globals/global-eks-values.yaml
+        - <<: *helmInstance
+          name: val-02
+          valuesFiles:
+            - ../../validators/val-02/eks-values.yaml
+            - ../../helm-globals/global-eks-values.yaml
+        - <<: *helmInstance
+          name: val-03
+          valuesFiles:
+            - ../../validators/val-03/eks-values.yaml
+            - ../../helm-globals/global-eks-values.yaml
+        - <<: *helmInstance
+          name: val-04
+          valuesFiles:
+            - ../../validators/val-04/eks-values.yaml
+            - ../../helm-globals/global-eks-values.yaml
+
+deploy:
+  helm: {}

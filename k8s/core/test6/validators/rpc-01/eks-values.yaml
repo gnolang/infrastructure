@@ -1,0 +1,29 @@
+app:
+  name: gnocore-rpc-01
+  role: validator
+  type: rpc
+  # compiled:
+  #   branch: master
+
+storage:
+  capacity: 120Gi
+  class: eks-ebs-storage
+
+svc:
+  name: gnoland-rpc # see potential clashes with gnoweb and gnofaucet
+
+ingress:
+  enabled: true
+  tls: true
+  rule:
+    host: Host(`rpc-01.test6.gnoteam.com`) || Host(`rpc.test6.gnoteam.com`) || Host(`rpc.test6.gno.land`)
+
+placement:
+  tolerations:
+    enabled: false
+
+gnoland:
+  config:
+    p2p:
+      # Sentry1, Sentry2 + Public Nodes
+      seeds: "g1s0x78pl3c2xv2n7hp33lh4jkyqvhg5hlx6huh7@gnocore-sentry-svc-01:26656,g1jeta40dllwtrh293498hq0dh0cr3u4gw77h5rc@gnocore-sentry-svc-02:26656"

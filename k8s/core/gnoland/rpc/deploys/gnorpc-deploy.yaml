@@ -1,0 +1,117 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    gno.service: gnoland
+    gno.type: rpc
+  name: gnoland-rpc
+  namespace: gno
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      gno.service: gnoland
+      gno.type: rpc
+  template:
+    metadata:
+      labels:
+        gno.service: gnoland
+        gno.type: rpc
+        gno.role: validator
+    spec:
+      initContainers:
+      - name: init-genesis-secrets
+        # copies files from configmap into PVC to avoid RO fs problems
+        image: busybox
+        command:
+        - sh
+        - -c
+        - |
+          cp /gnoroot/genesis/genesis.json /gnoroot/gnoland-data/genesis.json
+          cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
+        volumeMounts:
+        - name: gno-rpc-vol
+          mountPath: /gnoroot/gnoland-data
+        - name: gno-rpc-secrets
+          mountPath: /gnoroot/secrets
+        - name: gnoland-genesis
+          mountPath: /gnoroot/genesis
+      - name: init-genesis-txs
+        image: ghcr.io/gnolang/gno/gnocontribs:master
+        command:
+        - gnogenesis
+        - txs
+        - add
+        - packages
+        - /gnoroot/examples/gno.land
+        - -genesis-path
+        - /gnoroot/gnoland-data/genesis.json
+        volumeMounts:
+        - name: gno-rpc-vol
+          mountPath: /gnoroot/gnoland-data
+      - name: init-genesis-balance
+        image: ghcr.io/gnolang/gno/gnocontribs:master
+        command:
+        - gnogenesis
+        - balances
+        - add
+        - -balance-sheet
+        - /gnoroot/gno.land/genesis/genesis_balances.txt
+        - -genesis-path
+        - /gnoroot/gnoland-data/genesis.json
+        volumeMounts:
+        - name: gno-rpc-vol
+          mountPath: /gnoroot/gnoland-data
+      containers:
+      - name: gnoland
+        image: ghcr.io/gnolang/gno/gnoland:master
+        imagePullPolicy: IfNotPresent
+        args:
+          - start
+          - -data-dir=/gnoroot/gnoland-data/ # left as reference
+          - -genesis=/gnoroot/gnoland-data/genesis.json # loaded from init container
+        ports:
+          - name: rpc-public
+            containerPort: 26657
+          - name: rpc-internal
+            containerPort: 26656
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "4Gi"
+          requests:
+            cpu: "500m"
+            memory: "2Gi"
+        volumeMounts:
+        - name: gno-rpc-vol
+          mountPath: /gnoroot/gnoland-data
+        - name: gno-rpc-conf
+          mountPath: /gnoroot/gnoland-data/config
+      volumes:
+      - name: gno-rpc-vol
+        persistentVolumeClaim:
+          claimName: gno-rpc-pv-claim
+      - name: gno-rpc-conf
+        configMap:
+          name: gno-rpc-config
+          items:
+          - key: config.toml
+            path: config.toml
+      - name: gno-rpc-secrets
+        configMap:
+          name: gno-rpc-config
+          items:
+          - key: node_key.json
+            path: node_key.json
+          - key: priv_validator_key.json
+            path: priv_validator_key.json
+          - key: priv_validator_state.json
+            path: priv_validator_state.json
+          - key: node_key.json
+            path: node_key.json
+      - name: gnoland-genesis
+        configMap:
+          name: gno-genesis
+          items:
+          - key: genesis.json
+            path: genesis.json

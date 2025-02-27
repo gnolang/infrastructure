@@ -7,8 +7,10 @@ spec:
   selector:
     app: otel-run
   ports:
-    - port: 4317
+    - name: otlp-http
+      port: 4317
       targetPort: otlp-http
-    - port: 8889
-      targetPort: 8889
+    - name: otlp-exporter
+      port: 8889
+      targetPort: otlp-exporter
 

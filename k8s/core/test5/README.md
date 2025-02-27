@@ -33,6 +33,7 @@ For reference check [doc/k8s/node_reservation.md](../../../doc/k8s/node_reservat
 ## Helm
 
 * Helm templates for validator and sentry nodes are defined
+* Global values (like binary version) are served from a single file at [k8s/core/test5/helm-globals](./helm-globals/)
 * Different value are provided in the folder `validators/`, one per each sentry/validator
 
 ## Skaffold
@@ -48,8 +49,31 @@ For reference check [doc/k8s/node_reservation.md](../../../doc/k8s/node_reservat
 
 * Helm releases, using `values` per profile to bootstrap using skaffold definition [k8s/core/test5/cluster/skaffold/gnocore-test5-helm-skaffold.yaml](./cluster/skaffold/gnocore-test5-helm-skaffold.yaml)
 
+## Setup
+
+### Env Files
+
+The following env files should be created:
+
+* Gnoweb secrets `overlays/eks/gnoweb/secrets/.env` (see [test5.eks.gnoweb.sample.env](./overlays/eks/gnoweb/secrets/test5.eks.gnoweb.sample.env))
+* Gnofaucet secrets `overlays/eks/gnofaucet/secrets/.env` (see [test5.eks.gnofaucet.sample.env](./overlays/eks/gnofaucet/secrets/test5.eks.gnofaucet.sample.env))
+
 ## Running
 
 * Attach to the proper cluster (dev or prod)
 * Define an appropriate value for `GNO_INFRA` env var
 * Run skaffold from this folder [k8s/core/test5/skaffold.yaml](skaffold.yaml)
+
+### Local Runs
+
+When Running the cluster in a local environment the genesis file is directly served from a dummy internal service which is ran for the sole
+purpose of making the Genesis file fetchable from an HTTP Url.
+
+## Betterstack setup for Monitors and Status Page
+
+Run the script
+
+```bash
+cd ../../../tools/betterstack/
+go run main.go -token ${BETTER_AUTH_TOKEN} -group test5 -fqdn test5.gno.land -prefix Test 5 -extra-path ../../k8s/core/test5/betterstack/extra-services.json
+```

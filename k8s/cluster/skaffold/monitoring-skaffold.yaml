@@ -5,28 +5,33 @@ metadata:
 manifests:
   rawYaml:
     - ../../cluster/namespaces/monitoring.yaml
-    ## Node exporter - Kustomization version also avilable
+    ## Node exporter - Kustomization version also available,
+    ## but here to reduce repetitions in multiple skaffold profiles
     - ../../monitoring/node-exporter/daemonset/*.yaml
 profiles:
   - name: dev
     manifests:
       kustomize:
-        paths: &dev_monitoring_deploys
+        paths:
+          ## Otel
+          - ../../monitoring/otel
           ## Prometheus
           - ../../monitoring/prometheus
-          ## Loki
-          - ../../monitoring/loki
           ## Vector
           - ../../monitoring/vector
+          ## Loki
+          - ../../monitoring/loki
           ## Grafana
           - ../../monitoring/grafana
   - name: eks-dev
     manifests:
       kustomize:
-        paths: &eks_monitoring_deploys
+        paths:
           ## AWS Storage Class + EKS Storage
           - ../../aws-eks/storage
           # Not overridden
+          ## Otel
+          - ../../monitoring/otel
           ## Prometheus
           - ../../monitoring/prometheus
           ## Vector
@@ -34,15 +39,6 @@ profiles:
           ## Monitoring Overlays
           - ../../monitoring/overlays/eks/loki
           - ../../monitoring/overlays/eks/grafana
-  ## Test5
-  - name: test5-dev
-    manifests:
-      kustomize:
-        paths: *dev_monitoring_deploys
-  - name: test5-eks
-    manifests:
-      kustomize:
-        paths: *eks_monitoring_deploys
 
 deploy:
   kubectl: {}

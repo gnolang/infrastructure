@@ -1,0 +1,22 @@
+{
+  "services": [
+    {
+      "pronounceable_name": "Test 6 - Sentry Node 1 - TCP",
+      "url": "gno-core-sen-01.test6.gnoteam.com",
+      "monitor_type": "tcp",
+      "port": "26656"
+    },
+    {
+      "pronounceable_name": "Test 6 - Sentry Node 2 - TCP",
+      "url": "gno-core-sen-02.test6.gnoteam.com",
+      "monitor_type": "tcp",
+      "port": "26656"
+    },
+    {
+      "pronounceable_name": "Test 6 - Sentry Node 3 - TCP",
+      "url": "gno-core-sen-03.test6.gnoteam.com",
+      "monitor_type": "tcp",
+      "port": "26656"
+    }
+  ]
+}

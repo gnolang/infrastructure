@@ -1,0 +1,55 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: test6-gnocore
+manifests:
+  rawYaml:
+    - ../../../../cluster/namespaces/core.yaml
+profiles:
+  - name: test6-dev
+    manifests:
+      kustomize:
+        paths:
+          ## Indexer
+          - ../../../indexer
+          ## Gnofaucet
+          - ../../../gnofaucet
+          ## Gnoweb
+          - ../../../gnoweb
+          ## Gnoland
+          ### Local Genesis Server
+          - ../../validators/genesis
+          ### RPC
+          - ../../validators/rpc-01
+          ### Sentries
+          - ../../validators/sentry-01
+          ### Validators
+          - ../../validators/val-01
+          - ../../validators/val-02
+  - name: test6-eks
+    manifests:
+      kustomize:
+        paths:
+          # ## AWS Storage Class + EKS Storage
+          - ../../../../aws-eks/storage
+          ## Test6 Overlays
+          - ../../overlays/eks/indexer
+          - ../../overlays/eks/gnofaucet
+          - ../../overlays/eks/gnoweb
+          ## Gnoland
+          ### RPC
+          - ../../validators/rpc-01
+          - ../../validators/rpc-02
+          ### Sentries
+          - ../../validators/sentry-01
+          - ../../validators/sentry-02
+          - ../../validators/sentry-03
+          ### Validators
+          - ../../validators/val-01
+          - ../../validators/val-02
+          - ../../validators/val-03
+          - ../../validators/val-04
+          - ../../validators/val-05
+          - ../../validators/val-06
+deploy:
+  kubectl: {}

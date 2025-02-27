@@ -17,7 +17,7 @@ profiles:
           ## Gnoweb
           - ../../../gnoweb
           ## Gnoland
-          ### Genesis FIXME: remove or handle
+          ### Local Genesis Server
           - ../../validators/genesis
           ### RPC
           - ../../validators/rpc-01

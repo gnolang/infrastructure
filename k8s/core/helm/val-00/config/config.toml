@@ -48,6 +48,12 @@ prof_laddr = ""
 # or the name of an ABCI application compiled in with the Tendermint binary
 proxy_app = "tcp://127.0.0.1:26658"
 
+##### app settings #####
+[application]
+
+  # Lowest gas prices accepted by a validator
+  min_gas_prices = ""
+
 ##### consensus configuration options #####
 [consensus]
 

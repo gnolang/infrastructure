@@ -38,4 +38,3 @@ spec:
       namespace: monitoring
     - name: prom-replaceprefix
       namespace: monitoring
----

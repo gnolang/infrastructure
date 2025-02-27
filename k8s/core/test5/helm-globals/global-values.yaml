@@ -1,0 +1,3 @@
+global:
+  genesisUrl: http://genesis-svc/genesis.json
+  binaryVersion: chain-test5.0

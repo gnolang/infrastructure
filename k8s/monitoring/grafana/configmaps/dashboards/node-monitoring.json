@@ -595,7 +595,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "100 - ((node_filesystem_avail_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"} * 100) / node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"})",
+          "expr": "100 - ((node_filesystem_avail_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\",fstype!=\"overlay\"} * 100) / node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\",fstype!=\"overlay\" })",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
@@ -851,7 +851,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"}",
+          "expr": "node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\",fstype!=\"overlay\"}",
           "format": "time_series",
           "hide": false,
           "instant": true,
@@ -937,7 +937,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"}",
+          "expr": "node_memory_MemTotal_bytes{instance=\"$node\", job!=\"node-exporter\"}",
           "instant": true,
           "intervalFactor": 1,
           "range": false,
@@ -1021,7 +1021,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"}",
+          "expr": "node_memory_SwapTotal_bytes{instance=\"$node\", job!=\"node-exporter\"}",
           "instant": true,
           "intervalFactor": 1,
           "range": false,
@@ -1132,7 +1132,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_load1",
+          "expr": "node_load1{instance=\"$node\", job!=\"node-exporter\"}",
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "CPU Load",
@@ -1233,7 +1233,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_filesystem_size_bytes{fstype=\"ext4\"}",
+          "expr": "node_filesystem_size_bytes{fstype=~\"ext4|xfs\", mountpoint=\"\/\", instance=\"$node\", job!=\"node-exporter\"}",
           "hide": false,
           "interval": "",
           "intervalFactor": 2,
@@ -1249,7 +1249,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_filesystem_size_bytes{fstype=\"ext4\"} - node_filesystem_free_bytes{fstype=\"ext4\"} ",
+          "expr": "node_filesystem_size_bytes{fstype=~\"ext4|xfs\", mountpoint=\"\/\", instance=\"$node\", job!=\"node-exporter\"} - node_filesystem_free_bytes{fstype=~\"ext4|xfs\", mountpoint=\"\/\", instance=\"$node\", job!=\"node-exporter\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Used Space",
@@ -1351,7 +1351,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_memory_MemTotal_bytes",
+          "expr": "node_memory_MemTotal_bytes{instance=\"$node\", job!=\"node-exporter\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Total",
@@ -1364,7 +1364,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "node_memory_MemTotal_bytes - node_memory_MemFree_bytes",
+          "expr": "node_memory_MemTotal_bytes{instance=\"$node\", job!=\"node-exporter\"} - node_memory_MemFree_bytes{instance=\"$node\", job!=\"node-exporter\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Used",
@@ -1461,7 +1461,7 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "process_virtual_memory_bytes",
+          "expr": "process_virtual_memory_bytes{instance=\"$node\", job!=\"node-exporter\"}",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{job}}",
@@ -1496,7 +1496,7 @@
         "name": "job",
         "options": [],
         "query": {
-          "query": "label_values(node_uname_info, job)",
+          "query": "label_values(node_uname_info{job!=\"node-exporter\"},job)",
           "refId": "Prometheus-job-Variable-Query"
         },
         "refresh": 1,
@@ -1528,7 +1528,7 @@
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 1,
+        "sort": 7,
         "tagValuesQuery": "",
         "tagsQuery": "",
         "type": "query",
@@ -1589,7 +1589,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "Node Monitoring",
+  "title": "Node Monitoring 🖥️",
   "uid": "fdtb3ybcfw4xs2",
   "version": 1,
   "weekStart": ""

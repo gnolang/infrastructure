@@ -1,0 +1,17 @@
+kind: IngressRoute
+apiVersion: traefik.io/v1alpha1
+metadata:
+  name: grafana-ingress-tls
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`o11y.test6.gnoteam.com`) || Host(`o11y.test6.gno.land`)
+    kind: Rule
+    services:
+    - name: grafana
+      namespace: monitoring
+      port: grafana-port
+  tls:
+    certResolver: gnoresolver

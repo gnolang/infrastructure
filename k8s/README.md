@@ -46,6 +46,13 @@ This method should work _out of the box_ on any host, but it may be influenced b
   kubectl port-forward service/grafana 3000:3000
   ```
 
+## Env Files
+
+The following env files should be created:
+
+* Traefik secrets `traefik/ingress-route/secrets/sample.env` (_ONLYFOR LETSENCRYPT WITH DNSCHALLENGE_, see [sample.env](./traefik/ingress-route/secrets/sample.env))
+* Grafana secrets `monitoring/grafana/secrets/grafana.ini` (see [grafana.ini.sample](./monitoring/grafana/secrets/grafana.ini.sample))
+
 ---
 
 ## Core services
@@ -249,6 +256,35 @@ Capacity:
   pods:               29
   ...
 ```
+
+---
+
+## Testnets setup in public environment
+
+* Preliminary steps
+  * Generate secrets and config (see [static-config-generator](../tools/static-secrets-generator/))
+  * Generate Genesis file
+  * Generate and store safe Captcha secrets (for Faucet)
+  * Spin up the provisioning of a public cluster
+
+* Setup
+  * Adjust validators' config
+  * Define generic parameters for Helm
+    * URL for Genesis file
+    * version of reference Gno binary
+  * Generate environment files for requiring services
+  * Adjust subdomains
+    * Define overriding subdomains
+    * Setup subdomains in them public DNS registry
+    * Adjust pointing CNAME targets after deploy of resources
+  * Spin up deploy of infra pointing the right cluster (using `skaffold` and `kubectl`)
+  * Define public _mointors_ and _status page_ for testnet and setup them in Betterstack (see [Betterstack tool](../tools/betterstack/README.md))
+
+* Teardown
+  * Remove deployed resources from cluster
+  * Cleanup public domain
+  * Cleanup status _mointors_ and _status page_ in Betterstack
+  * Fully delete cluster infrastructure
 
 ---
 

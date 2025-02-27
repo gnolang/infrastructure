@@ -120,7 +120,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(rate(container_cpu_usage_seconds_total{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}[$interval])) by (pod) * 100",
+          "editorMode": "code",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{pod=~\".+\", container!=\"\",  namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}[$interval])) by (pod) * 100",
           "hide": false,
           "interval": "",
           "intervalFactor": 2,
@@ -223,7 +224,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(container_memory_rss{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod)",
+          "editorMode": "code",
+          "expr": "sum(container_memory_rss{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}) by (pod)",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -235,7 +237,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}",
+          "editorMode": "code",
+          "expr": "container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -307,7 +310,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 0,
         "y": 16
@@ -316,9 +319,9 @@
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": false
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "maxHeight": 600,
@@ -333,7 +336,7 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(rate(container_network_receive_bytes_total{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}[$interval])) by (pod)",
+          "expr": "sum(rate(container_network_receive_bytes_total{pod=~\".+\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}[$interval])) by (pod)",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
           "refId": "A",
@@ -344,7 +347,7 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "- rate(container_network_transmit_bytes_total{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}[$interval])",
+          "expr": "- rate(container_network_transmit_bytes_total{pod=~\".+\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}[$interval])",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -416,7 +419,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 12,
         "y": 16
@@ -425,9 +428,9 @@
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": false
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "maxHeight": 600,
@@ -442,7 +445,7 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(rate(container_network_transmit_bytes_total{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}[$interval])) by (pod)",
+          "expr": "sum(rate(container_network_transmit_bytes_total{pod=~\".+\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}[$interval])) by (pod)",
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
           "refId": "A",
@@ -472,6 +475,7 @@
       "fieldConfig": {
         "defaults": {
           "custom": {
+            "align": "auto",
             "cellOptions": {
               "type": "auto"
             },
@@ -501,10 +505,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 0,
-        "y": 23
+        "y": 25
       },
       "id": 37,
       "options": {
@@ -517,7 +521,13 @@
           ],
           "show": false
         },
-        "showHeader": true
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Memory"
+          }
+        ]
       },
       "pluginVersion": "11.0.0",
       "targets": [
@@ -526,11 +536,13 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} - container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
-          "hide": true,
+          "editorMode": "code",
+          "expr": "sum(container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"} > 0 ) by (pod)",
+          "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
           "metric": "",
+          "range": true,
           "refId": "A",
           "step": 240
         },
@@ -539,7 +551,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
+          "editorMode": "code",
+          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}) by (pod) ",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -551,8 +564,9 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}",
-          "hide": false,
+          "editorMode": "code",
+          "expr": "container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}",
+          "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
           "refId": "C",
@@ -568,6 +582,274 @@
             "reducers": [
               "lastNotNull"
             ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Field": "Pod",
+              "Last *": "Memory"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 0,
+                  "text": "Not Defined"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 10000000
+              },
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": 25000000
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 25
+      },
+      "id": 38,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Memory"
+          }
+        ]
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}) by (pod) ",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "{{pod}}",
+          "refId": "A",
+          "step": 240
+        }
+      ],
+      "title": "Limit memory",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "reducers": [
+              "lastNotNull"
+            ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Field": "Pod",
+              "Last *": "Memory"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-background"
+            },
+            "inspect": false
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": null
+              },
+              {
+                "color": "dark-red",
+                "value": 10
+              },
+              {
+                "color": "dark-orange",
+                "value": 20
+              },
+              {
+                "color": "semi-dark-green",
+                "value": 30
+              },
+              {
+                "color": "dark-purple",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 34
+      },
+      "id": 35,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Memory"
+          }
+        ]
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum( (((container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"} > 0) - container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}) * 100) / (container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"} > 0)) by (pod) ",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "{{pod}}",
+          "metric": "",
+          "range": true,
+          "refId": "A",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}) by (pod) ",
+          "hide": true,
+          "intervalFactor": 2,
+          "legendFormat": "{{pod}}",
+          "range": true,
+          "refId": "B",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}) by (pod) ",
+          "hide": true,
+          "intervalFactor": 2,
+          "legendFormat": "{{pod}}",
+          "range": true,
+          "refId": "C",
+          "step": 240
+        }
+      ],
+      "title": "Remaining memory",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "reducers": [
+              "lastNotNull"
+            ]
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Field": "Pod",
+              "Last *": "Memory"
+            }
           }
         }
       ],
@@ -634,10 +916,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 12,
-        "y": 23
+        "y": 34
       },
       "id": 34,
       "options": {
@@ -653,14 +935,15 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.4",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(container_memory_swap{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod)",
+          "editorMode": "code",
+          "expr": "sum(container_memory_swap{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}) by (pod)",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -672,7 +955,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}",
+          "editorMode": "code",
+          "expr": "container_memory_usage_bytes{pod=~\".+\", container!=\"\", namespace=~\"$namespace\", aws_eks_hostanme_node_group=~\"$instance\"}",
           "hide": true,
           "intervalFactor": 2,
           "legendFormat": "{{pod}}",
@@ -682,223 +966,6 @@
       ],
       "title": "Memory Swap per Container",
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "cellOptions": {
-              "type": "color-background"
-            },
-            "inspect": false
-          },
-          "decimals": 2,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "rgba(50, 172, 45, 0.97)",
-                "value": null
-              },
-              {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 80
-              },
-              {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": 90
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 30
-      },
-      "id": 35,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true
-      },
-      "pluginVersion": "11.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "expr": "sum(100 - ((container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"} - container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"})  * 100 / container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) ) by (pod) ",
-          "intervalFactor": 2,
-          "legendFormat": "{{pod}}",
-          "metric": "",
-          "refId": "A",
-          "step": 240
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
-          "hide": true,
-          "intervalFactor": 2,
-          "legendFormat": "{{pod}}",
-          "refId": "B",
-          "step": 240
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "expr": "container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}",
-          "hide": true,
-          "intervalFactor": 2,
-          "legendFormat": "{{pod}}",
-          "refId": "C",
-          "step": 240
-        }
-      ],
-      "title": "Remaining memory",
-      "transformations": [
-        {
-          "id": "reduce",
-          "options": {
-            "includeTimeField": false,
-            "reducers": [
-              "lastNotNull"
-            ]
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "decimals": 2,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
-              },
-              {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 10000000
-              },
-              {
-                "color": "rgba(50, 172, 45, 0.97)",
-                "value": 25000000
-              }
-            ]
-          },
-          "unit": "decbytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 30
-      },
-      "id": 36,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true
-      },
-      "pluginVersion": "11.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
-          "hide": true,
-          "intervalFactor": 2,
-          "legendFormat": "{{pod}}",
-          "metric": "",
-          "refId": "A",
-          "step": 240
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "expr": "sum(container_spec_memory_limit_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}) by (pod) ",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "{{pod}}",
-          "refId": "B",
-          "step": 240
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "expr": "container_memory_usage_bytes{pod=~\".+\", namespace=~\"$namespace\", instance=~\"$instance\"}",
-          "hide": true,
-          "intervalFactor": 2,
-          "legendFormat": "{{pod}}",
-          "refId": "C",
-          "step": 240
-        }
-      ],
-      "title": "Limit memory",
-      "transformations": [
-        {
-          "id": "reduce",
-          "options": {
-            "includeTimeField": false,
-            "reducers": [
-              "lastNotNull"
-            ]
-          }
-        }
-      ],
-      "type": "table"
     }
   ],
   "refresh": "5m",
@@ -1043,8 +1110,8 @@
           "type": "prometheus",
           "uid": "PBFA97CFB590B2093"
         },
-        "definition": "label_values(kubernetes_io_hostname)",
-        "description": "Filter by aks node instance",
+        "definition": "label_values(aws_eks_hostanme_node_group)",
+        "description": "Filter by AWS eks node instance",
         "hide": 0,
         "includeAll": true,
         "multi": true,
@@ -1052,13 +1119,13 @@
         "label": "Instance",
         "options": [],
         "query": {
-          "query": "label_values(kubernetes_io_hostname)",
+          "query": "label_values(aws_eks_hostanme_node_group)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 1,
+        "sort": 7,
         "type": "query"
       }
     ]
@@ -1093,7 +1160,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "Container monitoring",
+  "title": "Container Monitoring 🐳",
   "uid": "hr8-CooGk",
   "version": 1,
   "weekStart": ""

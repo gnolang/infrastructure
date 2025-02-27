@@ -47,26 +47,46 @@ spec:
         # copies files from configmap into PVC to avoid RO fs problems
         image: busybox
         command:
-        - sh
-        - -c
-        - |
-          wget -O /gnoroot/gnoland-data/genesis.json https://gno-snapshots.lon1.digitaloceanspaces.com/test5/genesis.json
-          cp -r /gnoroot/secrets /gnoroot/gnoland-data/secrets
-          echo "Successfully copied secrets and genesis file"
+          - /bin/sh
+          - -c
+          - |
+            set -e
+            {{- if eq .Values.app.initEnv "dev" }} {{/* ONLY for dev purposes -> generate genesis */}}
+            cp -rL /gnoroot/info/genesis.json /gnoroot/gnoland-data/genesis.json
+            {{- else }}
+            wget -T 100 -O /gnoroot/gnoland-data/genesis.json {{ .Values.global.genesisUrl }}
+            echo "Downloaded {{ .Values.global.genesisUrl }}"
+            {{- end }}
+            cp -rL /gnoroot/secrets/* /gnoroot/boot
+            chmod 600 /gnoroot/boot/*_key.json
+            cp -rL /gnoroot/info/priv_validator_state.json /gnoroot/boot
+            echo "Successfully copied secrets and genesis file"
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
-        - name: {{ .Values.app.name }}-secrets
+        - name: {{ .Values.app.name }}-boot
+          mountPath: /gnoroot/boot
+        - name: {{ .Values.app.name }}-info
+          mountPath: /gnoroot/info
+        - name: {{ .Values.app.name }}-node-secrets
           mountPath: /gnoroot/secrets
+
       {{- if (.Values.gnoland).config }}
       - name: init-config
-        image: ghcr.io/gnolang/gno/gnoland:chain-test5.0
+        image: ghcr.io/gnolang/gno/gnoland:{{ .Values.global.binaryVersion }}
         command:
         - sh
         - -c
         - |
           cp -Lr /gnoroot/config-ro /gnoroot/gnoland-data/config
-          gnoland config set p2p.persistent_peers {{ default "\"\"" .Values.gnoland.config.persistent_peers }}
+          ls -la /gnoroot/gnoland-data/config
+          head -n 10 /gnoroot/gnoland-data/config/config.toml
+          {{- range $config_root, $config_item := .Values.gnoland.config }}
+            {{- range $config_item_key, $config_item_value := $config_item }}
+          echo gnoland config set {{ $config_root }}.{{ $config_item_key }} {{ $config_item_value }}
+          gnoland config set {{ $config_root }}.{{ $config_item_key }} {{ $config_item_value }} -config-path /gnoroot/gnoland-data/config/config.toml
+            {{- end }}
+          {{- end }}
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
@@ -75,11 +95,22 @@ spec:
       {{- end }}
       containers:
       - name: gnoland
-        image: ghcr.io/gnolang/gno/gnoland:chain-test5.0
+        image: ghcr.io/gnolang/gno/gnoland:{{ .Values.global.binaryVersion }}
         imagePullPolicy: IfNotPresent
-        args:
-          - start
-          - -genesis=/gnoroot/gnoland-data/genesis.json # loaded from init container
+        command:
+        - /bin/sh
+        - -c
+        {{- if hasKey .Values.app "compiled" }}
+        - |
+          apk add git make go linux-headers
+          rm -rf /sur/bin/gnoland
+          git clone https://github.com/gnolang/gno.git --branch {{ default "master" (.Values.app.compiled).branch }} --depth 1 --single-branch gnoland-src
+          GOPATH='/usr/' make -C gnoland-src/gno.land build.gnoland install.gnoland
+          gnoland start -genesis=/gnoroot/gnoland-data/genesis.json # -> loaded from init container
+        {{- else }}
+        - |
+          gnoland start -genesis=/gnoroot/gnoland-data/genesis.json # -> loaded from init container
+        {{- end}}
         ports:
           {{- if eq .Values.app.type "rpc" }}
           - name: rpc-public
@@ -97,6 +128,8 @@ spec:
         volumeMounts:
         - name: {{ .Values.app.name }}-vol
           mountPath: /gnoroot/gnoland-data
+        - name: {{ .Values.app.name }}-boot
+          mountPath: /gnoroot/gnoland-data/secrets
         {{- if not (hasKey (.Values.gnoland) "config" ) }}
         - name: {{ .Values.app.name }}-conf
           mountPath: /gnoroot/gnoland-data/config
@@ -105,21 +138,30 @@ spec:
       - name: {{ .Values.app.name }}-vol
         persistentVolumeClaim:
           claimName: {{ .Values.app.name }}-pv-claim
+      # volume holding secrets
+      - name: {{ .Values.app.name }}-boot
+        emptyDir:
       - name: {{ .Values.app.name }}-conf
         configMap:
           name: {{ .Values.app.name }}-config
           items:
           - key: config.toml
             path: config.toml
-      - name: {{ .Values.app.name }}-secrets
-        configMap:
-          name: {{ .Values.app.name }}-config
+      - name: {{ .Values.app.name }}-node-secrets
+        secret:
+          secretName: {{ .Values.app.name }}-secrets
           items:
           - key: node_key.json
             path: node_key.json
           - key: priv_validator_key.json
             path: priv_validator_key.json
+      - name: {{ .Values.app.name }}-info
+        configMap:
+          name: {{ .Values.app.name }}-config
+          items:
           - key: priv_validator_state.json
             path: priv_validator_state.json
-          - key: node_key.json
-            path: node_key.json
+          {{- if eq .Values.app.initEnv "dev" }}
+          - key: genesis.json
+            path: genesis.json
+          {{- end }}

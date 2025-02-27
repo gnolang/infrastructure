@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: genesis-file-server
+  namespace: gno
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: genesis-file-server
+  template:
+    metadata:
+      labels:
+        app: genesis-file-server
+    spec:
+      containers:
+      - name: genesis-server
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: genesis-file-volume
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: genesis-file-volume
+        configMap:
+          name: gno-genesis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: genesis-svc
+  namespace: gno
+spec:
+  type: ClusterIP
+  selector:
+    app: genesis-file-server
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
