@@ -1,0 +1,14 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: eks-ebs-storage-tagged
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+parameters:
+  type: gp3
+  fsType: ext4
+  tagSpecification_1: "Type=storage"
+  tagSpecification_2: "Service=validator"
+  tagSpecification_3: "Name=validator-storage"

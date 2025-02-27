@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1beta1
+kind: VolumeAttributesClass
+metadata:
+  name: validator-tags-class
+driverName: ebs.csi.aws.com
+parameters:
+# NOTE: if provisioning with Terraform, this value should correspond to the env var $TF_VAR_gno_project
+# or to the value used into the tags correspondance when creating AWS Backup resources
+  tagSpecification_1: "Project=test6"
+  tagSpecification_2: "ref-project=testnet"

@@ -1,0 +1,16 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: test6-gnocore-storage-class
+profiles:
+  - name: test6-eks
+    manifests:
+      rawYaml:
+        - ../../validators/0-storage/volume-attribute-class.yaml
+        - ../../validators/0-storage/val-01-pvc-patch.yaml
+        - ../../validators/0-storage/val-02-pvc-patch.yaml
+        # - ../../validators/0-storage/val-03-pvc-patch.yaml
+        # - ../../validators/0-storage/val-04-pvc-patch.yaml
+
+deploy:
+  kubectl: {}

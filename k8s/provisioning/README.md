@@ -43,7 +43,7 @@ Other useful commands:
 cd remote-state
 terraform init
 terraform plan
-terraform apply -auto-approve 
+terraform apply -auto-approve
 ```
 
 - Define reference project name and username of IAM user who will admin the cluster
@@ -63,7 +63,7 @@ terraform init -backend-config=remote_state/terraform.tfvars -backend-config="ke
 
 ```bash
 terraform plan
-terraform apply -auto-approve 
+terraform apply -auto-approve
 ```
 
 ## Terraform Tips

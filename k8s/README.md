@@ -244,7 +244,7 @@ kubectl delete pod <pod_name> -n <namespace> --grace-period=0 --force
 * Get specific information on resource capacity of a node
 
 ```bash
-kubectl describe node  <node-name>
+kubectl describe nodes <node-name>
 ```
 
 and check output
@@ -255,6 +255,12 @@ Capacity:
   memory:             3922840Ki
   pods:               29
   ...
+```
+
+* Generate a single K8s Job resource from an existing CronJob resource
+
+```bash
+kubectl create job --from=cronjob/<cron-job-resource> <custom-job-resource-name>
 ```
 
 ---

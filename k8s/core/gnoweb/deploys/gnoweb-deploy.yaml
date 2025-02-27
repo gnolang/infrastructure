@@ -21,9 +21,9 @@ spec:
         - secretRef:
             name: gnoweb-env
         args:
-            - --bind=0.0.0.0:8888
-            - --remote=http://gnoland-rpc:26657
-            - --faucet-url=$(FAUCET_URL)
-            - --with-analytics
-            - --chainid=$(CHAIN_ID)
-            - --help-remote=$(RPC_REMOTE)
+          - --bind=0.0.0.0:8888
+          - --remote=http://gnoland-rpc:26657
+          - --faucet-url=$(FAUCET_URL)
+          - --with-analytics
+          - --chainid=$(CHAIN_ID)
+          - --help-remote=$(RPC_REMOTE)

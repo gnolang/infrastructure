@@ -55,9 +55,11 @@ helm delete gno-validator
 | `app.compiled.branch` | git source code branch to compile from | string (master) |
 | `app.initEnv` | env for initializing  deployment | string |
 | `storage` | Storage section | |
-| `storage.capacity`      | Required capacity for storage | string |
-| `storage.local.path`      | Path in host (when using local storage) | string |
-| `storage.class`     | Storage class to be used | string |
+| `storage.capacity` | Required capacity for storage | string |
+| `storage.local` | Whether storage is local | |
+| `storage.local.path` | Path in host (when using local storage) | string |
+| `storage.class` | Storage class to be used | string |
+| `storage.volumeAttributsClass` | Volume attributes classname used to add attributes to EBS volumes | string |
 | `svc` | Svc section | |
 | `svc.name` | Name given to service | string |
 | `svc.type` | Kind of k8s service (LoadBalancer, ClusterIP) | string (ClusterIP) |
@@ -69,10 +71,10 @@ helm delete gno-validator
 | `placement.resources.requests.memory` | Corresponds to spec.template.containers[].resources.requests.memory | string |
 | `ingress` | Ingress section | |
 | `ingress.enabled` | If ingress is enabled | boolean (false) |
-| `ingress.rules.host`      | Rule for entrypoint (Traefik) | string |
-| `ingress.port`      | Service port to be referenced by ingress | string |
-| `ingress.tls`      | Deploy TLS version of entrypoint | boolean (false) |
-| `ingress.certresolver`      | Name of certresolver to be used (only if ingress.tls is true) | string |
+| `ingress.rules.host` | Rule for entrypoint (Traefik) | string |
+| `ingress.port` | Service port to be referenced by ingress | string |
+| `ingress.tls` | Deploy TLS version of entrypoint | boolean (false) |
+| `ingress.certresolver` | Name of certresolver to be used (only if ingress.tls is true) | string |
 | `gnoland` | Gnoland config section | |
 | `gnoland.config` | Override configuratiion section. Any inner key will replace original gnoland config. e.g. `gnoland.config.p2p`seeds`| string |
 | `global` | Global values section | |

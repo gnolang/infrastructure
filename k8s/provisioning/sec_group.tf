@@ -1,10 +1,11 @@
 resource "aws_security_group" "eks_sg" {
-  name        = "eks-${var.gno_project}-sg"
+  name        = "${var.gno_project}-eks-sg"
   description = "Sec group for ${var.gno_project} EKS cluster"
   vpc_id      = module.vpc_for_eks.vpc_id
 
   tags = {
     Project = var.gno_project
+    Name    = "${var.gno_project}-eks-sg"
   }
 }
 
