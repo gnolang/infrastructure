@@ -12,7 +12,7 @@ Refer to:
 The provisioning of the cluster was for the first time by IaC.
 
 * The general architecture is the one illustrated in [Test5 Provisioning](../test5/README.md#provisioning).
-* EKS cluster is provisioned using [Tearraform](../../provisioning/README.md).
+* EKS cluster is provisioned using [Terraform](../../provisioning/README.md).
 * Terraform commands are listed in [Provisioning section](../../provisioning/README.md#running).
 * Define useful and coherent env vars
 
@@ -23,7 +23,7 @@ export TF_VAR_eks_cluster_admin_user="eks-username"
 
 ## Internal Helm chart version
 
-* The following Helm chart version is used for internal helm templates: `0.1.0`
+* The following Helm chart version is used for internal helm templates: `0.2.0`
 
 ## Env Files
 
@@ -40,3 +40,11 @@ The following env files should be created:
 cd ../../../tools/betterstack/
 go run main.go -token ${BETTER_AUTH_TOKEN} -group test6 -fqdn test6.gno.land -prefix Test 6 -extra-path ../../k8s/core/test6/betterstack/extra-services.json
 ```
+
+## Backups
+
+Backups are introduced at different levels
+
+* [Setup of Backups during provisioning](../../provisioning/backup.tf)
+* [Tagging AWS EBS Volumes to setup automatic backups](../../aws-eks/README.md#tags)
+* [Snapshots using K8s a CronJob](../../../doc/k8s/backup/storage.md#snapshots)

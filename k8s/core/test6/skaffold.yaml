@@ -21,6 +21,9 @@ requires:
 
   - path: ./cluster/skaffold/gnocore-test6-helm-skaffold.yaml
     activeProfiles: *kubeTest6Profiles
+  
+  - path: ./cluster/skaffold/gnocore-test6-storage-class.yaml
+    activeProfiles: *kubeTest6Profiles
 
   # Monitoring
   - path: ../../cluster/skaffold/monitoring-skaffold.yaml
@@ -43,3 +46,5 @@ profiles:
         - ./overlays/eks/monitoring-overlays/grafana
         - ./overlays/eks/monitoring-overlays/node-exporter
         - ./overlays/eks/monitoring-overlays/vector
+        # Snapshots
+        - ./overlays/eks/snapshotter-job-overlay

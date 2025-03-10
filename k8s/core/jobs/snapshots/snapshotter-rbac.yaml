@@ -1,0 +1,45 @@
+# This Role is required to allow the job to stop and restart target app
+# by scaling the deployment to 0 replicas
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: gno
+  name: gnodata-snapshot-role
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs:
+      - get
+      - list
+  - apiGroups: ["apps"]
+    resources:
+      - deployments
+      - deployments/scale
+    resourceNames: ["gnocore-sentry-01"] # Helmizable -> {{ .Values.deployment.name }}
+    verbs:
+      - get
+      - update
+      - patch
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gnodata-snapshot-sa
+  namespace: gno
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: gno
+  name: gnodata-snapshot-binding
+subjects:
+  - kind: ServiceAccount
+    name: gnodata-snapshot-sa
+    namespace: gno
+roleRef:
+  kind: Role
+  name: gnodata-snapshot-role
+  apiGroup: rbac.authorization.k8s.io

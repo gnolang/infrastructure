@@ -2,17 +2,22 @@
 
 ## General
 
-* Terraform provisioning
-* Backups
 * Validator placed into Private subnets
 
-## Config
+## Completed
+
+### General
+
+* Terraform provisioning
+* Backups
+
+### Config
 
 * Rpc1 on shared node but compiled
 * Rpc2 on dedicated node
 * Tolerations
 
-## Monitoring
+### Monitoring
 
 * OTel
 * Logging
